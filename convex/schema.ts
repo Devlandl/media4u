@@ -2,6 +2,17 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
+  // Users table for authentication
+  users: defineTable({
+    email: v.string(),
+    password: v.string(), // hashed
+    name: v.string(),
+    role: v.union(v.literal("user"), v.literal("admin")),
+    createdAt: v.number(),
+  })
+    .index("by_email", ["email"]),
+
+
   // Contact form submissions
   contactSubmissions: defineTable({
     name: v.string(),

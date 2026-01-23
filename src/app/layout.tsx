@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 import { WhatsAppButton } from "@/components/layout/whatsapp-button";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import { ToastProvider } from "@/components/ui/toast-provider";
+import { AuthProvider } from "@/components/AuthContext";
+import { LayoutWrapper } from "@/components/layout/layout-wrapper";
 
 export const metadata: Metadata = {
   title: {
@@ -37,11 +37,11 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen flex flex-col">
         <ConvexClientProvider>
-          <ToastProvider />
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <WhatsAppButton />
+          <AuthProvider>
+            <ToastProvider />
+            <LayoutWrapper>{children}</LayoutWrapper>
+            <WhatsAppButton />
+          </AuthProvider>
         </ConvexClientProvider>
       </body>
     </html>

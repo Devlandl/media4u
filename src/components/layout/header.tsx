@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
+import { useAuth } from "@/components/AuthContext";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -17,6 +18,12 @@ const navLinks = [
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { isAuthenticated, user, logout } = useAuth();
+
+  // Don't show header on admin pages
+  if (pathname && pathname.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 py-4 bg-void-950/60 backdrop-blur-md">
@@ -50,6 +57,39 @@ export function Header() {
           >
             Contact
           </Link>
+
+          {/* Auth Buttons */}
+          {isAuthenticated ? (
+            <div className="flex items-center gap-4">
+              <Link
+                href={user?.role === "admin" ? "/admin" : "/"}
+                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+              >
+                {user?.name}
+              </Link>
+              <button
+                onClick={logout}
+                className="px-4 py-2 rounded-full bg-red-500/20 text-red-400 text-sm font-semibold hover:bg-red-500/30 transition-all"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link
+                href="/login"
+                className="px-4 py-2 rounded-full text-cyan-400 text-sm font-semibold hover:text-cyan-300 transition-colors"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="px-4 py-2 rounded-full bg-cyan-500/20 text-cyan-400 text-sm font-semibold hover:bg-cyan-500/30 transition-all"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -121,6 +161,58 @@ export function Header() {
                   Contact Us
                 </Link>
               </motion.div>
+
+              {/* Mobile Auth Buttons */}
+              {isAuthenticated ? (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: (navLinks.length + 1) * 0.05 }}
+                  className="flex flex-col gap-3 mt-4 pt-4 border-t border-white/10"
+                >
+                  <div className="text-sm font-medium text-gray-300">
+                    {user?.name}
+                  </div>
+                  <Link
+                    href={user?.role === "admin" ? "/admin" : "/"}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+                  >
+                    {user?.role === "admin" ? "Admin Panel" : "Dashboard"}
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="px-4 py-2 rounded-full bg-red-500/20 text-red-400 text-sm font-semibold hover:bg-red-500/30 transition-all"
+                  >
+                    Logout
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: (navLinks.length + 1) * 0.05 }}
+                  className="flex flex-col gap-3 mt-4 pt-4 border-t border-white/10"
+                >
+                  <Link
+                    href="/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="px-4 py-2 rounded-full text-center text-cyan-400 text-sm font-semibold hover:text-cyan-300 transition-colors"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/signup"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="px-4 py-2 rounded-full bg-cyan-500/20 text-cyan-400 text-center text-sm font-semibold hover:bg-cyan-500/30 transition-all"
+                  >
+                    Sign Up
+                  </Link>
+                </motion.div>
+              )}
             </div>
           </motion.div>
         )}
