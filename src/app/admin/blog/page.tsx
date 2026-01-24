@@ -188,14 +188,29 @@ export default function BlogAdminPage() {
           </div>
         </motion.div>
 
-        {/* Form */}
+        {/* Form or Empty State */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="lg:col-span-2"
         >
-          <div className="glass-elevated rounded-2xl p-6 space-y-6">
+          {!isCreating && !selectedId ? (
+            <div className="glass-elevated rounded-2xl p-12 flex flex-col items-center justify-center min-h-96">
+              <div className="text-center">
+                <div className="text-6xl mb-4">📝</div>
+                <h2 className="text-2xl font-display font-bold text-white mb-2">No Post Selected</h2>
+                <p className="text-gray-400 mb-8">Choose a post from the list to edit it, or create a new one.</p>
+                <button
+                  onClick={handleNewPost}
+                  className="px-8 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium"
+                >
+                  + Create New Post
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="glass-elevated rounded-2xl p-6 space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Title</label>
               <input
@@ -318,6 +333,7 @@ export default function BlogAdminPage() {
               )}
             </div>
           </div>
+          )}
         </motion.div>
       </div>
     </div>
