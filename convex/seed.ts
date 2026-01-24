@@ -168,8 +168,29 @@ export const seedPortfolioProjects = mutation({
   },
 });
 
+// Helper function to hash passwords (matching auth.ts)
+function hashPassword(password: string): string {
+  return btoa(password);
+}
+
 export const seedAll = mutation({
   handler: async (ctx) => {
+    // Seed test user (admin)
+    const existingUser = await ctx.db
+      .query("users")
+      .withIndex("by_email", (q) => q.eq("email", "admin@media4u.com"))
+      .first();
+
+    if (!existingUser) {
+      await ctx.db.insert("users", {
+        email: "admin@media4u.com",
+        password: hashPassword("admin123"),
+        name: "Admin User",
+        role: "admin",
+        createdAt: Date.now(),
+      });
+    }
+
     // Seed blog posts
     let blogCount = 0;
     for (const post of BLOG_POSTS_DATA) {

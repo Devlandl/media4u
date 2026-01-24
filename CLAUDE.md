@@ -153,6 +153,23 @@ npm run dev
 # Open browser to http://localhost:3000
 ```
 
+### Killing Dev Servers
+**ALWAYS use this script to kill dev servers** - it's the most consistent method:
+
+```bash
+# Kill all Node processes and clear port 3000
+powershell -ExecutionPolicy Bypass -File kill-all-processes.ps1
+
+# Then restart dev server
+npm run dev
+```
+
+**Important:** Never use `taskkill`, `Ctrl+C`, or manual process killing. Always use the `kill-all-processes.ps1` script. It:
+- Kills all Node.js and npm processes
+- Clears port 3000
+- Cleans npm cache
+- Ensures a clean restart every time
+
 ### Quality Checks
 ```bash
 # Check for code problems
