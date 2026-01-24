@@ -1,44 +1,42 @@
-import { mutation, query } from "./_generated/server";
+import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+function hashPassword(password: string): string {
+  return Buffer.from(password).toString("base64");
+}
 
-export const login = mutation({
+function verifyPassword(password: string, hash: string): boolean {
+  return hashPassword(password) === hash;
+}
+
+export const loginWithPassword = mutation({
   args: {
     password: v.string(),
   },
   handler: async (ctx, args) => {
-    if (args.password === ADMIN_PASSWORD) {
+    // Find user with matching password
+    const users = await ctx.db.query("users").collect();
+    const user = users.find((u) => verifyPassword(args.password, u.password));
+
+    if (!user) {
       return {
-        success: true,
-        token: Buffer.from(`admin:${Date.now()}`).toString("base64"),
+        success: false,
+        error: "Invalid password",
       };
     }
+
+    // Create session token using user ID
+    const token = Buffer.from(`${user._id}:${Date.now()}`).toString("base64");
+
     return {
-      success: false,
-      error: "Invalid password",
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
     };
-  },
-});
-
-export const verifyToken = query({
-  args: {
-    token: v.optional(v.string()),
-  },
-  handler: async (ctx, args) => {
-    if (!args.token) {
-      return { valid: false };
-    }
-
-    try {
-      const decoded = Buffer.from(args.token, "base64").toString();
-      if (decoded.startsWith("admin:")) {
-        return { valid: true };
-      }
-    } catch {
-      return { valid: false };
-    }
-
-    return { valid: false };
   },
 });

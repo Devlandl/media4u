@@ -4,14 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { useAdmin } from "@/components/AdminContext";
+import { useAuth } from "@/components/AuthContext";
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { login } = useAdmin();
+  const { adminLogin } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -19,7 +19,7 @@ export default function AdminLoginPage() {
     setIsLoading(true);
 
     try {
-      const success = await login(password);
+      const success = await adminLogin(password);
       if (success) {
         router.push("/admin");
       } else {
