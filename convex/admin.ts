@@ -2,11 +2,11 @@ import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 
 function hashPassword(password: string): string {
-  return Buffer.from(password).toString("base64");
+  return btoa(password);
 }
 
 function verifyPassword(password: string, hash: string): boolean {
-  return hashPassword(password) === hash;
+  return btoa(password) === hash;
 }
 
 export const loginWithPassword = mutation({

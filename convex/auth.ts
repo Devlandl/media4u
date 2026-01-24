@@ -1,13 +1,13 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
-// Simple password hashing (in production, use bcrypt or similar)
+// Simple password hashing - just use base64 encoding for storage
 function hashPassword(password: string): string {
-  return Buffer.from(password).toString("base64");
+  return btoa(password);
 }
 
 function verifyPassword(password: string, hash: string): boolean {
-  return hashPassword(password) === hash;
+  return btoa(password) === hash;
 }
 
 export const signup = mutation({
