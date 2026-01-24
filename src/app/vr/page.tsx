@@ -2,10 +2,13 @@
 
 import type { ReactElement } from "react";
 import { motion } from "motion/react";
+import { useQuery } from "convex/react";
 import Link from "next/link";
+import { api } from "@convex/_generated/api";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Card, CardIcon } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const FEATURES = [
   { label: "Interactive Elements", icon: "touch" },
@@ -105,6 +108,18 @@ function FeatureIcon({ type }: { type: string }): ReactElement | null {
 }
 
 function VRHeadsetVisual() {
+  const [particles, setParticles] = useState<Array<{ top: string; left: string }> | null>(null);
+
+  // Generate particle positions only on client
+  if (typeof window !== "undefined" && !particles) {
+    setParticles(
+      [...Array(6)].map(() => ({
+        top: `${20 + Math.random() * 60}%`,
+        left: `${20 + Math.random() * 60}%`,
+      }))
+    );
+  }
+
   return (
     <div className="relative w-full aspect-square max-w-lg mx-auto">
       {/* Outer glow ring */}
@@ -177,14 +192,14 @@ function VRHeadsetVisual() {
         </svg>
       </motion.div>
 
-      {/* Floating particles */}
-      {[...Array(6)].map((_, i) => (
+      {/* Floating particles - only render if positions are generated */}
+      {particles && particles.map((particle, i) => (
         <motion.div
           key={i}
           className="absolute w-2 h-2 rounded-full bg-cyan-400/60"
           style={{
-            top: `${20 + Math.random() * 60}%`,
-            left: `${20 + Math.random() * 60}%`,
+            top: particle.top,
+            left: particle.left,
           }}
           animate={{
             y: [0, -20, 0],
@@ -204,6 +219,13 @@ function VRHeadsetVisual() {
 }
 
 export default function VRPage() {
+  const experiences = useQuery(api.vr.getAllExperiences);
+  const [filterType, setFilterType] = useState<"all" | "property" | "destination">("all");
+
+  const filteredExperiences = experiences
+    ? experiences.filter((exp) => filterType === "all" || exp.type === filterType)
+    : [];
+
   return (
     <div className="mesh-bg min-h-screen pt-24">
       {/* Hero Section */}
@@ -278,6 +300,130 @@ export default function VRPage() {
           </motion.div>
         </div>
       </Section>
+
+      {/* Featured Experiences Section */}
+      {experiences && experiences.length > 0 && (
+        <Section>
+          <SectionHeader
+            tag="Explore"
+            title="Featured VR "
+            highlight="Experiences"
+            description="Discover our curated collection of virtual properties and destinations across the multiverse."
+          />
+
+          {/* Filter Tabs */}
+          <div className="flex flex-wrap gap-3 mb-12 justify-center">
+            {["all", "property", "destination"].map((type) => (
+              <motion.button
+                key={type}
+                onClick={() => setFilterType(type as "all" | "property" | "destination")}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-6 py-3 rounded-full font-medium transition-all border ${
+                  filterType === type
+                    ? "bg-cyan-500/20 text-cyan-400 border-cyan-500/50"
+                    : "bg-white/5 text-gray-400 border-white/10 hover:border-cyan-500/30"
+                }`}
+              >
+                {type === "all" ? "All" : type === "property" ? "Properties" : "Destinations"}
+              </motion.button>
+            ))}
+          </div>
+
+          {/* Experiences Grid */}
+          {filteredExperiences.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredExperiences.map((experience, idx) => (
+                <motion.div
+                  key={experience._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                >
+                  <Link href={`/vr/${experience.slug}`}>
+                    <Card
+                      glow="cyan"
+                      className="h-full overflow-hidden hover:translate-y-[-8px] transition-all cursor-pointer"
+                    >
+                      {/* Image */}
+                      <div className="relative h-48 overflow-hidden rounded-lg mb-4">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={experience.thumbnailImage}
+                          alt={experience.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                      </div>
+
+                      {/* Content */}
+                      <div className="flex-1">
+                        {/* Categories */}
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {experience.categories.slice(0, 2).map((cat) => (
+                            <span
+                              key={cat}
+                              className="text-xs px-2 py-1 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
+                            >
+                              {cat}
+                            </span>
+                          ))}
+                          {experience.categories.length > 2 && (
+                            <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-gray-400">
+                              +{experience.categories.length - 2}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="text-lg font-semibold text-white mb-2">{experience.title}</h3>
+
+                        {/* Description */}
+                        <p className="text-sm text-gray-400 mb-4 line-clamp-2">
+                          {experience.description}
+                        </p>
+
+                        {/* Type Badge & Price */}
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-xs font-medium uppercase tracking-wider text-gray-500">
+                            {experience.type === "property" ? "🏠 Property" : "🌍 Destination"}
+                          </span>
+                          {experience.featured && (
+                            <span className="text-xs px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-400">
+                              ⭐ Featured
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Price */}
+                        {experience.price !== undefined && experience.price > 0 && (
+                          <div className="mb-3">
+                            <span className="text-sm font-semibold text-cyan-400">
+                              💰 {experience.price.toLocaleString()} Meta Coins
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* CTA */}
+                      <div className="mt-4 pt-4 border-t border-white/10">
+                        <Button variant="ghost" size="sm" className="w-full">
+                          View Experience →
+                        </Button>
+                      </div>
+                    </Card>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-400 text-lg">No experiences found. Stay tuned!</p>
+            </div>
+          )}
+        </Section>
+      )}
 
       {/* Use Cases Grid */}
       <Section>

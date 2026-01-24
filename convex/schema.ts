@@ -73,4 +73,32 @@ export default defineSchema({
     .index("by_slug", ["slug"])
     .index("by_category", ["category"])
     .index("by_featured", ["featured"]),
+
+  // VR Experiences (Properties & Destinations)
+  vrExperiences: defineTable({
+    title: v.string(),
+    slug: v.string(),
+    type: v.union(v.literal("property"), v.literal("destination")),
+    categories: v.array(v.string()), // e.g., ["Mall", "Shopping", "Multiverse"]
+    description: v.string(),
+    fullDescription: v.optional(v.string()),
+    thumbnailImage: v.string(), // Hero/main image
+    gallery: v.optional(v.array(v.string())), // Additional gallery images
+    features: v.optional(v.array(v.object({
+      name: v.string(),
+      description: v.string(),
+    }))),
+    multiverseUrl: v.optional(v.string()), // Link to multiverse experience
+    websiteUrl: v.optional(v.string()), // External website link
+    contactEmail: v.optional(v.string()),
+    price: v.optional(v.number()), // Price in Meta Coins
+    gradient: v.string(), // e.g., "from-cyan-500 via-blue-600 to-purple-600"
+    featured: v.boolean(),
+    testimonial: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_slug", ["slug"])
+    .index("by_type", ["type"])
+    .index("by_featured", ["featured"]),
 });
