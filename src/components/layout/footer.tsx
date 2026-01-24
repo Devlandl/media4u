@@ -18,14 +18,8 @@ const serviceLinks = [
 ];
 
 export function Footer() {
-  // Wrap Convex query in try-catch for error handling
-  let settings;
-  try {
-    settings = useQuery(api.settings.getSettings);
-  } catch (error) {
-    console.error("Failed to load settings from Convex:", error);
-    settings = null;
-  }
+  // Query Convex settings - React Hook must be called at top level
+  const settings = useQuery(api.settings.getSettings);
 
   // Use Convex settings, fallback to env vars
   const instagramUrl = settings?.instagramUrl || process.env.NEXT_PUBLIC_INSTAGRAM_URL;

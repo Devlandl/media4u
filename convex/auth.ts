@@ -109,6 +109,7 @@ export const verifyToken = query({
       const decoded = atob(args.token);
       const [userId] = decoded.split(":");
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const user = await ctx.db.get(userId as any) as any;
 
       if (!user || !("email" in user)) {
@@ -143,6 +144,7 @@ export const getCurrentUser = query({
       const decoded = atob(args.token);
       const [userId] = decoded.split(":");
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const user = await ctx.db.get(userId as any) as any;
 
       if (!user || !("email" in user)) {

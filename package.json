@@ -7,7 +7,9 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "seed": "npx convex run seed:seedAll"
+    "typecheck": "tsc --noEmit",
+    "seed": "npx convex run seed:seedAll",
+    "prepare": "husky"
   },
   "dependencies": {
     "@tiptap/react": "^3.17.0",
@@ -30,6 +32,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.9",
+    "husky": "^9.1.7",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
