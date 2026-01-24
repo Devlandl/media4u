@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       const result = await authLogin({ email, password });
-      if (result.success) {
+      if (result.success && result.token && result.user) {
         localStorage.setItem("auth_token", result.token);
         localStorage.setItem("auth_user", JSON.stringify(result.user));
         setToken(result.token);
@@ -79,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const adminLogin = async (password: string): Promise<boolean> => {
     try {
       const result = await adminLoginMutation({ password });
-      if (result.success) {
+      if (result.success && result.token && result.user) {
         localStorage.setItem("auth_token", result.token);
         localStorage.setItem("auth_user", JSON.stringify(result.user));
         setToken(result.token);
