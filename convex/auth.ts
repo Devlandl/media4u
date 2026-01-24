@@ -81,7 +81,7 @@ export const login = mutation({
     }
 
     // Create a session token
-    const token = Buffer.from(`${user._id}:${Date.now()}`).toString("base64");
+    const token = btoa(`${user._id}:${Date.now()}`);
 
     return {
       success: true,
@@ -106,7 +106,7 @@ export const verifyToken = query({
     }
 
     try {
-      const decoded = Buffer.from(args.token, "base64").toString();
+      const decoded = atob(args.token);
       const [userId] = decoded.split(":");
 
       const user = await ctx.db.get(userId as any) as any;
@@ -140,7 +140,7 @@ export const getCurrentUser = query({
     }
 
     try {
-      const decoded = Buffer.from(args.token, "base64").toString();
+      const decoded = atob(args.token);
       const [userId] = decoded.split(":");
 
       const user = await ctx.db.get(userId as any) as any;

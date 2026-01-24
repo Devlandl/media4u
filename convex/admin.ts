@@ -26,7 +26,7 @@ export const loginWithPassword = mutation({
     }
 
     // Create session token using user ID
-    const token = Buffer.from(`${user._id}:${Date.now()}`).toString("base64");
+    const token = btoa(`${user._id}:${Date.now()}`);
 
     return {
       success: true,
