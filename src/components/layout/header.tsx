@@ -14,6 +14,7 @@ const navLinks = [
   { href: "/portfolio", label: "Portfolio" },
   { href: "/vr", label: "VR/Multiverse" },
   { href: "/blog", label: "Blog" },
+  { href: "/start-project", label: "Start a Project" },
 ];
 
 export function Header() {
