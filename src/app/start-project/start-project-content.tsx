@@ -168,7 +168,7 @@ export function StartProjectContent(): ReactElement {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       console.error("Error submitting form:", error);
-      setSubmitError("Something went wrong. Please try again or email us directly at hello@media4u.fun");
+      setSubmitError("Something went wrong. Please try again or email us directly at devland0831@gmail.com");
     } finally {
       setSubmitting(false);
     }
