@@ -9,6 +9,7 @@ import Image from "next/image";
 
 const adminNavItems = [
   { href: "/admin", label: "Dashboard", icon: "📊" },
+  { href: "/admin/users", label: "User Management", icon: "👥" },
   { href: "/admin/contacts", label: "Contact Forms", icon: "📧" },
   { href: "/admin/newsletter", label: "Newsletter", icon: "📬" },
   { href: "/admin/blog", label: "Blog Posts", icon: "📝" },

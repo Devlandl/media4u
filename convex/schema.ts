@@ -8,9 +8,11 @@ export default defineSchema({
     password: v.string(), // hashed
     name: v.string(),
     role: v.union(v.literal("user"), v.literal("admin")),
+    status: v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected")),
     createdAt: v.number(),
   })
-    .index("by_email", ["email"]),
+    .index("by_email", ["email"])
+    .index("by_status", ["status"]),
 
 
   // Contact form submissions

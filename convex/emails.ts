@@ -224,3 +224,84 @@ export const sendProjectRequestEmail = action({
     }
   },
 });
+
+export const sendUserApprovedEmail = action({
+  args: {
+    name: v.string(),
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    if (!RESEND_API_KEY) {
+      console.error("RESEND_API_KEY not configured");
+      return { success: false, error: "Email service not configured" };
+    }
+
+    try {
+      // Send approval email to user
+      const userResponse = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: FROM_EMAIL,
+          to: args.email,
+          subject: "Your Media4U Account Has Been Approved!",
+          html: `
+            <h2>Welcome to Media4U, ${args.name}!</h2>
+            <p>Great news! Your account has been approved and you can now log in.</p>
+            <p><strong>What you can do now:</strong></p>
+            <ul>
+              <li>Access your personalized dashboard</li>
+              <li>Manage your projects and requests</li>
+              <li>Connect with our team directly</li>
+              <li>Explore exclusive features and content</li>
+            </ul>
+            <p>Ready to get started? <a href="https://media4u.fun/login" style="color: #06b6d4; text-decoration: none; font-weight: bold;">Log in to your account</a></p>
+            <p>If you have any questions, feel free to reach out to us.</p>
+            <p>Best regards,<br>The Media4U Team</p>
+            <hr>
+            <p><small>You received this email because your Media4U account was approved</small></p>
+          `,
+        }),
+      });
+
+      if (!userResponse.ok) {
+        console.error("Failed to send approval email:", userResponse.statusText);
+        return { success: false, error: "Failed to send email" };
+      }
+
+      // Send notification to admin
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: FROM_EMAIL,
+          to: "devland0831@gmail.com",
+          subject: `User Approved: ${args.name}`,
+          html: `
+            <h2>User Account Approved</h2>
+            <p>You approved a new user account on Media4U.</p>
+            <p><strong>User Details:</strong></p>
+            <ul>
+              <li><strong>Name:</strong> ${args.name}</li>
+              <li><strong>Email:</strong> ${args.email}</li>
+            </ul>
+            <p>The user has been notified and can now log in to their account.</p>
+            <hr>
+            <p><small>This is an automated notification from Media4U Admin Panel</small></p>
+          `,
+        }),
+      });
+
+      return { success: true };
+    } catch (error) {
+      console.error("Email sending error:", error);
+      return { success: false, error: "Failed to send email" };
+    }
+  },
+});

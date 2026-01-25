@@ -10,8 +10,17 @@ export default function AdminDashboard() {
   const subscriberCount = useQuery(api.newsletter.getSubscriberCount, {});
   const blogPosts = useQuery(api.blog.getAllPosts, {});
   const projects = useQuery(api.portfolio.getAllProjects);
+  const pendingUsersCount = useQuery(api.users.getPendingUsersCount);
 
   const stats = [
+    {
+      label: "Pending User Approvals",
+      value: pendingUsersCount || 0,
+      href: "/admin/users",
+      icon: "👥",
+      color: "from-red-500 to-pink-500",
+      highlight: (pendingUsersCount || 0) > 0,
+    },
     {
       label: "Contact Submissions",
       value: contactSubmissions?.length || 0,
@@ -53,7 +62,7 @@ export default function AdminDashboard() {
         <p className="text-gray-400">Welcome to your admin panel. Manage your content below.</p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         {stats.map((stat, index) => (
           <motion.div
             key={stat.label}
@@ -62,7 +71,10 @@ export default function AdminDashboard() {
             transition={{ delay: index * 0.1 }}
           >
             <Link href={stat.href}>
-              <div className="glass-elevated rounded-2xl p-6 hover:border-white/20 transition-all duration-200 cursor-pointer group">
+              <div className={`glass-elevated rounded-2xl p-6 hover:border-white/20 transition-all duration-200 cursor-pointer group relative ${stat.highlight ? 'border-red-500/50 animate-pulse' : ''}`}>
+                {stat.highlight && (
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping" />
+                )}
                 <div className="flex items-start justify-between mb-4">
                   <div className={`text-4xl`}>{stat.icon}</div>
                   <span className="text-xs uppercase tracking-wider text-gray-500 group-hover:text-gray-300 transition-colors">

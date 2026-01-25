@@ -187,6 +187,7 @@ export const seedAll = mutation({
         password: hashPassword("admin123"),
         name: "Admin User",
         role: "admin",
+        status: "approved",
         createdAt: Date.now(),
       });
     }
