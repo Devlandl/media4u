@@ -36,6 +36,16 @@ const gradients = [
 
 const categories = ["vr", "web", "integrated"];
 
+// Helper function to generate slug from title
+function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+    .replace(/\s+/g, '-')         // Replace spaces with hyphens
+    .replace(/-+/g, '-')          // Replace multiple hyphens with single hyphen
+    .trim();
+}
+
 export default function PortfolioAdminPage() {
   const projects = useQuery(api.portfolio.getAllProjects);
   const createProject = useMutation(api.portfolio.createProject);
@@ -277,14 +287,24 @@ export default function PortfolioAdminPage() {
               <input
                 type="text"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                onChange={(e) => {
+                  const newTitle = e.target.value;
+                  setFormData({
+                    ...formData,
+                    title: newTitle,
+                    // Auto-generate slug from title
+                    slug: generateSlug(newTitle)
+                  });
+                }}
                 className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
                 placeholder="Project title"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Slug</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Slug <span className="text-xs text-gray-500">(auto-generated, but you can edit)</span>
+              </label>
               <input
                 type="text"
                 value={formData.slug}
