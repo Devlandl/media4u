@@ -7,6 +7,7 @@ import { Section, SectionHeader } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { api } from "@convex/_generated/api";
 import Link from "next/link";
+import { Palette } from "lucide-react";
 
 type ProjectCategory = "all" | "vr" | "web" | "integrated";
 
@@ -220,7 +221,9 @@ function ProjectGrid({ projects, isLoading }: ProjectGridProps) {
         animate={{ opacity: 1, y: 0 }}
         className="text-center py-20"
       >
-        <div className="text-6xl mb-4">🎨</div>
+        <div className="flex justify-center mb-4">
+          <Palette className="w-16 h-16 text-gray-400" />
+        </div>
         <h3 className="text-2xl font-display font-bold text-white mb-2">No Projects Found</h3>
         <p className="text-gray-400">Try selecting a different category or check back soon!</p>
       </motion.div>

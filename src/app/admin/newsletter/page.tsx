@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
+import { Download } from "lucide-react";
 
 export default function NewsletterAdminPage() {
   const subscribers = useQuery(api.newsletter.getNewsletterSubscribers, {
@@ -82,9 +83,9 @@ export default function NewsletterAdminPage() {
         transition={{ delay: 0.2 }}
         onClick={exportCSV}
         disabled={activeSubscribers.length === 0}
-        className="mb-6 px-6 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+        className="mb-6 px-6 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
       >
-        📥 Export to CSV
+        <Download className="w-4 h-4" /> Export to CSV
       </motion.button>
 
       {/* Active Subscribers */}

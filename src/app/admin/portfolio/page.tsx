@@ -5,6 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
+import { Image as ImageIcon, Lightbulb } from "lucide-react";
 
 interface ProjectFormData {
   title: string;
@@ -269,7 +270,7 @@ export default function PortfolioAdminPage() {
           {!isCreating && !selectedId ? (
             <div className="glass-elevated rounded-2xl p-12 flex flex-col items-center justify-center min-h-96">
               <div className="text-center">
-                <div className="text-6xl mb-4">🖼️</div>
+                <ImageIcon className="w-16 h-16 text-white mx-auto mb-4" />
                 <h2 className="text-2xl font-display font-bold text-white mb-2">No Project Selected</h2>
                 <p className="text-gray-400 mb-8">Choose a project from the list to edit it, or create a new one.</p>
                 <button
@@ -373,8 +374,9 @@ export default function PortfolioAdminPage() {
                 Project Images {formData.images?.length ? `(${formData.images.length})` : ""}
               </label>
               <div className="mb-4 p-4 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-                <p className="text-sm text-cyan-400">
-                  💡 <strong>Tip:</strong> Upload images in 16:9 aspect ratio (e.g., 1920x1080, 1600x900) for best display
+                <p className="text-sm text-cyan-400 flex items-start gap-2">
+                  <Lightbulb className="w-4 h-4 inline-block mt-0.5 flex-shrink-0" />
+                  <span><strong>Tip:</strong> Upload images in 16:9 aspect ratio (e.g., 1920x1080, 1600x900) for best display</span>
                 </p>
               </div>
               <div className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:border-cyan-500/50 transition-colors">

@@ -6,11 +6,12 @@ import { motion } from "motion/react";
 import { useAuth } from "@/components/AuthContext";
 import Link from "next/link";
 import Image from "next/image";
+import { Home, ClipboardList, RefreshCw, Globe, LogOut } from "lucide-react";
 
 const portalNavItems = [
-  { href: "/portal", label: "Dashboard", icon: "🏠" },
-  { href: "/portal/orders", label: "Orders", icon: "📋" },
-  { href: "/portal/subscription", label: "Subscription", icon: "🔄" },
+  { href: "/portal", label: "Dashboard", icon: Home },
+  { href: "/portal/orders", label: "Orders", icon: ClipboardList },
+  { href: "/portal/subscription", label: "Subscription", icon: RefreshCw },
 ];
 
 export default function PortalLayout({ children }: { children: ReactNode }) {
@@ -86,7 +87,7 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
                     : "text-gray-400 hover:text-white hover:bg-white/5"
                 }`}
               >
-                <span className="text-xl">{item.icon}</span>
+                <item.icon className="w-5 h-5" />
                 <span className="font-medium">{item.label}</span>
               </Link>
             );
@@ -98,7 +99,7 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
             href="/"
             className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200"
           >
-            <span className="text-xl">🌐</span>
+            <Globe className="w-5 h-5" />
             <span className="font-medium">Back to Site</span>
           </Link>
 
@@ -106,7 +107,7 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
             onClick={() => signOut()}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all duration-200 border border-red-500/30 font-medium"
           >
-            <span className="text-xl">🚪</span>
+            <LogOut className="w-5 h-5" />
             <span>Logout</span>
           </button>
         </div>

@@ -6,17 +6,28 @@ import { motion } from "motion/react";
 import { useAuth } from "@/components/AuthContext";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  LayoutDashboard,
+  CreditCard,
+  RefreshCw,
+  Mail,
+  Inbox,
+  FileText,
+  Image as ImageIcon,
+  Glasses,
+  Settings,
+} from "lucide-react";
 
 const adminNavItems = [
-  { href: "/admin", label: "Dashboard", icon: "📊" },
-  { href: "/admin/orders", label: "Orders", icon: "💳" },
-  { href: "/admin/subscriptions", label: "Subscriptions", icon: "🔄" },
-  { href: "/admin/contacts", label: "Contact Forms", icon: "📧" },
-  { href: "/admin/newsletter", label: "Newsletter", icon: "📬" },
-  { href: "/admin/blog", label: "Blog Posts", icon: "📝" },
-  { href: "/admin/portfolio", label: "Portfolio", icon: "🖼️" },
-  { href: "/admin/vr", label: "VR Experiences", icon: "🥽" },
-  { href: "/admin/settings", label: "Site Settings", icon: "⚙️" },
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/orders", label: "Orders", icon: CreditCard },
+  { href: "/admin/subscriptions", label: "Subscriptions", icon: RefreshCw },
+  { href: "/admin/contacts", label: "Contact Forms", icon: Mail },
+  { href: "/admin/newsletter", label: "Newsletter", icon: Inbox },
+  { href: "/admin/blog", label: "Blog Posts", icon: FileText },
+  { href: "/admin/portfolio", label: "Portfolio", icon: ImageIcon },
+  { href: "/admin/vr", label: "VR Experiences", icon: Glasses },
+  { href: "/admin/settings", label: "Site Settings", icon: Settings },
 ];
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
@@ -91,7 +102,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                     : "text-gray-400 hover:text-white hover:bg-white/5"
                 }`}
               >
-                <span className="text-xl">{item.icon}</span>
+                <item.icon className="w-5 h-5" />
                 <span className="font-medium">{item.label}</span>
               </Link>
             );

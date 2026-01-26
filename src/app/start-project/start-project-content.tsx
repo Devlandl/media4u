@@ -9,6 +9,7 @@ import { Section, SectionHeader } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CheckoutButton } from "@/components/checkout/checkout-button";
+import { PartyPopper } from "lucide-react";
 
 type ProductType = "starter" | "professional" | null;
 
@@ -392,7 +393,9 @@ export function StartProjectContent(): ReactElement {
             {/* Success Message */}
             {submitSuccess && (
               <div className="mb-6 p-4 rounded-lg bg-gradient-to-r from-green-500/20 to-cyan-500/20 border border-green-500/30">
-                <h3 className="text-green-400 font-semibold mb-2">Thank You! 🎉</h3>
+                <h3 className="text-green-400 font-semibold mb-2 flex items-center gap-2">
+                  Thank You! <PartyPopper className="w-5 h-5" />
+                </h3>
                 <p className="text-gray-300 text-sm">
                   We&apos;ve received your project request and will review it within 24 hours. Check your email for a confirmation message.
                 </p>

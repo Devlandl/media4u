@@ -7,6 +7,7 @@ import { api } from "../../../../convex/_generated/api";
 import { useAuth } from "@/components/AuthContext";
 import Link from "next/link";
 import { format } from "date-fns";
+import { ClipboardList } from "lucide-react";
 
 const PRODUCT_NAMES: Record<string, string> = {
   starter: "Starter Website Package",
@@ -53,7 +54,7 @@ export default function PortalOrdersPage(): ReactElement {
           className="glass-elevated rounded-2xl p-12 text-center"
         >
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/5 flex items-center justify-center">
-            <span className="text-3xl">📋</span>
+            <ClipboardList className="w-8 h-8 text-gray-400" />
           </div>
           <h3 className="text-xl font-display font-semibold mb-2">
             No orders yet

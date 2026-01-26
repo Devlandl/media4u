@@ -5,6 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
+import { FileText } from "lucide-react";
 
 interface BlogFormData {
   title: string;
@@ -198,7 +199,7 @@ export default function BlogAdminPage() {
           {!isCreating && !selectedId ? (
             <div className="glass-elevated rounded-2xl p-12 flex flex-col items-center justify-center min-h-96">
               <div className="text-center">
-                <div className="text-6xl mb-4">📝</div>
+                <FileText className="w-16 h-16 text-white mx-auto mb-4" />
                 <h2 className="text-2xl font-display font-bold text-white mb-2">No Post Selected</h2>
                 <p className="text-gray-400 mb-8">Choose a post from the list to edit it, or create a new one.</p>
                 <button

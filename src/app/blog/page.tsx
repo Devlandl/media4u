@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "convex/react";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { api } from "@convex/_generated/api";
+import { Loader2, FileText } from "lucide-react";
 
 interface BlogPost {
   id: string;
@@ -276,7 +277,9 @@ export default function BlogPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-20"
           >
-            <div className="text-6xl mb-4">⏳</div>
+            <div className="flex justify-center mb-4">
+              <Loader2 className="w-16 h-16 text-cyan-400 animate-spin" />
+            </div>
             <h2 className="text-2xl font-display font-bold text-white mb-2">Loading posts...</h2>
           </motion.div>
         ) : BLOG_POSTS.length === 0 ? (
@@ -285,7 +288,9 @@ export default function BlogPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-20"
           >
-            <div className="text-6xl mb-4">📝</div>
+            <div className="flex justify-center mb-4">
+              <FileText className="w-16 h-16 text-gray-400" />
+            </div>
             <h2 className="text-2xl font-display font-bold text-white mb-2">No Posts Yet</h2>
             <p className="text-gray-400">Check back soon for our latest insights!</p>
           </motion.div>

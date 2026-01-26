@@ -7,6 +7,7 @@ import { api } from "../../../../convex/_generated/api";
 import { useAuth } from "@/components/AuthContext";
 import Link from "next/link";
 import { format } from "date-fns";
+import { RefreshCw, AlertTriangle } from "lucide-react";
 
 const STATUS_STYLES: Record<string, { bg: string; text: string; label: string }> = {
   active: { bg: "bg-green-500/20", text: "text-green-400", label: "Active" },
@@ -88,7 +89,7 @@ export default function PortalSubscriptionPage(): ReactElement {
           className="glass-elevated rounded-2xl p-12 text-center"
         >
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/5 flex items-center justify-center">
-            <span className="text-3xl">🔄</span>
+            <RefreshCw className="w-8 h-8 text-gray-400" />
           </div>
           <h3 className="text-xl font-display font-semibold mb-2">
             No active subscription
@@ -193,7 +194,7 @@ export default function PortalSubscriptionPage(): ReactElement {
               className="glass-elevated rounded-2xl p-6 border border-yellow-500/30 bg-yellow-500/5"
             >
               <div className="flex items-start gap-3">
-                <span className="text-2xl">⚠️</span>
+                <AlertTriangle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-semibold text-yellow-400">
                     Subscription Ending

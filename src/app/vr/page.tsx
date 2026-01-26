@@ -9,6 +9,7 @@ import { Section, SectionHeader } from "@/components/ui/section";
 import { Card, CardIcon } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Home, Globe, Star, Coins } from "lucide-react";
 
 const FEATURES = [
   { label: "Interactive Elements", icon: "touch" },
@@ -386,12 +387,16 @@ export default function VRPage() {
 
                         {/* Type Badge & Price */}
                         <div className="flex items-center justify-between mb-3">
-                          <span className="text-xs font-medium uppercase tracking-wider text-gray-500">
-                            {experience.type === "property" ? "🏠 Property" : "🌍 Destination"}
+                          <span className="text-xs font-medium uppercase tracking-wider text-gray-500 flex items-center gap-1">
+                            {experience.type === "property" ? (
+                              <><Home className="w-3 h-3" /> Property</>
+                            ) : (
+                              <><Globe className="w-3 h-3" /> Destination</>
+                            )}
                           </span>
                           {experience.featured && (
-                            <span className="text-xs px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-400">
-                              ⭐ Featured
+                            <span className="text-xs px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-400 flex items-center gap-1">
+                              <Star className="w-3 h-3" /> Featured
                             </span>
                           )}
                         </div>
@@ -399,8 +404,8 @@ export default function VRPage() {
                         {/* Price */}
                         {experience.price !== undefined && experience.price > 0 && (
                           <div className="mb-3">
-                            <span className="text-sm font-semibold text-cyan-400">
-                              💰 {experience.price.toLocaleString()} Meta Coins
+                            <span className="text-sm font-semibold text-cyan-400 flex items-center gap-1">
+                              <Coins className="w-4 h-4" /> {experience.price.toLocaleString()} Meta Coins
                             </span>
                           </div>
                         )}
