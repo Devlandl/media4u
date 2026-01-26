@@ -8,12 +8,14 @@ import { ReactNode } from "react";
 export function LayoutWrapper({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isAdminPage = pathname?.startsWith("/admin");
+  const isPortalPage = pathname?.startsWith("/portal");
+  const hideLayout = isAdminPage || isPortalPage;
 
   return (
     <>
-      {!isAdminPage && <Header />}
-      <main className={`flex-1 ${!isAdminPage ? "pt-20" : ""}`}>{children}</main>
-      {!isAdminPage && <Footer />}
+      {!hideLayout && <Header />}
+      <main className={`flex-1 ${!hideLayout ? "pt-20" : ""}`}>{children}</main>
+      {!hideLayout && <Footer />}
     </>
   );
 }

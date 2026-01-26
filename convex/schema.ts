@@ -8,11 +8,68 @@ export default defineSchema({
   // User roles (for admin access - separate from Better Auth user table)
   userRoles: defineTable({
     userId: v.string(), // Better Auth user ID
-    role: v.union(v.literal("admin"), v.literal("user")),
+    role: v.union(v.literal("admin"), v.literal("user"), v.literal("client")),
     createdAt: v.number(),
   })
     .index("by_userId", ["userId"])
     .index("by_role", ["role"]),
+
+  // Stripe customer records - links users to Stripe customers
+  stripeCustomers: defineTable({
+    userId: v.optional(v.string()),
+    stripeCustomerId: v.string(),
+    email: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_stripeCustomerId", ["stripeCustomerId"])
+    .index("by_email", ["email"]),
+
+  // One-time purchase orders
+  orders: defineTable({
+    userId: v.optional(v.string()),
+    stripeCustomerId: v.string(),
+    stripeSessionId: v.string(),
+    stripePaymentIntentId: v.optional(v.string()),
+    productType: v.union(v.literal("starter"), v.literal("professional")),
+    amount: v.number(),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("paid"),
+      v.literal("failed"),
+      v.literal("refunded")
+    ),
+    customerEmail: v.string(),
+    customerName: v.optional(v.string()),
+    createdAt: v.number(),
+    paidAt: v.optional(v.number()),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_stripeSessionId", ["stripeSessionId"])
+    .index("by_status", ["status"]),
+
+  // Recurring subscriptions
+  subscriptions: defineTable({
+    userId: v.optional(v.string()),
+    stripeCustomerId: v.string(),
+    stripeSubscriptionId: v.string(),
+    stripePriceId: v.string(),
+    status: v.union(
+      v.literal("active"),
+      v.literal("past_due"),
+      v.literal("canceled"),
+      v.literal("unpaid")
+    ),
+    currentPeriodStart: v.number(),
+    currentPeriodEnd: v.number(),
+    cancelAtPeriodEnd: v.boolean(),
+    customerEmail: v.string(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_stripeSubscriptionId", ["stripeSubscriptionId"])
+    .index("by_status", ["status"]),
 
   // Contact form submissions
   contactSubmissions: defineTable({

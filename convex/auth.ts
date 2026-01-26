@@ -115,11 +115,24 @@ export const checkAdminByUserId = query({
   },
 });
 
+// Get user role by user ID
+export const getUserRole = query({
+  args: { userId: v.string() },
+  handler: async (ctx, { userId }) => {
+    const userRole = await ctx.db
+      .query("userRoles")
+      .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .first();
+
+    return userRole?.role ?? "user";
+  },
+});
+
 // Set user role (admin only)
 export const setUserRole = mutation({
   args: {
     userId: v.string(),
-    role: v.union(v.literal("admin"), v.literal("user")),
+    role: v.union(v.literal("admin"), v.literal("user"), v.literal("client")),
   },
   handler: async (ctx, { userId, role }) => {
     // Verify caller is admin

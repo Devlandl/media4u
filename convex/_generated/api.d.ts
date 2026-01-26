@@ -18,6 +18,7 @@ import type * as portfolio from "../portfolio.js";
 import type * as projectRequests from "../projectRequests.js";
 import type * as seed from "../seed.js";
 import type * as settings from "../settings.js";
+import type * as stripe from "../stripe.js";
 import type * as vr from "../vr.js";
 
 import type {
@@ -37,6 +38,7 @@ declare const fullApi: ApiFromModules<{
   projectRequests: typeof projectRequests;
   seed: typeof seed;
   settings: typeof settings;
+  stripe: typeof stripe;
   vr: typeof vr;
 }>;
 
