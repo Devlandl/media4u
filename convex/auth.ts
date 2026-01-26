@@ -31,7 +31,7 @@ export async function requireAdmin(ctx: QueryCtx | MutationCtx) {
 
   const userRole = await ctx.db
     .query("userRoles")
-    .withIndex("by_userId", (q) => q.eq("userId", user.id))
+    .withIndex("by_userId", (q) => q.eq("userId", user._id))
     .first();
 
   if (userRole?.role !== "admin") {
@@ -91,7 +91,7 @@ export const isAdmin = query({
       // Check userRoles table for admin role
       const userRole = await ctx.db
         .query("userRoles")
-        .withIndex("by_userId", (q) => q.eq("userId", user.id))
+        .withIndex("by_userId", (q) => q.eq("userId", user._id))
         .first();
 
       return userRole?.role === "admin";
