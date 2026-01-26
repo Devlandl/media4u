@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { useState } from "react";
+import { Coins } from "lucide-react";
 
 interface VRExperience {
   _id: string
@@ -73,8 +74,8 @@ export function VRDetailClient({ experience }: { experience: VRExperience }) {
                 <div className="mb-8 inline-block">
                   <div className="px-6 py-3 rounded-lg bg-cyan-500/10 border border-cyan-500/50">
                     <p className="text-sm text-cyan-400 mb-1">Price</p>
-                    <p className="text-2xl font-display font-bold text-cyan-400">
-                      💰 {experience.price.toLocaleString()} Meta Coins
+                    <p className="text-2xl font-display font-bold text-cyan-400 flex items-center gap-2">
+                      <Coins className="w-6 h-6" /> {experience.price.toLocaleString()} Meta Coins
                     </p>
                   </div>
                 </div>

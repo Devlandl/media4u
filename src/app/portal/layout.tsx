@@ -6,48 +6,27 @@ import { motion } from "motion/react";
 import { useAuth } from "@/components/AuthContext";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  LayoutDashboard,
-  CreditCard,
-  RefreshCw,
-  Mail,
-  Inbox,
-  FileText,
-  Image as ImageIcon,
-  Glasses,
-} from "lucide-react";
+import { Home, ClipboardList, RefreshCw, Globe, LogOut } from "lucide-react";
 
-const adminNavItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/orders", label: "Orders", icon: CreditCard },
-  { href: "/admin/subscriptions", label: "Subscriptions", icon: RefreshCw },
-  { href: "/admin/contacts", label: "Contact Forms", icon: Mail },
-  { href: "/admin/newsletter", label: "Newsletter", icon: Inbox },
-  { href: "/admin/blog", label: "Blog Posts", icon: FileText },
-  { href: "/admin/portfolio", label: "Portfolio", icon: ImageIcon },
-  { href: "/admin/vr", label: "VR Experiences", icon: Glasses },
+const portalNavItems = [
+  { href: "/portal", label: "Dashboard", icon: Home },
+  { href: "/portal/orders", label: "Orders", icon: ClipboardList },
+  { href: "/portal/subscription", label: "Subscription", icon: RefreshCw },
 ];
 
-export default function AdminLayout({ children }: { children: ReactNode }) {
-  const { isAuthenticated, isLoading, isAdmin, signOut } = useAuth();
+export default function PortalLayout({ children }: { children: ReactNode }) {
+  const { user, isAuthenticated, isLoading, signOut } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
     if (isLoading) return;
 
-    // Redirect to login if not authenticated
     if (!isAuthenticated) {
-      router.push("/login");
+      router.push("/login?redirect=/portal");
       return;
     }
-
-    // Redirect to home if authenticated but not admin
-    if (!isAdmin) {
-      router.push("/");
-      return;
-    }
-  }, [isAuthenticated, isAdmin, isLoading, router]);
+  }, [isAuthenticated, isLoading, router]);
 
   if (isLoading) {
     return (
@@ -60,8 +39,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     );
   }
 
-  if (!isAuthenticated || !isAdmin) {
-    return null; // Will redirect via useEffect
+  if (!isAuthenticated) {
+    return null;
   }
 
   return (
@@ -73,8 +52,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         transition={{ duration: 0.5 }}
         className="w-64 border-r border-white/10 bg-gradient-to-b from-white/5 to-transparent p-6 sticky top-0 h-screen overflow-y-auto"
       >
-        <div className="mb-12">
-          <Link href="/" className="flex items-center justify-center mb-6">
+        <div className="mb-8">
+          <Link href="/" className="flex items-center justify-center mb-4">
             <Image
               src="/media4u-logo.png"
               alt="Media4U Logo"
@@ -84,11 +63,19 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               className="w-16 h-16 hover:scale-110 transition-transform duration-300"
             />
           </Link>
-          <p className="text-xs text-gray-500 uppercase tracking-wider text-center">Admin Panel</p>
+          <p className="text-xs text-gray-500 uppercase tracking-wider text-center">
+            Client Portal
+          </p>
         </div>
 
-        <nav className="space-y-2 mb-12">
-          {adminNavItems.map((item) => {
+        {/* User Info */}
+        <div className="mb-8 p-4 rounded-lg bg-white/5 border border-white/10">
+          <p className="text-sm font-medium text-white truncate">{user?.name}</p>
+          <p className="text-xs text-gray-400 truncate">{user?.email}</p>
+        </div>
+
+        <nav className="space-y-2 mb-8">
+          {portalNavItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
@@ -107,12 +94,23 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           })}
         </nav>
 
-        <button
-          onClick={() => signOut()}
-          className="w-full px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all duration-200 border border-red-500/30 font-medium"
-        >
-          Logout
-        </button>
+        <div className="space-y-2">
+          <Link
+            href="/"
+            className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+          >
+            <Globe className="w-5 h-5" />
+            <span className="font-medium">Back to Site</span>
+          </Link>
+
+          <button
+            onClick={() => signOut()}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all duration-200 border border-red-500/30 font-medium"
+          >
+            <LogOut className="w-5 h-5" />
+            <span>Logout</span>
+          </button>
+        </div>
       </motion.aside>
 
       {/* Main Content */}
@@ -120,7 +118,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex-1 p-8"
+        className="flex-1 p-8 overflow-auto"
       >
         {children}
       </motion.main>

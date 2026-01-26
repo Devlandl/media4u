@@ -5,6 +5,12 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
+import {
+  Glasses,
+  Sparkles,
+  Pencil,
+  Lightbulb,
+} from "lucide-react";
 
 interface VRExperienceFormData {
   title: string;
@@ -241,40 +247,40 @@ export default function VRAdminPage() {
   async function handleSave() {
     // Detailed validation with helpful messages
     if (!formData.title || formData.title.trim().length === 0) {
-      alert("❌ Please enter a title");
+      alert("Please enter a title");
       return;
     }
 
     if (!formData.slug || formData.slug.trim().length === 0) {
-      alert("❌ Please enter a slug (URL-friendly name, e.g., 'my-property')");
+      alert("Please enter a slug (URL-friendly name, e.g., 'my-property')");
       return;
     }
 
     if (!formData.description.trim()) {
-      alert("❌ Please enter a description");
+      alert("Please enter a description");
       return;
     }
 
     if (!formData.thumbnailImage) {
-      alert("❌ Please upload a thumbnail image first");
+      alert("Please upload a thumbnail image first");
       return;
     }
 
     if (formData.categories.length === 0) {
-      alert("❌ Please add at least one category");
+      alert("Please add at least one category");
       return;
     }
 
     try {
       if (isCreating) {
         await createExperience(formData);
-        alert("✅ Experience created!");
+        alert("Experience created!");
       } else if (selectedId) {
         await updateExperience({
           id: selectedId as Id<"vrExperiences">,
           ...formData,
         });
-        alert("✅ Experience updated!");
+        alert("Experience updated!");
       }
       handleNewExperience();
     } catch (error) {
@@ -371,7 +377,7 @@ export default function VRAdminPage() {
           {!isCreating && !selectedId ? (
             <div className="glass-elevated rounded-2xl p-12 flex flex-col items-center justify-center min-h-96">
               <div className="text-center">
-                <div className="text-6xl mb-4">🥽</div>
+                <Glasses className="w-16 h-16 text-white mx-auto mb-4" />
                 <h2 className="text-2xl font-display font-bold text-white mb-2">No Experience Selected</h2>
                 <p className="text-gray-400 mb-8">Choose an experience from the list to edit it, or create a new one.</p>
                 <button
@@ -386,8 +392,16 @@ export default function VRAdminPage() {
             <div className="glass-elevated rounded-2xl p-8 space-y-8 overflow-y-auto max-h-[calc(100vh-200px)]">
               {/* Form Header */}
               <div className="pb-4 border-b border-white/10">
-                <h2 className="text-2xl font-display font-bold text-white">
-                  {isCreating ? "✨ Create New Experience" : "✏️ Edit Experience"}
+                <h2 className="text-2xl font-display font-bold text-white flex items-center gap-2">
+                  {isCreating ? (
+                    <>
+                      <Sparkles className="w-6 h-6" /> Create New Experience
+                    </>
+                  ) : (
+                    <>
+                      <Pencil className="w-6 h-6" /> Edit Experience
+                    </>
+                  )}
                 </h2>
                 <p className="text-sm text-gray-400 mt-1">
                   {isCreating ? "Add a new VR property or destination" : formData.title || "Configure this experience"}
@@ -520,8 +534,9 @@ export default function VRAdminPage() {
                 Images (Thumbnail + Gallery)
               </label>
               <div className="mb-4 p-4 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-                <p className="text-sm text-cyan-400">
-                  💡 <strong>Tip:</strong> First image uploaded becomes the thumbnail. Additional images go to gallery.
+                <p className="text-sm text-cyan-400 flex items-start gap-2">
+                  <Lightbulb className="w-4 h-4 inline-block mt-0.5 flex-shrink-0" />
+                  <span><strong>Tip:</strong> First image uploaded becomes the thumbnail. Additional images go to gallery.</span>
                 </p>
               </div>
               <div className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:border-cyan-500/50 transition-colors">

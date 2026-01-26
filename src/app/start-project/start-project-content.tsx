@@ -8,13 +8,29 @@ import { api } from "../../../convex/_generated/api";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { CheckoutButton } from "@/components/checkout/checkout-button";
+import { PartyPopper } from "lucide-react";
 
-const PACKAGES = [
+type ProductType = "starter" | "professional" | null;
+
+interface Package {
+  name: string;
+  badge: string;
+  price: string;
+  description: string;
+  features: string[];
+  bestFor: string;
+  gradient: string;
+  popular: boolean;
+  productType: ProductType;
+}
+
+const PACKAGES: Package[] = [
   {
     name: "Starter",
     badge: "Best for Small Businesses",
     price: "$899",
-    description: "3–4 page professional website",
+    description: "3-4 page professional website",
     features: [
       "Mobile-responsive design",
       "SEO-ready structure",
@@ -24,12 +40,13 @@ const PACKAGES = [
     bestFor: "Small businesses, creators, and ministries who need a clean, professional online presence.",
     gradient: "from-purple-500 to-pink-500",
     popular: false,
+    productType: "starter",
   },
   {
     name: "Professional",
     badge: "Most Popular",
     price: "$1,399",
-    description: "6–8 page website or eCommerce site",
+    description: "6-8 page website or eCommerce site",
     features: [
       "Custom design & branding consultation",
       "Content & media support",
@@ -37,9 +54,10 @@ const PACKAGES = [
       "60-day post-launch support",
       "Optional VR storefront integration",
     ],
-    bestFor: "Growing businesses ready to invest in a strong digital presence-with room to expand into VR.",
+    bestFor: "Growing businesses ready to invest in a strong digital presence - with room to expand into VR.",
     gradient: "from-cyan-500 to-blue-500",
     popular: true,
+    productType: "professional",
   },
   {
     name: "Enterprise / Custom",
@@ -55,13 +73,22 @@ const PACKAGES = [
     bestFor: "Established brands and innovators ready to build something exceptional.",
     gradient: "from-orange-500 to-red-500",
     popular: false,
+    productType: null,
   },
 ];
 
-const ADD_ONS = [
+interface AddOn {
+  title: string;
+  description: string;
+  highlight?: boolean;
+  hasCheckout?: boolean;
+}
+
+const ADD_ONS: AddOn[] = [
   {
     title: "Ongoing Web Care",
-    description: "Keep your site updated, secure, and performing. Monthly maintenance plans starting at $149/month.",
+    description: "Keep your site updated, secure, and performing. Monthly maintenance at $149/month.",
+    hasCheckout: true,
   },
   {
     title: "SEO & Optimization",
@@ -77,7 +104,7 @@ const ADD_ONS = [
   },
   {
     title: "VR Environments",
-    description: "Custom virtual storefronts, showrooms, and immersive experiences. A powerful extension-not required to get started.",
+    description: "Custom virtual storefronts, showrooms, and immersive experiences. A powerful extension - not required to get started.",
     highlight: true,
   },
 ];
@@ -267,13 +294,21 @@ export function StartProjectContent(): ReactElement {
                 </div>
 
                 {/* CTA */}
-                <Button
-                  variant={pkg.popular ? "primary" : "secondary"}
-                  className="w-full"
-                  onClick={scrollToForm}
-                >
-                  {pkg.name === "Enterprise / Custom" ? "Let's Talk" : "Start Your Project"}
-                </Button>
+                {pkg.productType ? (
+                  <CheckoutButton
+                    productType={pkg.productType}
+                    variant={pkg.popular ? "primary" : "secondary"}
+                    className="w-full"
+                  />
+                ) : (
+                  <Button
+                    variant="secondary"
+                    className="w-full"
+                    onClick={scrollToForm}
+                  >
+                    Let&apos;s Talk
+                  </Button>
+                )}
               </Card>
             </motion.div>
           ))}
@@ -315,7 +350,14 @@ export function StartProjectContent(): ReactElement {
                     <span className="ml-2 text-xs text-purple-400 font-normal">(Optional, Future-Forward)</span>
                   )}
                 </h3>
-                <p className="text-gray-400 text-sm">{addon.description}</p>
+                <p className="text-gray-400 text-sm mb-4">{addon.description}</p>
+                {addon.hasCheckout && (
+                  <CheckoutButton
+                    productType="webcare"
+                    variant="secondary"
+                    size="sm"
+                  />
+                )}
               </Card>
             </motion.div>
           ))}
@@ -351,7 +393,9 @@ export function StartProjectContent(): ReactElement {
             {/* Success Message */}
             {submitSuccess && (
               <div className="mb-6 p-4 rounded-lg bg-gradient-to-r from-green-500/20 to-cyan-500/20 border border-green-500/30">
-                <h3 className="text-green-400 font-semibold mb-2">Thank You! 🎉</h3>
+                <h3 className="text-green-400 font-semibold mb-2 flex items-center gap-2">
+                  Thank You! <PartyPopper className="w-5 h-5" />
+                </h3>
                 <p className="text-gray-300 text-sm">
                   We&apos;ve received your project request and will review it within 24 hours. Check your email for a confirmation message.
                 </p>

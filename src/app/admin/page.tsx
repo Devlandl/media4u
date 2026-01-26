@@ -4,6 +4,15 @@ import { motion } from "motion/react";
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
 import Link from "next/link";
+import {
+  Mail,
+  Inbox,
+  FileText,
+  Image as ImageIcon,
+  PenLine,
+  Plus,
+  Lightbulb,
+} from "lucide-react";
 
 export default function AdminDashboard() {
   const contactSubmissions = useQuery(api.contactSubmissions.getContactSubmissions, {});
@@ -16,28 +25,28 @@ export default function AdminDashboard() {
       label: "Contact Submissions",
       value: contactSubmissions?.length || 0,
       href: "/admin/contacts",
-      icon: "📧",
+      icon: Mail,
       color: "from-blue-500 to-cyan-500",
     },
     {
       label: "Newsletter Subscribers",
       value: subscriberCount || 0,
       href: "/admin/newsletter",
-      icon: "📬",
+      icon: Inbox,
       color: "from-purple-500 to-pink-500",
     },
     {
       label: "Blog Posts",
       value: blogPosts?.length || 0,
       href: "/admin/blog",
-      icon: "📝",
+      icon: FileText,
       color: "from-amber-500 to-orange-500",
     },
     {
       label: "Portfolio Projects",
       value: projects?.length || 0,
       href: "/admin/portfolio",
-      icon: "🖼️",
+      icon: ImageIcon,
       color: "from-emerald-500 to-teal-500",
     },
   ];
@@ -64,7 +73,7 @@ export default function AdminDashboard() {
             <Link href={stat.href}>
               <div className="glass-elevated rounded-2xl p-6 hover:border-white/20 transition-all duration-200 cursor-pointer group">
                 <div className="flex items-start justify-between mb-4">
-                  <div className={`text-4xl`}>{stat.icon}</div>
+                  <stat.icon className="w-10 h-10 text-white" />
                   <span className="text-xs uppercase tracking-wider text-gray-500 group-hover:text-gray-300 transition-colors">
                     View
                   </span>
@@ -87,7 +96,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Link href="/admin/blog?action=new" className="group">
             <div className="glass-elevated rounded-2xl p-6 hover:border-white/20 transition-all duration-200">
-              <div className="text-4xl mb-3">✍️</div>
+              <PenLine className="w-10 h-10 text-white mb-3" />
               <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors">
                 Create Blog Post
               </h3>
@@ -97,7 +106,7 @@ export default function AdminDashboard() {
 
           <Link href="/admin/portfolio?action=new" className="group">
             <div className="glass-elevated rounded-2xl p-6 hover:border-white/20 transition-all duration-200">
-              <div className="text-4xl mb-3">➕</div>
+              <Plus className="w-10 h-10 text-white mb-3" />
               <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors">
                 Add Project
               </h3>
@@ -113,7 +122,9 @@ export default function AdminDashboard() {
         transition={{ delay: 0.5 }}
         className="mt-12 p-6 rounded-2xl bg-white/5 border border-white/10"
       >
-        <h3 className="text-lg font-semibold mb-2">💡 Tip</h3>
+        <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
+          <Lightbulb className="w-5 h-5" /> Tip
+        </h3>
         <p className="text-gray-400 text-sm">
           Use the sidebar navigation to manage your content. All changes are saved automatically to the database.
         </p>

@@ -5,6 +5,8 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { authClient } from "@/lib/auth-client";
 
+type UserRole = "admin" | "user" | "client";
+
 interface User {
   id: string;
   email: string;
@@ -16,6 +18,8 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  isClient: boolean;
+  userRole: UserRole;
   signOut: () => Promise<void>;
 }
 
@@ -25,11 +29,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { data: session, isPending: sessionPending } = authClient.useSession();
   const sessionUser = session?.user as { id: string; email: string; name: string } | undefined;
 
-  // Check admin status using user ID from session
-  const isAdminResult = useQuery(
-    api.auth.checkAdminByUserId,
+  // Get user role using user ID from session
+  const userRoleResult = useQuery(
+    api.auth.getUserRole,
     sessionUser?.id ? { userId: sessionUser.id } : "skip"
   );
+
   const user = sessionUser
     ? {
         id: sessionUser.id,
@@ -37,6 +42,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         name: sessionUser.name,
       }
     : null;
+
+  const userRole: UserRole = (userRoleResult as UserRole) ?? "user";
 
   const signOut = async () => {
     await authClient.signOut();
@@ -46,9 +53,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
-        isLoading: sessionPending || isAdminResult === undefined,
+        isLoading: sessionPending || userRoleResult === undefined,
         isAuthenticated: !!session,
-        isAdmin: isAdminResult === true,
+        isAdmin: userRole === "admin",
+        isClient: userRole === "client" || userRole === "admin",
+        userRole,
         signOut,
       }}
     >
