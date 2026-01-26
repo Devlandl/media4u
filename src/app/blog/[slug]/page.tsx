@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { api } from '@convex/_generated/api'
-import { preloadQuery } from 'convex/nextjs'
 import { ConvexHttpClient } from 'convex/browser'
 import { BlogDetailClient } from './BlogDetailClient'
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs'
@@ -8,7 +7,8 @@ import { Section } from '@/components/ui/section'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
+const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL
+const convex = convexUrl ? new ConvexHttpClient(convexUrl) : null
 
 export async function generateMetadata({
   params,
@@ -16,6 +16,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
+  if (!convex) return { title: 'Post Not Found' }
   const post = await convex.query(api.blog.getBlogPostBySlug, { slug })
 
   if (!post) {
@@ -47,6 +48,7 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
+  if (!convex) return []
   const posts = await convex.query(api.blog.getAllPosts, { publishedOnly: true })
 
   return posts.map((post) => ({
@@ -60,10 +62,12 @@ export default async function BlogDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const [post, allPosts] = await Promise.all([
-    convex.query(api.blog.getBlogPostBySlug, { slug }),
-    convex.query(api.blog.getAllPosts, { publishedOnly: true }),
-  ])
+  const [post, allPosts] = convex
+    ? await Promise.all([
+        convex.query(api.blog.getBlogPostBySlug, { slug }),
+        convex.query(api.blog.getAllPosts, { publishedOnly: true }),
+      ])
+    : [null, []]
 
   if (!post) {
     return (

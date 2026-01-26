@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { api } from '@convex/_generated/api'
-import { preloadQuery } from 'convex/nextjs'
 import { ConvexHttpClient } from 'convex/browser'
 import { PortfolioDetailClient } from './PortfolioDetailClient'
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs'
@@ -8,7 +7,8 @@ import { Section } from '@/components/ui/section'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
+const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL
+const convex = convexUrl ? new ConvexHttpClient(convexUrl) : null
 
 export async function generateMetadata({
   params,
@@ -16,6 +16,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
+  if (!convex) return { title: 'Project Not Found' }
   const project = await convex.query(api.portfolio.getProjectBySlug, { slug })
 
   if (!project) {
@@ -54,6 +55,7 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
+  if (!convex) return []
   const projects = await convex.query(api.portfolio.getAllProjects)
 
   return projects.map((project) => ({
@@ -67,7 +69,7 @@ export default async function PortfolioDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const project = await convex.query(api.portfolio.getProjectBySlug, { slug })
+  const project = convex ? await convex.query(api.portfolio.getProjectBySlug, { slug }) : null
 
   if (!project) {
     return (

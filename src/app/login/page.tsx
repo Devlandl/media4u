@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/components/AuthContext";
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -13,38 +13,25 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { login } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     setIsLoading(true);
 
-    try {
-      const success = await login(email, password);
-      if (success) {
-        // Check if user is admin and redirect accordingly
-        const userData = localStorage.getItem("auth_user");
-        if (userData) {
-          const user = JSON.parse(userData);
-          if (user.role === "admin") {
-            router.push("/admin");
-          } else {
-            router.push("/");
-          }
-        } else {
+    await authClient.signIn.email(
+      { email, password },
+      {
+        onSuccess: () => {
           router.push("/");
-        }
-      } else {
-        setError("Invalid email or password");
-        setPassword("");
+        },
+        onError: (ctx: { error: { message?: string } }) => {
+          setError(ctx.error.message ?? "Invalid email or password");
+          setPassword("");
+          setIsLoading(false);
+        },
       }
-    } catch {
-      setError("Login failed. Please try again.");
-      setPassword("");
-    } finally {
-      setIsLoading(false);
-    }
+    );
   }
 
   return (
@@ -86,6 +73,7 @@ export default function LoginPage() {
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
                 placeholder="your@email.com"
                 autoFocus
+                required
               />
             </motion.div>
 
@@ -105,6 +93,7 @@ export default function LoginPage() {
                 disabled={isLoading}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
                 placeholder="••••••••"
+                required
               />
             </motion.div>
 
@@ -140,15 +129,6 @@ export default function LoginPage() {
               Sign up
             </Link>
           </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-center text-gray-500 text-xs mt-6"
-          >
-            Try: admin@media4u.fun / password
-          </motion.p>
         </div>
       </motion.div>
     </div>

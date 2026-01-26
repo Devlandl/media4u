@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { requireAdmin } from "./auth";
 
 export const createProject = mutation({
   args: {
@@ -16,6 +17,8 @@ export const createProject = mutation({
     results: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
     const id = await ctx.db.insert("portfolioProjects", {
       ...args,
       createdAt: Date.now(),
@@ -42,6 +45,8 @@ export const updateProject = mutation({
     results: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
     const { id, ...updates } = args;
 
     await ctx.db.patch(id, {
@@ -58,6 +63,8 @@ export const deleteProject = mutation({
     id: v.id("portfolioProjects"),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
     await ctx.db.delete(args.id);
   },
 });

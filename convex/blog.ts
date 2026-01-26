@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { requireAdmin } from "./auth";
 
 export const createBlogPost = mutation({
   args: {
@@ -15,6 +16,8 @@ export const createBlogPost = mutation({
     published: v.boolean(),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
     const id = await ctx.db.insert("blogPosts", {
       ...args,
       createdAt: Date.now(),
@@ -40,6 +43,8 @@ export const updateBlogPost = mutation({
     published: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
     const { id, ...updates } = args;
 
     await ctx.db.patch(id, {
@@ -56,6 +61,8 @@ export const deleteBlogPost = mutation({
     id: v.id("blogPosts"),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
     await ctx.db.delete(args.id);
   },
 });

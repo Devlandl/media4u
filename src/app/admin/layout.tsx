@@ -18,7 +18,7 @@ const adminNavItems = [
 ];
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
-  const { isAuthenticated, isLoading, isAdmin, logout } = useAuth();
+  const { isAuthenticated, isLoading, isAdmin, signOut } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -97,7 +97,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </nav>
 
         <button
-          onClick={logout}
+          onClick={() => signOut()}
           className="w-full px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all duration-200 border border-red-500/30 font-medium"
         >
           Logout

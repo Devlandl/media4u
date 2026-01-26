@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/components/AuthContext";
+import { authClient } from "@/lib/auth-client";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -15,13 +15,11 @@ export default function SignupPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { signup } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
 
-    // Validation
     if (!name.trim()) {
       setError("Name is required");
       return;
@@ -32,8 +30,8 @@ export default function SignupPage() {
       return;
     }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters");
       return;
     }
 
@@ -44,18 +42,18 @@ export default function SignupPage() {
 
     setIsLoading(true);
 
-    try {
-      const success = await signup(email, password, name);
-      if (success) {
-        router.push("/");
-      } else {
-        setError("Email already registered");
+    await authClient.signUp.email(
+      { email, password, name },
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+        onError: (ctx: { error: { message?: string } }) => {
+          setError(ctx.error.message ?? "Signup failed. Please try again.");
+          setIsLoading(false);
+        },
       }
-    } catch {
-      setError("Signup failed. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    );
   }
 
   return (
@@ -97,6 +95,7 @@ export default function SignupPage() {
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
                 placeholder="Your name"
                 autoFocus
+                required
               />
             </motion.div>
 
@@ -116,6 +115,7 @@ export default function SignupPage() {
                 disabled={isLoading}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
                 placeholder="your@email.com"
+                required
               />
             </motion.div>
 
@@ -135,6 +135,8 @@ export default function SignupPage() {
                 disabled={isLoading}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
                 placeholder="••••••••"
+                required
+                minLength={8}
               />
             </motion.div>
 
@@ -154,6 +156,8 @@ export default function SignupPage() {
                 disabled={isLoading}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
                 placeholder="••••••••"
+                required
+                minLength={8}
               />
             </motion.div>
 

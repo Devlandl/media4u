@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { requireAdmin } from "./auth";
 
 // Get single VR experience by slug
 export const getExperienceBySlug = query({
@@ -70,6 +71,8 @@ export const createExperience = mutation({
     testimonial: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
     return await ctx.db.insert("vrExperiences", {
       ...args,
       createdAt: Date.now(),
@@ -103,6 +106,8 @@ export const updateExperience = mutation({
     testimonial: v.optional(v.string()),
   },
   handler: async (ctx, { id, ...args }) => {
+    await requireAdmin(ctx);
+
     return await ctx.db.patch(id, {
       ...args,
       updatedAt: Date.now(),
@@ -114,6 +119,8 @@ export const updateExperience = mutation({
 export const deleteExperience = mutation({
   args: { id: v.id("vrExperiences") },
   handler: async (ctx, { id }) => {
+    await requireAdmin(ctx);
+
     return await ctx.db.delete(id);
   },
 });

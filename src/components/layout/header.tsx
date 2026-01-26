@@ -20,7 +20,7 @@ const navLinks = [
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, isAdmin, user, signOut } = useAuth();
 
   // Don't show header on admin pages
   if (pathname && pathname.startsWith("/admin")) {
@@ -71,13 +71,13 @@ export function Header() {
           {isAuthenticated ? (
             <>
               <Link
-                href={user?.role === "admin" ? "/admin" : "/"}
+                href={isAdmin ? "/admin" : "/"}
                 className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
               >
                 {user?.name}
               </Link>
               <button
-                onClick={logout}
+                onClick={() => signOut()}
                 className="px-4 py-2 rounded-full bg-red-500/20 text-red-400 text-sm font-semibold hover:bg-red-500/30 transition-all"
               >
                 Logout
@@ -183,15 +183,15 @@ export function Header() {
                     {user?.name}
                   </div>
                   <Link
-                    href={user?.role === "admin" ? "/admin" : "/"}
+                    href={isAdmin ? "/admin" : "/"}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
                   >
-                    {user?.role === "admin" ? "Admin Panel" : "Dashboard"}
+                    {isAdmin ? "Admin Panel" : "Dashboard"}
                   </Link>
                   <button
                     onClick={() => {
-                      logout();
+                      signOut();
                       setIsMobileMenuOpen(false);
                     }}
                     className="px-4 py-2 rounded-full bg-red-500/20 text-red-400 text-sm font-semibold hover:bg-red-500/30 transition-all"

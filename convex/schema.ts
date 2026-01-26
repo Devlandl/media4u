@@ -2,16 +2,17 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  // Users table for authentication
-  users: defineTable({
-    email: v.string(),
-    password: v.string(), // hashed
-    name: v.string(),
-    role: v.union(v.literal("user"), v.literal("admin")),
+  // Note: User/session tables are managed by Better Auth component
+  // See convex.config.ts for the Better Auth component registration
+
+  // User roles (for admin access - separate from Better Auth user table)
+  userRoles: defineTable({
+    userId: v.string(), // Better Auth user ID
+    role: v.union(v.literal("admin"), v.literal("user")),
     createdAt: v.number(),
   })
-    .index("by_email", ["email"]),
-
+    .index("by_userId", ["userId"])
+    .index("by_role", ["role"]),
 
   // Contact form submissions
   contactSubmissions: defineTable({

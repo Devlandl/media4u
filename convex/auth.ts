@@ -1,164 +1,144 @@
-import { mutation, query } from "./_generated/server";
+import { createClient, type GenericCtx } from "@convex-dev/better-auth";
+import { convex, crossDomain } from "@convex-dev/better-auth/plugins";
+import { ConvexError } from "convex/values";
+import { components } from "./_generated/api";
+import { DataModel } from "./_generated/dataModel";
+import { query, mutation, QueryCtx, MutationCtx } from "./_generated/server";
 import { v } from "convex/values";
+import { betterAuth } from "better-auth/minimal";
+import authConfig from "./auth.config";
 
-// Simple password hashing - just use base64 encoding for storage
-function hashPassword(password: string): string {
-  return btoa(password);
+const siteUrl = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+export const authComponent = createClient<DataModel>(components.betterAuth);
+
+/**
+ * Authorization helper - verifies user is authenticated and has admin role.
+ * Throws ConvexError if unauthorized (industry standard pattern).
+ * Use this at the start of any admin-only mutation or action.
+ */
+export async function requireAdmin(ctx: QueryCtx | MutationCtx) {
+  let user;
+  try {
+    user = await authComponent.getAuthUser(ctx);
+  } catch {
+    throw new ConvexError({ code: "UNAUTHORIZED", message: "Authentication required" });
+  }
+
+  if (!user) {
+    throw new ConvexError({ code: "UNAUTHORIZED", message: "Authentication required" });
+  }
+
+  const userRole = await ctx.db
+    .query("userRoles")
+    .withIndex("by_userId", (q) => q.eq("userId", user.id))
+    .first();
+
+  if (userRole?.role !== "admin") {
+    throw new ConvexError({ code: "FORBIDDEN", message: "Admin access required" });
+  }
+
+  return user;
 }
 
-function verifyPassword(password: string, hash: string): boolean {
-  return btoa(password) === hash;
+/**
+ * Get authenticated user or null (doesn't throw).
+ * Use for optional auth checks.
+ */
+export async function getAuthenticatedUser(ctx: QueryCtx | MutationCtx) {
+  try {
+    return await authComponent.getAuthUser(ctx);
+  } catch {
+    return null;
+  }
 }
 
-export const signup = mutation({
-  args: {
-    email: v.string(),
-    password: v.string(),
-    name: v.string(),
+export const createAuth = (ctx: GenericCtx<DataModel>) => {
+  return betterAuth({
+    trustedOrigins: [siteUrl],
+    database: authComponent.adapter(ctx),
+    emailAndPassword: {
+      enabled: true,
+      requireEmailVerification: false,
+    },
+    plugins: [
+      crossDomain({ siteUrl }),
+      convex({ authConfig }),
+    ],
+  });
+};
+
+export type Auth = ReturnType<typeof createAuth>;
+
+export const getCurrentUser = query({
+  args: {},
+  handler: async (ctx) => {
+    try {
+      return await authComponent.getAuthUser(ctx);
+    } catch {
+      return null;
+    }
   },
-  handler: async (ctx, args) => {
-    // Check if user already exists
+});
+
+export const isAdmin = query({
+  args: {},
+  handler: async (ctx) => {
+    try {
+      const user = await authComponent.getAuthUser(ctx);
+      if (!user) return false;
+
+      // Check userRoles table for admin role
+      const userRole = await ctx.db
+        .query("userRoles")
+        .withIndex("by_userId", (q) => q.eq("userId", user.id))
+        .first();
+
+      return userRole?.role === "admin";
+    } catch {
+      // User not authenticated
+      return false;
+    }
+  },
+});
+
+// Public query to check admin by user ID (for client-side checks)
+export const checkAdminByUserId = query({
+  args: { userId: v.string() },
+  handler: async (ctx, { userId }) => {
+    const userRole = await ctx.db
+      .query("userRoles")
+      .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .first();
+
+    return userRole?.role === "admin";
+  },
+});
+
+// Set user role (admin only)
+export const setUserRole = mutation({
+  args: {
+    userId: v.string(),
+    role: v.union(v.literal("admin"), v.literal("user")),
+  },
+  handler: async (ctx, { userId, role }) => {
+    // Verify caller is admin
+    await requireAdmin(ctx);
+
+    // Check if role already exists
     const existing = await ctx.db
-      .query("users")
-      .withIndex("by_email", (q) => q.eq("email", args.email))
+      .query("userRoles")
+      .withIndex("by_userId", (q) => q.eq("userId", userId))
       .first();
 
     if (existing) {
-      return {
-        success: false,
-        error: "Email already registered",
-      };
-    }
-
-    // Validate inputs
-    if (args.password.length < 6) {
-      return {
-        success: false,
-        error: "Password must be at least 6 characters",
-      };
-    }
-
-    if (args.name.trim().length < 2) {
-      return {
-        success: false,
-        error: "Name must be at least 2 characters",
-      };
-    }
-
-    // Create user with 'user' role by default
-    const userId = await ctx.db.insert("users", {
-      email: args.email,
-      password: hashPassword(args.password),
-      name: args.name,
-      role: "user",
-      createdAt: Date.now(),
-    });
-
-    return {
-      success: true,
-      userId,
-      message: "Account created successfully",
-    };
-  },
-});
-
-export const login = mutation({
-  args: {
-    email: v.string(),
-    password: v.string(),
-  },
-  handler: async (ctx, args) => {
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_email", (q) => q.eq("email", args.email))
-      .first();
-
-    if (!user || !verifyPassword(args.password, user.password)) {
-      return {
-        success: false,
-        error: "Invalid email or password",
-      };
-    }
-
-    // Create a session token
-    const token = btoa(`${user._id}:${Date.now()}`);
-
-    return {
-      success: true,
-      token,
-      user: {
-        id: user._id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-      },
-    };
-  },
-});
-
-export const verifyToken = query({
-  args: {
-    token: v.optional(v.string()),
-  },
-  handler: async (ctx, args) => {
-    if (!args.token) {
-      return { valid: false, user: null };
-    }
-
-    try {
-      const decoded = atob(args.token);
-      const [userId] = decoded.split(":");
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const user = await ctx.db.get(userId as any) as any;
-
-      if (!user || !("email" in user)) {
-        return { valid: false, user: null };
-      }
-
-      return {
-        valid: true,
-        user: {
-          id: user._id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        },
-      };
-    } catch {
-      return { valid: false, user: null };
-    }
-  },
-});
-
-export const getCurrentUser = query({
-  args: {
-    token: v.optional(v.string()),
-  },
-  handler: async (ctx, args) => {
-    if (!args.token) {
-      return null;
-    }
-
-    try {
-      const decoded = atob(args.token);
-      const [userId] = decoded.split(":");
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const user = await ctx.db.get(userId as any) as any;
-
-      if (!user || !("email" in user)) {
-        return null;
-      }
-
-      return {
-        id: user._id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-      };
-    } catch {
-      return null;
+      await ctx.db.patch(existing._id, { role });
+    } else {
+      await ctx.db.insert("userRoles", {
+        userId,
+        role,
+        createdAt: Date.now(),
+      });
     }
   },
 });

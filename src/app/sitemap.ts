@@ -2,14 +2,25 @@ import { MetadataRoute } from 'next'
 import { ConvexHttpClient } from 'convex/browser'
 import { api } from '@convex/_generated/api'
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
+const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [vrExperiences, blogPosts, portfolioProjects] = await Promise.all([
-    convex.query(api.vr.getAllExperiences),
-    convex.query(api.blog.getAllPosts, { publishedOnly: true }),
-    convex.query(api.portfolio.getAllProjects),
-  ])
+  let vrExperiences: { slug: string; updatedAt: number }[] = []
+  let blogPosts: { slug: string; updatedAt: number }[] = []
+  let portfolioProjects: { slug: string; updatedAt: number }[] = []
+
+  // Only fetch from Convex if URL is configured
+  if (convexUrl) {
+    const convex = new ConvexHttpClient(convexUrl)
+    const results = await Promise.all([
+      convex.query(api.vr.getAllExperiences),
+      convex.query(api.blog.getAllPosts, { publishedOnly: true }),
+      convex.query(api.portfolio.getAllProjects),
+    ])
+    vrExperiences = results[0]
+    blogPosts = results[1]
+    portfolioProjects = results[2]
+  }
 
   return [
     // Static pages with priority

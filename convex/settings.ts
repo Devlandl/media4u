@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { requireAdmin } from "./auth";
 
 // Get site settings
 export const getSettings = query({
@@ -32,6 +33,8 @@ export const updateSettings = mutation({
     whatsappNumber: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
     // Check if settings exist
     const existing = await ctx.db
       .query("siteSettings")

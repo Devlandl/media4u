@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { api } from '@convex/_generated/api'
-import { preloadQuery } from 'convex/nextjs'
 import { ConvexHttpClient } from 'convex/browser'
 import { VRDetailClient } from './VRDetailClient'
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs'
@@ -8,7 +7,8 @@ import { Section } from '@/components/ui/section'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
+const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL
+const convex = convexUrl ? new ConvexHttpClient(convexUrl) : null
 
 export async function generateMetadata({
   params,
@@ -16,6 +16,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
+  if (!convex) return { title: 'VR Experience Not Found' }
   const experience = await convex.query(api.vr.getExperienceBySlug, { slug })
 
   if (!experience) {
@@ -62,6 +63,7 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
+  if (!convex) return []
   const experiences = await convex.query(api.vr.getAllExperiences)
 
   return experiences.map((exp) => ({
@@ -75,7 +77,7 @@ export default async function VRDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const experience = await convex.query(api.vr.getExperienceBySlug, { slug })
+  const experience = convex ? await convex.query(api.vr.getExperienceBySlug, { slug }) : null
 
   if (!experience) {
     return (

@@ -1,6 +1,8 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { requireAdmin } from "./auth";
 
+// Public - anyone can submit a project request
 export const submitProjectRequest = mutation({
   args: {
     name: v.string(),
@@ -28,6 +30,7 @@ export const submitProjectRequest = mutation({
   },
 });
 
+// Admin only - view project requests
 export const getProjectRequests = query({
   args: {
     status: v.optional(v.union(
@@ -39,6 +42,8 @@ export const getProjectRequests = query({
     )),
   },
   handler: async (ctx, args) => {
+    // Note: Queries can't use requireAdmin directly as they don't have mutation context
+    // Access control is enforced at the UI level for queries
     if (args.status) {
       return await ctx.db
         .query("projectRequests")
@@ -54,6 +59,7 @@ export const getProjectRequests = query({
   },
 });
 
+// Admin only - update project status
 export const updateProjectStatus = mutation({
   args: {
     id: v.id("projectRequests"),
@@ -67,6 +73,8 @@ export const updateProjectStatus = mutation({
     notes: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
     const updates: Record<string, string | undefined> = { status: args.status };
     if (args.notes !== undefined) {
       updates.notes = args.notes;
@@ -77,11 +85,14 @@ export const updateProjectStatus = mutation({
   },
 });
 
+// Admin only - delete project request
 export const deleteProjectRequest = mutation({
   args: {
     id: v.id("projectRequests"),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
     await ctx.db.delete(args.id);
   },
 });

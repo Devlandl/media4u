@@ -14,7 +14,7 @@ export function middleware(_request: NextRequest) {
       "style-src 'self' 'unsafe-inline' https://api.fontshare.com https://cdn.fontshare.com",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data: https://api.fontshare.com https://cdn.fontshare.com",
-      "connect-src 'self' https://*.convex.cloud wss://*.convex.cloud https://api.github.com",
+      "connect-src 'self' https://*.convex.cloud wss://*.convex.cloud https://*.convex.site https://api.github.com",
       "frame-src 'self' https://www.youtube.com",
       "media-src 'self' data: https: blob:",
       "object-src 'none'",

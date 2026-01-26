@@ -1,55 +1,46 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, ReactNode } from "react";
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { authClient } from "@/lib/auth-client";
 
 interface AdminContextType {
   isAuthenticated: boolean;
+  isAdmin: boolean;
   isLoading: boolean;
-  login: (password: string) => Promise<boolean>;
-  logout: () => void;
+  signOut: () => Promise<void>;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
 export function AdminProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: session, isPending: sessionPending } = authClient.useSession();
+  const sessionUser = session?.user as { id: string } | undefined;
 
-  // Check if user is authenticated on mount
-  useEffect(() => {
-    const token = localStorage.getItem("admin_token");
-    if (token) {
-      setIsAuthenticated(true);
-    }
-    setIsLoading(false);
-  }, []);
+  // Check admin status using user ID from session
+  const isAdminResult = useQuery(
+    api.auth.checkAdminByUserId,
+    sessionUser?.id ? { userId: sessionUser.id } : "skip"
+  );
 
-  const login = async (password: string): Promise<boolean> => {
-    try {
-      // Simple client-side password validation
-      // In production, use server-side validation via Convex
-      const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "admin";
+  const isAuthenticated = !!session;
+  const isAdmin = isAdminResult === true;
+  const isLoading = sessionPending || isAdminResult === undefined;
 
-      if (password === adminPassword) {
-        const token = Buffer.from(`admin:${Date.now()}`).toString("base64");
-        localStorage.setItem("admin_token", token);
-        setIsAuthenticated(true);
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error("Login error:", error);
-      return false;
-    }
-  };
-
-  const logout = () => {
-    localStorage.removeItem("admin_token");
-    setIsAuthenticated(false);
+  const signOut = async () => {
+    await authClient.signOut();
   };
 
   return (
-    <AdminContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
+    <AdminContext.Provider
+      value={{
+        isAuthenticated,
+        isAdmin,
+        isLoading,
+        signOut,
+      }}
+    >
       {children}
     </AdminContext.Provider>
   );
