@@ -16,8 +16,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const preloaded = await preloadQuery(api.vr.getExperienceBySlug, { slug })
-  const experience = preloaded._valueJSON
+  const experience = await convex.query(api.vr.getExperienceBySlug, { slug })
 
   if (!experience) {
     return {
@@ -44,7 +43,7 @@ export async function generateMetadata({
     openGraph: {
       title: experience.title,
       description,
-      type: 'product',
+      type: 'website',
       url: `https://media4u.com/vr/${slug}`,
       images: [
         {
@@ -76,8 +75,7 @@ export default async function VRDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const preloaded = await preloadQuery(api.vr.getExperienceBySlug, { slug })
-  const experience = preloaded._valueJSON
+  const experience = await convex.query(api.vr.getExperienceBySlug, { slug })
 
   if (!experience) {
     return (

@@ -16,8 +16,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const preloaded = await preloadQuery(api.portfolio.getProjectBySlug, { slug })
-  const project = preloaded._valueJSON
+  const project = await convex.query(api.portfolio.getProjectBySlug, { slug })
 
   if (!project) {
     return { title: 'Project Not Found' }
@@ -68,8 +67,7 @@ export default async function PortfolioDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const preloaded = await preloadQuery(api.portfolio.getProjectBySlug, { slug })
-  const project = preloaded._valueJSON
+  const project = await convex.query(api.portfolio.getProjectBySlug, { slug })
 
   if (!project) {
     return (

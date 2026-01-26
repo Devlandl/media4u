@@ -16,8 +16,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const preloaded = await preloadQuery(api.blog.getBlogPostBySlug, { slug })
-  const post = preloaded._valueJSON
+  const post = await convex.query(api.blog.getBlogPostBySlug, { slug })
 
   if (!post) {
     return { title: 'Post Not Found' }
@@ -61,13 +60,10 @@ export default async function BlogDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const [postPreloaded, allPostsPreloaded] = await Promise.all([
-    preloadQuery(api.blog.getBlogPostBySlug, { slug }),
-    preloadQuery(api.blog.getAllPosts, { publishedOnly: true }),
+  const [post, allPosts] = await Promise.all([
+    convex.query(api.blog.getBlogPostBySlug, { slug }),
+    convex.query(api.blog.getAllPosts, { publishedOnly: true }),
   ])
-
-  const post = postPreloaded._valueJSON
-  const allPosts = allPostsPreloaded._valueJSON
 
   if (!post) {
     return (
