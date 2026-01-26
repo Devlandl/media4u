@@ -45,20 +45,19 @@ export const signup = mutation({
       };
     }
 
-    // Create user with 'user' role and 'pending' status by default
+    // Create user with 'user' role by default
     const userId = await ctx.db.insert("users", {
       email: args.email,
       password: hashPassword(args.password),
       name: args.name,
       role: "user",
-      status: "pending",
       createdAt: Date.now(),
     });
 
     return {
       success: true,
       userId,
-      message: "Account created successfully! Your account is pending approval by an administrator.",
+      message: "Account created successfully",
     };
   },
 });
@@ -78,21 +77,6 @@ export const login = mutation({
       return {
         success: false,
         error: "Invalid email or password",
-      };
-    }
-
-    // Check if user account is approved
-    if (user.status === "pending") {
-      return {
-        success: false,
-        error: "Your account is pending approval. Please wait for an administrator to approve your account.",
-      };
-    }
-
-    if (user.status === "rejected") {
-      return {
-        success: false,
-        error: "Your account has been rejected. Please contact support for more information.",
       };
     }
 
