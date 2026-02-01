@@ -325,7 +325,7 @@ function ProjectCard({ project, index: _index }: ProjectCardProps) {
       </div>
 
       <div className="p-6">
-        <h3 className="text-xl font-display font-bold text-white mb-2 group-hover:text-gradient-cyber transition-all duration-300">
+        <h3 className="text-xl font-display font-bold text-white mb-2 transition-all duration-300">
           {project.title}
         </h3>
         <p className="text-gray-400 text-sm leading-relaxed">
@@ -345,9 +345,8 @@ function CTASection() {
   return (
     <Section className="border-t border-white/[0.06]">
       <div className="text-center">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4">
-          Let&apos;s Build Something{" "}
-          <span className="text-gradient-cyber">Amazing</span>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 text-white">
+          Let&apos;s Build Something Amazing
         </h2>
         <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
           Whether you need a professional website, an immersive VR experience, or both working together-

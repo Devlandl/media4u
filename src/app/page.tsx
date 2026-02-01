@@ -173,10 +173,10 @@ function AboutSection() {
           <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-cyber-cyan">
             About Us
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 text-white">
             A Creative Studio Built for the
             <br />
-            <span className="text-gradient-cyber">Digital Era</span>
+            Digital Era
           </h2>
           <p className="text-gray-400 text-lg leading-relaxed mb-6">
             Media4U is a web design and creative studio that helps businesses, creators, and communities build their online presence-and go beyond it. We specialize in professional websites, visual branding, and for those ready to innovate, immersive VR experiences.
@@ -191,7 +191,7 @@ function AboutSection() {
             <div className="absolute -inset-4 bg-gradient-to-r from-cyber-cyan/20 via-cyber-purple/20 to-cyber-magenta/20 rounded-3xl blur-2xl" />
             <div className="relative glass-elevated rounded-2xl p-8">
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-display font-bold text-gradient-cyber mb-3">
+                <h3 className="text-2xl font-display font-bold text-white mb-3">
                   What We Do
                 </h3>
                 <p className="text-gray-400 text-sm">
@@ -241,9 +241,8 @@ function CTASection() {
 
       <AnimatedSection>
         <div className="relative text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6">
-            Ready to Build Your{" "}
-            <span className="text-gradient-cyber">Digital Presence</span>?
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 text-white">
+            Ready to Build Your Digital Presence?
           </h2>
           <p className="text-gray-400 text-lg max-w-xl mx-auto mb-10">
             Whether you&apos;re starting with a professional website, elevating your brand with custom design, or creating an immersive VR experience-we&apos;re here to help you show up with clarity and confidence.

@@ -179,8 +179,8 @@ function NewsletterSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-            <span className="text-gradient-cyber">Stay in the Loop</span>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-white">
+            Stay in the Loop
           </h2>
           <p className="text-gray-400 text-lg mb-8">
             Get the latest insights on VR, web design, and digital innovation delivered straight to your inbox.
@@ -263,8 +263,8 @@ export default function BlogPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
-            <span className="text-gradient-cyber">Latest Insights</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+            Latest Insights
           </h1>
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
             Explore our thoughts on VR technology, web design, and the future of digital experiences.

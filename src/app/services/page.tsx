@@ -352,9 +352,8 @@ export default function ServicesPage(): React.ReactNode {
           <div className="rounded-3xl bg-void-900 px-8 py-16 md:px-16 md:py-20 text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.08),transparent_70%)]" />
             <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4">
-                Start With a Website. Expand Into{" "}
-                <span className="text-gradient-cyber">VR</span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 text-white">
+                Start With a Website. Expand Into VR
               </h2>
               <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
                 Most clients start with a professional website and branding. When they&apos;re ready to innovate, we extend their presence into VR. Every service works together to create a cohesive, powerful digital identity.

@@ -218,9 +218,8 @@ export function StartProjectContent(): ReactElement {
           transition={{ duration: 0.8 }}
           className="text-center max-w-4xl mx-auto"
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold mb-6">
-            Let&apos;s Build Your Website-and{" "}
-            <span className="text-gradient-cyber">Anything Beyond It</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold mb-6 text-white">
+            Let&apos;s Build Your Website-and Anything Beyond It
           </h1>
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-6">
             We start with professional, conversion-focused websites. When you&apos;re ready to go further, we create immersive VR experiences and visual branding that set you apart.
@@ -270,7 +269,7 @@ export function StartProjectContent(): ReactElement {
                 <h3 className="text-2xl font-display font-bold mb-2">{pkg.name}</h3>
                 <div className="mb-4">
                   <span className="text-sm text-gray-400">Starting at </span>
-                  <span className="text-4xl font-display font-bold text-gradient-cyber">{pkg.price}</span>
+                  <span className="text-4xl font-display font-bold text-white">{pkg.price}</span>
                 </div>
 
                 {/* Description */}
@@ -609,8 +608,8 @@ export function StartProjectContent(): ReactElement {
           transition={{ duration: 0.8 }}
           className="text-center max-w-3xl mx-auto"
         >
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
-            We Meet You <span className="text-gradient-cyber">Where You Are</span>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-6 text-white">
+            We Meet You Where You Are
           </h2>
           <p className="text-gray-400 text-lg leading-relaxed mb-6">
             Starting a project can feel overwhelming-especially if you&apos;re not sure exactly what you need. That&apos;s where we come in.

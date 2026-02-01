@@ -156,9 +156,8 @@ export function AboutContent(): ReactElement {
           <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-cyan-400">
             About Us
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold mb-6">
-            We Build Digital Experiences That{" "}
-            <span className="text-gradient-cyber">Connect People</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold mb-6 text-white">
+            We Build Digital Experiences That Connect People
           </h1>
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
             Media4U is a web design and creative studio where professional websites, visual branding, and immersive VR come together. We help businesses, creators, and communities build their digital presence with clarity and confidence-online and in virtual spaces.
@@ -179,9 +178,8 @@ export function AboutContent(): ReactElement {
             <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-purple-400">
               Our Mission
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
-              Building Meaningful{" "}
-              <span className="text-gradient-cyber">Digital Experiences</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-6 text-white">
+              Building Meaningful Digital Experiences
             </h2>
             <div className="space-y-4 text-gray-400">
               <p>
@@ -259,8 +257,8 @@ export function AboutContent(): ReactElement {
               )}
 
               <div className="relative">
-                {/* Large Gradient Number */}
-                <div className="text-7xl md:text-8xl font-display font-bold text-gradient-cyber opacity-20 group-hover:opacity-40 transition-opacity duration-300">
+                {/* Large Number */}
+                <div className="text-7xl md:text-8xl font-display font-bold text-white opacity-20 group-hover:opacity-40 transition-opacity duration-300">
                   {service.number}
                 </div>
 
@@ -354,10 +352,9 @@ export function AboutContent(): ReactElement {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4"
+              className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 text-white"
             >
-              Let&apos;s Build{" "}
-              <span className="text-gradient-cyber">Something Together</span>
+              Let&apos;s Build Something Together
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}

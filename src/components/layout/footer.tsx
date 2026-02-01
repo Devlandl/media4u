@@ -37,8 +37,8 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block mb-4">
-              <span className="font-display text-2xl font-bold">
-                Media<span className="text-gradient-cyber">4U</span>
+              <span className="font-display text-2xl font-bold text-white">
+                Media4U
               </span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">

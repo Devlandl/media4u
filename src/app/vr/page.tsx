@@ -240,10 +240,10 @@ export default function VRPage() {
           <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-cyan-400">
             Immersive Technology
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
-            <span className="text-gradient-cyber">VR Environments</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
+            VR Environments
             <br />
-            <span className="text-white">&amp; Multiverse</span>
+            &amp; Multiverse
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Step into new dimensions with custom virtual reality experiences that blur the line between digital and reality.
@@ -261,8 +261,8 @@ export default function VRPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
-              Crafting <span className="text-gradient-cyber">Immersive Experiences</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-6 text-white">
+              Crafting Immersive Experiences
             </h2>
             <p className="text-gray-400 text-lg mb-8 leading-relaxed">
               We design and develop cutting-edge VR environments that transport users to extraordinary digital realms.
@@ -481,9 +481,8 @@ export default function VRPage() {
           <div className="absolute inset-0 rounded-3xl border border-white/10" />
 
           <div className="relative text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6">
-              Ready to Enter the{" "}
-              <span className="text-gradient-cyber">Virtual World</span>?
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 text-white">
+              Ready to Enter the Virtual World?
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
               Let us build your gateway to the multiverse. From concept to deployment,

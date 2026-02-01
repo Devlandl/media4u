@@ -40,11 +40,11 @@ export function SectionHeader({ tag, title, highlight, description, centered = t
           {tag}
         </span>
       )}
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4">
+      <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 text-white">
         {highlight ? (
           <>
             {titleParts[0]}
-            <span className="text-gradient-cyber">{highlight}</span>
+            {highlight}
             {titleParts[1]}
           </>
         ) : (

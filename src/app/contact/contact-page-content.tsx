@@ -39,8 +39,8 @@ export function ContactPageContent() {
           <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-cyan-400">
             Contact Us
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold">
-            <span className="text-gradient-cyber">Let&apos;s Connect</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white">
+            Let&apos;s Connect
           </h1>
         </motion.div>
 

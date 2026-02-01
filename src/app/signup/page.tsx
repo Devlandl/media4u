@@ -71,8 +71,8 @@ export default function SignupPage() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mb-8 text-center"
           >
-            <h1 className="text-4xl font-display font-bold mb-2">
-              Media<span className="text-gradient-cyber">4U</span>
+            <h1 className="text-4xl font-display font-bold mb-2 text-white">
+              Media4U
             </h1>
             <p className="text-gray-400">Create your account</p>
           </motion.div>
