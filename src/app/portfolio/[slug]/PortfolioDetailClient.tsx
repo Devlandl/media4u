@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 interface PortfolioProject {
   _id: string
@@ -23,9 +24,12 @@ interface PortfolioProject {
 }
 
 export function PortfolioDetailClient({ project }: { project: PortfolioProject }) {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   const hasImages = project.images && project.images.length > 0;
   const mainImage = hasImages ? project.images![0] : null;
   const galleryImages = hasImages ? project.images!.slice(1) : [];
+  const allImages = hasImages ? project.images! : [];
 
   return (
     <div className="min-h-screen mesh-bg">
@@ -78,14 +82,18 @@ export function PortfolioDetailClient({ project }: { project: PortfolioProject }
               className="w-full"
             >
               {mainImage ? (
-                <>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => setSelectedImage(mainImage)}
+                  className="cursor-pointer"
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={mainImage}
                     alt={project.title}
                     className="w-full aspect-video object-cover rounded-2xl shadow-2xl"
                   />
-                </>
+                </motion.div>
               ) : (
                 <div className={`aspect-video bg-gradient-to-br ${project.gradient} rounded-2xl shadow-2xl`} />
               )}
@@ -160,13 +168,15 @@ export function PortfolioDetailClient({ project }: { project: PortfolioProject }
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   viewport={{ once: true }}
-                  className="overflow-hidden rounded-2xl"
+                  whileHover={{ scale: 1.05 }}
+                  onClick={() => setSelectedImage(image)}
+                  className="overflow-hidden rounded-2xl cursor-pointer group"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={image}
                     alt={`Gallery ${idx + 1}`}
-                    className="w-full aspect-video object-cover"
+                    className="w-full aspect-video object-cover group-hover:brightness-75 transition-all"
                   />
                 </motion.div>
               ))}
@@ -231,6 +241,64 @@ export function PortfolioDetailClient({ project }: { project: PortfolioProject }
           </div>
         </div>
       </div>
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setSelectedImage(null)}
+          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0.9 }}
+            className="relative max-w-5xl max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={selectedImage}
+              alt="Gallery preview"
+              className="w-full h-full object-contain rounded-2xl"
+            />
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all backdrop-blur-sm border border-white/20"
+            >
+              ✕
+            </button>
+
+            {/* Navigation buttons */}
+            {allImages.length > 1 && (
+              <>
+                <button
+                  onClick={() => {
+                    const currentIdx = allImages.indexOf(selectedImage);
+                    const prevIdx = currentIdx === 0 ? allImages.length - 1 : currentIdx - 1;
+                    setSelectedImage(allImages[prevIdx]);
+                  }}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all backdrop-blur-sm border border-white/20"
+                >
+                  ‹
+                </button>
+                <button
+                  onClick={() => {
+                    const currentIdx = allImages.indexOf(selectedImage);
+                    const nextIdx = currentIdx === allImages.length - 1 ? 0 : currentIdx + 1;
+                    setSelectedImage(allImages[nextIdx]);
+                  }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all backdrop-blur-sm border border-white/20"
+                >
+                  ›
+                </button>
+              </>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
     </div>
   );
 }

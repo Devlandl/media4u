@@ -14,6 +14,17 @@ export default defineSchema({
     .index("by_userId", ["userId"])
     .index("by_role", ["role"]),
 
+  // Password reset tokens
+  passwordResetTokens: defineTable({
+    email: v.string(),
+    token: v.string(),
+    expiresAt: v.number(),
+    used: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_token", ["token"])
+    .index("by_email", ["email"]),
+
   // Stripe customer records - links users to Stripe customers
   stripeCustomers: defineTable({
     userId: v.optional(v.string()),

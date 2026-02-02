@@ -96,9 +96,14 @@ export default function LoginPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.25 }}
             >
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-3">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-3">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+                  Password
+                </label>
+                <Link href="/forgot-password" className="text-sm text-cyan-400 hover:text-cyan-300">
+                  Forgot?
+                </Link>
+              </div>
               <input
                 type="password"
                 id="password"
