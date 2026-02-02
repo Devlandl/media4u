@@ -9,6 +9,7 @@ import {
   emailDivider,
 } from "./lib/emailTemplates";
 
+// Password reset system for Media4U
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.FROM_EMAIL || "hello@media4u.fun";
 const SITE_URL = process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
