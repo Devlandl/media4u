@@ -18,7 +18,7 @@ const PRODUCT_NAMES: Record<string, string> = {
 
 export function CheckoutSuccessContent(): ReactElement {
   const searchParams = useSearchParams();
-  const sessionId = searchParams.get("session_id");
+  const sessionId = searchParams?.get("session_id") ?? null;
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

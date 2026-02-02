@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
+import { Doc } from "@convex/_generated/dataModel";
 import { format } from "date-fns";
 
 type OrderStatus = "pending" | "paid" | "failed" | "refunded";
@@ -36,7 +37,7 @@ export default function AdminOrdersPage() {
     filterStatus !== "all" ? { status: filterStatus } : {}
   );
 
-  const selected = orders?.find((o) => o._id === selectedId);
+  const selected = orders?.find((o: Doc<"orders">) => o._id === selectedId);
 
   return (
     <div>
@@ -80,7 +81,7 @@ export default function AdminOrdersPage() {
               </p>
             </div>
             <div className="divide-y divide-white/10 max-h-[600px] overflow-y-auto">
-              {orders?.map((order) => (
+              {orders?.map((order: Doc<"orders">) => (
                 <motion.button
                   key={order._id}
                   onClick={() => setSelectedId(order._id)}
@@ -142,9 +143,9 @@ export default function AdminOrdersPage() {
                   </p>
                 </div>
                 <span
-                  className={`px-3 py-1 rounded-lg text-sm font-medium border ${statusColors[selected.status]}`}
+                  className={`px-3 py-1 rounded-lg text-sm font-medium border ${statusColors[selected.status as OrderStatus]}`}
                 >
-                  {statusLabels[selected.status]}
+                  {statusLabels[selected.status as OrderStatus]}
                 </span>
               </div>
 

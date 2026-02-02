@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
+import { Doc } from "@convex/_generated/dataModel";
 import { format } from "date-fns";
 
 type SubscriptionStatus = "active" | "past_due" | "canceled" | "unpaid";
@@ -31,7 +32,7 @@ export default function AdminSubscriptionsPage() {
     filterStatus !== "all" ? { status: filterStatus } : {}
   );
 
-  const selected = subscriptions?.find((s) => s._id === selectedId);
+  const selected = subscriptions?.find((s: Doc<"subscriptions">) => s._id === selectedId);
 
   return (
     <div>
@@ -77,7 +78,7 @@ export default function AdminSubscriptionsPage() {
               </p>
             </div>
             <div className="divide-y divide-white/10 max-h-[600px] overflow-y-auto">
-              {subscriptions?.map((subscription) => (
+              {subscriptions?.map((subscription: Doc<"subscriptions">) => (
                 <motion.button
                   key={subscription._id}
                   onClick={() => setSelectedId(subscription._id)}
@@ -94,9 +95,9 @@ export default function AdminSubscriptionsPage() {
                   <p className="text-xs text-gray-400">Web Care Monthly</p>
                   <div className="flex items-center justify-between mt-2">
                     <span
-                      className={`text-xs font-medium px-2 py-1 rounded border ${statusColors[subscription.status]}`}
+                      className={`text-xs font-medium px-2 py-1 rounded border ${statusColors[subscription.status as SubscriptionStatus]}`}
                     >
-                      {statusLabels[subscription.status]}
+                      {statusLabels[subscription.status as SubscriptionStatus]}
                     </span>
                     <span className="text-xs text-gray-500">
                       {subscription.cancelAtPeriodEnd
@@ -137,9 +138,9 @@ export default function AdminSubscriptionsPage() {
                   </p>
                 </div>
                 <span
-                  className={`px-3 py-1 rounded-lg text-sm font-medium border ${statusColors[selected.status]}`}
+                  className={`px-3 py-1 rounded-lg text-sm font-medium border ${statusColors[selected.status as SubscriptionStatus]}`}
                 >
-                  {statusLabels[selected.status]}
+                  {statusLabels[selected.status as SubscriptionStatus]}
                 </span>
               </div>
 

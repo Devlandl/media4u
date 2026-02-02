@@ -4,6 +4,7 @@ import { type ReactElement } from "react";
 import { motion } from "motion/react";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { Doc } from "../../../convex/_generated/dataModel";
 import { useAuth } from "@/components/AuthContext";
 import Link from "next/link";
 import { format } from "date-fns";
@@ -27,7 +28,7 @@ export default function PortalPage(): ReactElement {
   );
 
   const recentOrders = orders?.slice(0, 3) ?? [];
-  const paidOrdersCount = orders?.filter((o) => o.status === "paid").length ?? 0;
+  const paidOrdersCount = orders?.filter((o: Doc<"orders">) => o.status === "paid").length ?? 0;
 
   return (
     <div>
@@ -145,7 +146,7 @@ export default function PortalPage(): ReactElement {
           </div>
         ) : (
           <div className="space-y-4">
-            {recentOrders.map((order) => (
+            {recentOrders.map((order: Doc<"orders">) => (
               <div key={order._id} className="glass-elevated rounded-2xl p-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                   <div>

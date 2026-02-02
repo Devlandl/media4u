@@ -4,6 +4,7 @@ import { type ReactElement } from "react";
 import { motion } from "motion/react";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
+import { Doc } from "../../../../convex/_generated/dataModel";
 import { useAuth } from "@/components/AuthContext";
 import Link from "next/link";
 import { format } from "date-fns";
@@ -71,7 +72,7 @@ export default function PortalOrdersPage(): ReactElement {
         </motion.div>
       ) : (
         <div className="space-y-4">
-          {orders.map((order, index) => (
+          {orders.map((order: Doc<"orders">, index: number) => (
             <motion.div
               key={order._id}
               initial={{ opacity: 0, y: 20 }}
