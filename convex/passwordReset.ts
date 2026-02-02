@@ -153,21 +153,29 @@ export const updatePasswordDirect = mutation({
     passwordHash: v.string(),
   },
   handler: async (ctx, { email, passwordHash }) => {
-    // Query Better Auth's account table directly
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const account = await ctx.db
-      .query("account" as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-      .filter((q: any) => q.eq(q.field("email"), email)) // eslint-disable-line @typescript-eslint/no-explicit-any
-      .first();
+    try {
+      // Query Better Auth's account table directly
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const account = await ctx.db
+        .query("account" as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+        .filter((q: any) => q.eq(q.field("email"), email)) // eslint-disable-line @typescript-eslint/no-explicit-any
+        .first();
 
-    if (!account) {
-      throw new Error("User not found");
+      if (!account) {
+        console.error(`Password reset failed: No account found for email ${email}`);
+        throw new Error("No account found with this email address. Please check your email or sign up for a new account.");
+      }
+
+      // Update the password hash
+      await ctx.db.patch(account._id, {
+        password: passwordHash,
+      } as any); // eslint-disable-line @typescript-eslint/no-explicit-any
+
+      return { success: true };
+    } catch (error) {
+      console.error("Password update error:", error);
+      throw error;
     }
-
-    // Update the password hash
-    await ctx.db.patch(account._id, {
-      password: passwordHash,
-    } as any); // eslint-disable-line @typescript-eslint/no-explicit-any
   },
 });
 
