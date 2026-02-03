@@ -9,7 +9,9 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "seed": "npx convex run seed:seedAll",
-    "prepare": "husky"
+    "prepare": "husky",
+    "add-blog": "node scripts/add-blog.js",
+    "add-newsletter": "node scripts/add-newsletter.js"
   },
   "dependencies": {
     "@convex-dev/better-auth": "^0.10.10",
@@ -24,7 +26,9 @@
     "clsx": "^2.1.1",
     "convex": "^1.31.7",
     "date-fns": "^4.1.0",
+    "dotenv": "^17.2.3",
     "lucide-react": "^0.563.0",
+    "marked": "^17.0.1",
     "motion": "^12.27.0",
     "next": "15.5.9",
     "react": "19.1.0",
@@ -35,14 +39,16 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.24",
     "eslint": "^9",
     "eslint-config-next": "15.5.9",
     "husky": "^9.1.7",
-    "tailwindcss": "^4",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.19",
     "typescript": "^5"
   }
 }

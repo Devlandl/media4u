@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Cabinet+Grotesk:wght@400;500;700&display=swap');
 
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --font-clash: 'Syne', system-ui, sans-serif;
@@ -236,3 +238,37 @@ h1, h2, h3, h4, h5, h6 {
 .stagger-4 { animation-delay: 0.4s; }
 .stagger-5 { animation-delay: 0.5s; }
 .stagger-6 { animation-delay: 0.6s; }
+
+/* REMOVE ALL UNDERLINES - Nuclear option */
+.prose,
+.prose *,
+.prose *::before,
+.prose *::after {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+
+/* Completely override any underline styles */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6,
+.prose p,
+.prose strong,
+.prose em,
+.prose u,
+.prose a,
+.prose code,
+.prose li,
+.prose span,
+.prose div {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  text-decoration-style: none !important;
+  border-bottom-width: 0 !important;
+  border-bottom-style: none !important;
+}

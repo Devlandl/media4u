@@ -10,12 +10,14 @@
 
 import type * as auth from "../auth.js";
 import type * as blog from "../blog.js";
+import type * as cli from "../cli.js";
 import type * as contactSubmissions from "../contactSubmissions.js";
 import type * as devHelpers from "../devHelpers.js";
 import type * as emails from "../emails.js";
 import type * as http from "../http.js";
 import type * as lib_emailTemplates from "../lib/emailTemplates.js";
 import type * as newsletter from "../newsletter.js";
+import type * as newsletters from "../newsletters.js";
 import type * as passwordReset from "../passwordReset.js";
 import type * as portfolio from "../portfolio.js";
 import type * as projectRequests from "../projectRequests.js";
@@ -33,12 +35,14 @@ import type {
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   blog: typeof blog;
+  cli: typeof cli;
   contactSubmissions: typeof contactSubmissions;
   devHelpers: typeof devHelpers;
   emails: typeof emails;
   http: typeof http;
   "lib/emailTemplates": typeof lib_emailTemplates;
   newsletter: typeof newsletter;
+  newsletters: typeof newsletters;
   passwordReset: typeof passwordReset;
   portfolio: typeof portfolio;
   projectRequests: typeof projectRequests;

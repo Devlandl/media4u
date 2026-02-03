@@ -31,6 +31,7 @@ export default function NewsletterEditor({ content, onChange }: NewsletterEditor
       }),
     ],
     content,
+    immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
