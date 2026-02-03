@@ -14,7 +14,7 @@ export function Section({ children, className, id, fullWidth = false }: SectionP
       {fullWidth ? (
         children
       ) : (
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
           {children}
         </div>
       )}
@@ -34,13 +34,13 @@ export function SectionHeader({ tag, title, highlight, description, centered = t
   const titleParts = highlight ? title.split(highlight) : [title];
 
   return (
-    <div className={clsx("mb-12 md:mb-16", centered && "text-center")}>
+    <div className={clsx("mb-12 md:mb-16 w-full", centered && "text-center")}>
       {tag && (
         <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-cyan-400">
           {tag}
         </span>
       )}
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 text-white">
+      <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 text-white break-words">
         {highlight ? (
           <>
             {titleParts[0]}
@@ -52,7 +52,7 @@ export function SectionHeader({ tag, title, highlight, description, centered = t
         )}
       </h2>
       {description && (
-        <p className={clsx("text-gray-400 text-lg max-w-2xl", centered && "mx-auto")}>
+        <p className={clsx("text-gray-400 text-lg max-w-2xl break-words", centered && "mx-auto")}>
           {description}
         </p>
       )}

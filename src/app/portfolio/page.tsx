@@ -138,7 +138,7 @@ export default function PortfolioPage() {
 
   return (
     <div className="min-h-screen mesh-bg">
-      <Section className="pt-32 md:pt-40 px-6 md:px-8 lg:px-12">
+      <Section className="pt-32 md:pt-40">
         <SectionHeader
           tag="Our Work"
           title="Client "
@@ -295,7 +295,7 @@ function ProjectCard({ project, index: _index }: ProjectCardProps) {
         whileHover={{ y: -8 }}
         className="group relative rounded-2xl bg-white/[0.02] border border-white/[0.06] overflow-hidden transition-all duration-300 hover:border-white/[0.12] hover:shadow-[0_0_60px_rgba(0,212,255,0.15)] cursor-pointer h-full"
       >
-      <div className="relative h-48 overflow-hidden bg-gradient-to-br">
+      <div className="relative aspect-video overflow-hidden bg-gradient-to-br">
         {hasImage ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -316,9 +316,9 @@ function ProjectCard({ project, index: _index }: ProjectCardProps) {
             </div>
           </>
         )}
-        <div className="absolute bottom-4 left-4">
+        <div className="absolute top-4 left-4">
           <span
-            className={`inline-block px-3 py-1 text-xs font-semibold rounded-full border ${CATEGORY_COLORS[project.category]}`}
+            className={`inline-block px-3 py-1 text-xs font-semibold rounded-full border backdrop-blur-sm bg-black/40 ${CATEGORY_COLORS[project.category]}`}
           >
             {CATEGORY_LABELS[project.category]}
           </span>

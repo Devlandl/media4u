@@ -34,8 +34,8 @@ export function PortfolioDetailClient({ project }: { project: PortfolioProject }
   return (
     <div className="min-h-screen mesh-bg">
       {/* Hero Section */}
-      <section className="relative py-20 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
+      <section className="relative py-20 md:py-32 px-6 md:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left: Text Content */}
             <motion.div
@@ -85,13 +85,13 @@ export function PortfolioDetailClient({ project }: { project: PortfolioProject }
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   onClick={() => setSelectedImage(mainImage)}
-                  className="cursor-pointer"
+                  className="cursor-pointer bg-black/20 rounded-2xl overflow-hidden"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={mainImage}
                     alt={project.title}
-                    className="w-full aspect-video object-cover rounded-2xl shadow-2xl"
+                    className="w-full h-auto rounded-2xl shadow-2xl"
                   />
                 </motion.div>
               ) : (
@@ -176,7 +176,7 @@ export function PortfolioDetailClient({ project }: { project: PortfolioProject }
                   <img
                     src={image}
                     alt={`Gallery ${idx + 1}`}
-                    className="w-full aspect-video object-cover group-hover:brightness-75 transition-all"
+                    className="w-full h-auto object-cover group-hover:brightness-75 transition-all"
                   />
                 </motion.div>
               ))}
