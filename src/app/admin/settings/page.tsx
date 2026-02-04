@@ -75,7 +75,7 @@ function UserManagementTab() {
   const addUserByEmail = useMutation(api.admin.addUserByEmail);
 
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
-  const [newUserEmail, setNewUserEmail] = useState("");
+  const [newUserId, setNewUserId] = useState("");
   const [newUserRole, setNewUserRole] = useState<"admin" | "user" | "client">("user");
   const [isAdding, setIsAdding] = useState(false);
   const [addMessage, setAddMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -102,9 +102,9 @@ function UserManagementTab() {
     setAddMessage(null);
 
     try {
-      const result = await addUserByEmail({ email: newUserEmail, role: newUserRole });
+      const result = await addUserByEmail({ userId: newUserId, role: newUserRole });
       setAddMessage({ type: "success", text: result.message });
-      setNewUserEmail("");
+      setNewUserId("");
       setNewUserRole("user");
     } catch (error) {
       setAddMessage({
@@ -126,20 +126,20 @@ function UserManagementTab() {
       <div className="glass-elevated rounded-2xl p-6">
         <h2 className="text-xl font-semibold mb-4 text-white">Add User to System</h2>
         <p className="text-sm text-gray-400 mb-4">
-          Enter the email of someone who has already signed up at <Link href="/login" className="underline text-cyan-400">/login</Link>
+          Have the user sign up at <Link href="/login" className="underline text-cyan-400">/login</Link>, then get their User ID from their account settings page and enter it below
         </p>
 
         <form onSubmit={handleAddUser} className="space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-gray-400 mb-2">Email Address</label>
+              <label className="block text-sm text-gray-400 mb-2">User ID</label>
               <input
-                type="email"
+                type="text"
                 required
-                value={newUserEmail}
-                onChange={(e) => setNewUserEmail(e.target.value)}
-                placeholder="user@example.com"
-                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+                value={newUserId}
+                onChange={(e) => setNewUserId(e.target.value)}
+                placeholder="User ID from their settings page"
+                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 font-mono text-sm"
               />
             </div>
             <div>

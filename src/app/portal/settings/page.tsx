@@ -37,6 +37,13 @@ export default function PortalSettingsPage(): ReactElement {
           </h2>
           <div className="space-y-4">
             <div>
+              <label className="text-sm text-gray-400 mb-1 block">User ID</label>
+              <div className="px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white font-mono text-sm break-all">
+                {user?.id}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Share this with an admin to get assigned a role</p>
+            </div>
+            <div>
               <label className="text-sm text-gray-400 mb-1 block">Full Name</label>
               <div className="px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white">
                 {user?.name}
