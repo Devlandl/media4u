@@ -379,3 +379,25 @@ export const linkUserToPayments = internalMutation({
     }
   },
 });
+
+// Admin only - delete order
+export const deleteOrder = mutation({
+  args: {
+    id: v.id("orders"),
+  },
+  handler: async (ctx, { id }) => {
+    await requireAdmin(ctx);
+    await ctx.db.delete(id);
+  },
+});
+
+// Admin only - delete subscription
+export const deleteSubscription = mutation({
+  args: {
+    id: v.id("subscriptions"),
+  },
+  handler: async (ctx, { id }) => {
+    await requireAdmin(ctx);
+    await ctx.db.delete(id);
+  },
+});
