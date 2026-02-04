@@ -15,6 +15,7 @@ import {
   FileText,
   Image as ImageIcon,
   Glasses,
+  Settings,
 } from "lucide-react";
 
 const adminNavItems = [
@@ -26,6 +27,7 @@ const adminNavItems = [
   { href: "/admin/blog", label: "Blog Posts", icon: FileText },
   { href: "/admin/portfolio", label: "Portfolio", icon: ImageIcon },
   { href: "/admin/vr", label: "VR Experiences", icon: Glasses },
+  { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
 export default function AdminLayout({ children }: { children: ReactNode }) {

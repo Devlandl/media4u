@@ -73,48 +73,49 @@ export default function PortalOrdersPage(): ReactElement {
       ) : (
         <div className="space-y-4">
           {orders.map((order: Doc<"orders">, index: number) => (
-            <motion.div
-              key={order._id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              className="glass-elevated rounded-2xl p-6"
-            >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="font-medium text-white text-lg">
-                      {PRODUCT_NAMES[order.productType] ?? order.productType}
-                    </h3>
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-xs font-medium border ${STATUS_STYLES[order.status] ?? STATUS_STYLES.pending}`}
-                    >
-                      {order.status}
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-gray-400">
-                    <span>
-                      Order Date:{" "}
-                      {format(new Date(order.createdAt), "MMM d, yyyy 'at' h:mm a")}
-                    </span>
-                    {order.paidAt && (
-                      <span>
-                        Paid:{" "}
-                        {format(new Date(order.paidAt), "MMM d, yyyy 'at' h:mm a")}
+            <Link href={`/portal/orders/${order._id}`} key={order._id}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="glass-elevated rounded-2xl p-6 cursor-pointer hover:bg-white/5 hover:border-cyan-500/30 transition-all duration-300 group"
+              >
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="font-medium text-white text-lg group-hover:text-cyan-400 transition-colors">
+                        {PRODUCT_NAMES[order.productType] ?? order.productType}
+                      </h3>
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-xs font-medium border ${STATUS_STYLES[order.status] ?? STATUS_STYLES.pending}`}
+                      >
+                        {order.status}
                       </span>
-                    )}
+                    </div>
+                    <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-gray-400">
+                      <span>
+                        Order Date:{" "}
+                        {format(new Date(order.createdAt), "MMM d, yyyy 'at' h:mm a")}
+                      </span>
+                      {order.paidAt && (
+                        <span>
+                          Paid:{" "}
+                          {format(new Date(order.paidAt), "MMM d, yyyy 'at' h:mm a")}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-display font-bold text-white">
+                      ${(order.amount / 100).toFixed(2)}
+                    </div>
+                    <div className="text-sm text-gray-400">
+                      {order.customerEmail}
+                    </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-2xl font-display font-bold text-white">
-                    ${(order.amount / 100).toFixed(2)}
-                  </div>
-                  <div className="text-sm text-gray-400">
-                    {order.customerEmail}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       )}

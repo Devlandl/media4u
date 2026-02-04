@@ -6,12 +6,14 @@ import { motion } from "motion/react";
 import { useAuth } from "@/components/AuthContext";
 import Link from "next/link";
 import Image from "next/image";
-import { Home, ClipboardList, RefreshCw, Globe, LogOut } from "lucide-react";
+import { Home, ClipboardList, RefreshCw, Settings, HelpCircle, Globe, LogOut } from "lucide-react";
 
 const portalNavItems = [
   { href: "/portal", label: "Dashboard", icon: Home },
   { href: "/portal/orders", label: "Orders", icon: ClipboardList },
   { href: "/portal/subscription", label: "Subscription", icon: RefreshCw },
+  { href: "/portal/settings", label: "Settings", icon: Settings },
+  { href: "/portal/support", label: "Support", icon: HelpCircle },
 ];
 
 export default function PortalLayout({ children }: { children: ReactNode }) {
