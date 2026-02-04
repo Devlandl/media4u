@@ -20,6 +20,27 @@ export const submitContact = mutation({
       createdAt: Date.now(),
     });
 
+    // Automatically subscribe to newsletter
+    const existing = await ctx.db
+      .query("newsletterSubscribers")
+      .withIndex("by_email", (q) => q.eq("email", args.email))
+      .first();
+
+    if (!existing) {
+      // New subscriber
+      await ctx.db.insert("newsletterSubscribers", {
+        email: args.email,
+        subscribedAt: Date.now(),
+        unsubscribed: false,
+      });
+    } else if (existing.unsubscribed) {
+      // Resubscribe if they previously unsubscribed
+      await ctx.db.patch(existing._id, {
+        unsubscribed: false,
+        subscribedAt: Date.now(),
+      });
+    }
+
     return id;
   },
 });
