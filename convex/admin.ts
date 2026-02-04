@@ -7,24 +7,16 @@ export const getAllUsers = query({
   handler: async (ctx) => {
     await requireAdmin(ctx);
 
-    // Get all users from Better Auth (users table is managed by Better Auth component)
-    // TypeScript doesn't know about Better Auth tables, so we use type assertion
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const allUsers = await (ctx.db as any).query("users").collect();
-
-    // Get all user roles
+    // Get all user roles - this is our source of truth for managed users
     const userRoles = await ctx.db.query("userRoles").collect();
 
-    // Create a map of userId to role for quick lookup
-    const roleMap = new Map(userRoles.map(r => [r.userId, r.role]));
-
-    // Combine user data with roles
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return allUsers.map((user: any) => ({
-      _id: user._id,
-      name: user.name || "Unknown",
-      email: user.email || "No email",
-      role: roleMap.get(user._id) || "user",
+    // Return simplified user info based on userRoles
+    // We can't easily access Better Auth user data, so just show userId and role
+    return userRoles.map((roleRecord) => ({
+      _id: roleRecord.userId,
+      name: `User ${roleRecord.userId.slice(-8)}`, // Show last 8 chars of ID
+      email: roleRecord.userId, // Show full userId as "email" for now
+      role: roleRecord.role,
     }));
   },
 });
