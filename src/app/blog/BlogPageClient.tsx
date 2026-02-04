@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "convex/react";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { api } from "@convex/_generated/api";
+import { Id } from "@convex/_generated/dataModel";
 import { Loader2, FileText } from "lucide-react";
 
 interface BlogPost {
@@ -90,7 +91,7 @@ const FALLBACK_BLOG_POSTS: BlogPost[] = [
 function BlogCardWithImage({ post, index, featured = false }: { post: BlogPost; index: number; featured?: boolean }) {
   const imageUrl = useQuery(
     api.blog.getImageUrl,
-    post.imageStorageId ? { storageId: post.imageStorageId } : "skip"
+    post.imageStorageId ? { storageId: post.imageStorageId as Id<"_storage"> } : "skip"
   );
 
   return <BlogCard post={{ ...post, imageUrl }} index={index} featured={featured} />;
