@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { useQuery, useMutation, useAction } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Users, Globe, Package, Settings as SettingsIcon, UserPlus, X } from "lucide-react";
 
@@ -71,7 +71,7 @@ function UserManagementTab() {
   const users = useQuery(api.admin.getAllUsers);
   const userRoles = useQuery(api.admin.getAllUserRoles);
   const setUserRole = useMutation(api.auth.setUserRole);
-  const createUser = useAction(api.admin.createUser);
+  const createUser = useMutation(api.admin.createUser);
 
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);

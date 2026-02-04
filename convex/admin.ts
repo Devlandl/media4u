@@ -1,7 +1,6 @@
-import { query, action, internalMutation } from "./_generated/server";
+import { query, mutation, internalMutation } from "./_generated/server";
 import { requireAdmin } from "./auth";
 import { v } from "convex/values";
-import { internal } from "./_generated/api";
 
 export const getAllUsers = query({
   args: {},
@@ -77,7 +76,7 @@ export const setUserRoleInternal = internalMutation({
   },
 });
 
-export const createUser = action({
+export const createUser = mutation({
   args: {
     name: v.string(),
     email: v.string(),
@@ -85,38 +84,43 @@ export const createUser = action({
     role: v.union(v.literal("admin"), v.literal("user"), v.literal("client")),
   },
   handler: async (ctx, args) => {
-    // Verify caller is admin
-    await ctx.runMutation(internal.admin.checkAdminAccess);
+    await requireAdmin(ctx);
 
-    // Call the Better Auth signup endpoint to create the user
-    const response = await fetch(`${process.env.CONVEX_SITE_URL}/api/auth/sign-up`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: args.email,
-        password: args.password,
-        name: args.name,
-      }),
+    // Check if user with this email already exists
+    const existingUser = await ctx.db
+      .query("users")
+      .filter((q) => q.eq(q.field("email"), args.email))
+      .first();
+
+    if (existingUser) {
+      throw new Error("A user with this email already exists");
+    }
+
+    // Hash the password using bcrypt (Better Auth style)
+    const bcrypt = await import("bcryptjs");
+    const hashedPassword = await bcrypt.hash(args.password, 10);
+
+    // Create the user in the Better Auth users table
+    const userId = await ctx.db.insert("users", {
+      email: args.email,
+      name: args.name,
+      emailVerified: false,
+      image: null,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
     });
 
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Failed to create user: ${error}`);
-    }
+    // Create the password record
+    await ctx.db.insert("passwords", {
+      userId: userId as string,
+      password: hashedPassword,
+    });
 
-    const data = await response.json();
-    const userId = data.user?.id;
-
-    if (!userId) {
-      throw new Error("User created but no ID returned");
-    }
-
-    // Set the user's role using internal mutation
-    await ctx.runMutation(internal.admin.setUserRoleInternal, {
-      userId,
+    // Set the user's role
+    await ctx.db.insert("userRoles", {
+      userId: userId as string,
       role: args.role,
+      createdAt: Date.now(),
     });
 
     return { success: true, userId };
