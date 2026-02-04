@@ -1,6 +1,7 @@
-import { query, action } from "./_generated/server";
+import { query, action, internalMutation } from "./_generated/server";
 import { requireAdmin } from "./auth";
 import { v } from "convex/values";
+import { internal } from "./_generated/api";
 
 export const getAllUsers = query({
   args: {},
@@ -46,6 +47,36 @@ export const getAllUserRoles = query({
   },
 });
 
+export const checkAdminAccess = internalMutation({
+  args: {},
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+  },
+});
+
+export const setUserRoleInternal = internalMutation({
+  args: {
+    userId: v.string(),
+    role: v.union(v.literal("admin"), v.literal("user"), v.literal("client")),
+  },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db
+      .query("userRoles")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .first();
+
+    if (existing) {
+      await ctx.db.patch(existing._id, { role: args.role });
+    } else {
+      await ctx.db.insert("userRoles", {
+        userId: args.userId,
+        role: args.role,
+        createdAt: Date.now(),
+      });
+    }
+  },
+});
+
 export const createUser = action({
   args: {
     name: v.string(),
@@ -54,10 +85,8 @@ export const createUser = action({
     role: v.union(v.literal("admin"), v.literal("user"), v.literal("client")),
   },
   handler: async (ctx, args) => {
-    // Verify caller is admin (using internal mutation)
-    await ctx.runMutation(async (ctx) => {
-      await requireAdmin(ctx);
-    });
+    // Verify caller is admin
+    await ctx.runMutation(internal.admin.checkAdminAccess);
 
     // Call the Better Auth signup endpoint to create the user
     const response = await fetch(`${process.env.CONVEX_SITE_URL}/api/auth/sign-up`, {
@@ -84,22 +113,10 @@ export const createUser = action({
       throw new Error("User created but no ID returned");
     }
 
-    // Set the user's role
-    await ctx.runMutation(async (ctx) => {
-      const existing = await ctx.db
-        .query("userRoles")
-        .withIndex("by_userId", (q) => q.eq("userId", userId))
-        .first();
-
-      if (existing) {
-        await ctx.db.patch(existing._id, { role: args.role });
-      } else {
-        await ctx.db.insert("userRoles", {
-          userId,
-          role: args.role,
-          createdAt: Date.now(),
-        });
-      }
+    // Set the user's role using internal mutation
+    await ctx.runMutation(internal.admin.setUserRoleInternal, {
+      userId,
+      role: args.role,
     });
 
     return { success: true, userId };

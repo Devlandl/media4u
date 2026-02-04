@@ -68,13 +68,10 @@ export default function AdminSettingsPage() {
 }
 
 function UserManagementTab() {
-  // @ts-expect-error - admin functions will be available after Convex sync
-  const users = useQuery(api.admin?.getAllUsers);
-  // @ts-expect-error - admin functions will be available after Convex sync
-  const userRoles = useQuery(api.admin?.getAllUserRoles);
+  const users = useQuery(api.admin.getAllUsers);
+  const userRoles = useQuery(api.admin.getAllUserRoles);
   const setUserRole = useMutation(api.auth.setUserRole);
-  // @ts-expect-error - admin functions will be available after Convex sync
-  const createUser = useAction(api.admin?.createUser);
+  const createUser = useAction(api.admin.createUser);
 
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
