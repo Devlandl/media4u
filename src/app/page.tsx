@@ -243,6 +243,161 @@ function AboutSection() {
   );
 }
 
+const possibilities = [
+  {
+    title: "Landing Pages",
+    description: "High-converting single pages that capture leads and drive action",
+    icon: "🎯",
+    color: "from-cyan-500/20 to-cyan-500/5",
+    borderColor: "hover:border-cyan-500/50",
+    examples: ["Product launches", "Event pages", "Lead capture"],
+  },
+  {
+    title: "Business Websites",
+    description: "Professional multi-page sites that establish credibility and trust",
+    icon: "🏢",
+    color: "from-blue-500/20 to-blue-500/5",
+    borderColor: "hover:border-blue-500/50",
+    examples: ["Company sites", "Service businesses", "Portfolios"],
+  },
+  {
+    title: "E-Commerce",
+    description: "Online stores with seamless checkout and inventory management",
+    icon: "🛒",
+    color: "from-green-500/20 to-green-500/5",
+    borderColor: "hover:border-green-500/50",
+    examples: ["Product stores", "Digital downloads", "Subscriptions"],
+  },
+  {
+    title: "Web Applications",
+    description: "Custom apps with user accounts, dashboards, and real-time features",
+    icon: "⚡",
+    color: "from-purple-500/20 to-purple-500/5",
+    borderColor: "hover:border-purple-500/50",
+    examples: ["Client portals", "Booking systems", "SaaS tools"],
+  },
+  {
+    title: "VR Experiences",
+    description: "Immersive 360° environments and virtual storefronts",
+    icon: "🥽",
+    color: "from-pink-500/20 to-pink-500/5",
+    borderColor: "hover:border-pink-500/50",
+    examples: ["Virtual tours", "VR storefronts", "3D showcases"],
+  },
+  {
+    title: "Full Stack Solutions",
+    description: "Complete systems with databases, APIs, and admin panels",
+    icon: "🚀",
+    color: "from-orange-500/20 to-orange-500/5",
+    borderColor: "hover:border-orange-500/50",
+    examples: ["Custom platforms", "Integrations", "Automation"],
+  },
+];
+
+function PossibilitiesSection() {
+  return (
+    <Section className="relative">
+      <AnimatedSection>
+        <div className="text-center mb-12">
+          <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-cyber-cyan">
+            What We Build
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 text-white">
+            What&apos;s <span className="text-gradient">Possible</span>
+          </h2>
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            From simple landing pages to full-stack applications - we build what your business needs
+          </p>
+        </div>
+      </AnimatedSection>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {possibilities.map((item, index) => (
+          <AnimatedSection key={item.title} delay={0.05 * (index + 1)}>
+            <div className={`group relative h-full p-6 rounded-2xl bg-gradient-to-br ${item.color} border border-white/10 ${item.borderColor} transition-all duration-300 hover:scale-[1.02] cursor-pointer`}>
+              <div className="text-4xl mb-4">{item.icon}</div>
+              <h3 className="text-xl font-display font-semibold text-white mb-2">
+                {item.title}
+              </h3>
+              <p className="text-gray-400 text-sm mb-4">
+                {item.description}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {item.examples.map((example) => (
+                  <span
+                    key={example}
+                    className="text-xs px-2 py-1 rounded-full bg-white/5 text-gray-500 group-hover:text-gray-300 transition-colors"
+                  >
+                    {example}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </AnimatedSection>
+        ))}
+      </div>
+
+      <AnimatedSection delay={0.4}>
+        <div className="text-center mt-10">
+          <Link href="/start-project">
+            <Button variant="secondary">Start Your Project</Button>
+          </Link>
+        </div>
+      </AnimatedSection>
+    </Section>
+  );
+}
+
+const processSteps = [
+  { number: "01", title: "Discovery", description: "We learn about your goals and vision" },
+  { number: "02", title: "Design", description: "We create mockups you can see and feel" },
+  { number: "03", title: "Build", description: "We develop your project with care" },
+  { number: "04", title: "Launch", description: "We deploy and celebrate together" },
+];
+
+function ProcessSection() {
+  return (
+    <Section className="relative">
+      <AnimatedSection>
+        <div className="text-center mb-12">
+          <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-cyber-purple">
+            How It Works
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 text-white">
+            Simple <span className="text-gradient">Process</span>
+          </h2>
+          <p className="text-gray-400 text-lg max-w-xl mx-auto">
+            From idea to launch in four clear steps
+          </p>
+        </div>
+      </AnimatedSection>
+
+      <div className="relative">
+        {/* Connection line - hidden on mobile */}
+        <div className="hidden md:block absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-y-1/2" />
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {processSteps.map((step, index) => (
+            <AnimatedSection key={step.number} delay={0.1 * (index + 1)}>
+              <div className="relative text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-cyber-cyan/20 via-cyber-purple/20 to-cyber-magenta/20 border border-white/10 mb-4">
+                  <span className="text-xl font-bold text-white">{step.number}</span>
+                </div>
+                <h3 className="text-lg font-display font-semibold text-white mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-gray-500 text-sm">
+                  {step.description}
+                </p>
+              </div>
+            </AnimatedSection>
+          ))}
+        </div>
+      </div>
+    </Section>
+  );
+}
+
 function CTASection() {
   return (
     <Section className="relative">
@@ -276,6 +431,8 @@ export default function HomePage() {
   return (
     <main className="relative mesh-bg">
       <HeroSection />
+      <PossibilitiesSection />
+      <ProcessSection />
       <ServicesSection />
       <AboutSection />
       <CTASection />
