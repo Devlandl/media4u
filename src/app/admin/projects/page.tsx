@@ -122,7 +122,7 @@ export default function ProjectsAdminPage() {
     setIsAddModalOpen(false);
   }
 
-  async function handleUpdateField(field: string, value: string) {
+  async function handleUpdateField(field: string, value: string | string[]) {
     if (!selected) return;
     await updateProject({
       id: selected._id,
@@ -297,6 +297,52 @@ export default function ProjectsAdminPage() {
                     <p className="text-white">{selected.timeline}</p>
                   </div>
                 )}
+              </div>
+
+              {/* Technical Requirements */}
+              <div className="pt-4 border-t border-white/10">
+                <p className="text-sm font-semibold text-white mb-4">Technical Requirements</p>
+
+                <div className="space-y-4">
+                  {/* Backend Complexity */}
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">Backend Complexity</p>
+                    <select
+                      value={selected.backendComplexity || "none"}
+                      onChange={(e) => handleUpdateField("backendComplexity", e.target.value)}
+                      className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                    >
+                      <option value="none">None - Static/Frontend Only</option>
+                      <option value="simple">Simple - Forms & Email Only</option>
+                      <option value="standard">Standard - Database + Auth</option>
+                      <option value="fullstack">Full Stack - Complex Backend + APIs</option>
+                    </select>
+                  </div>
+
+                  {/* Technical Features */}
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">Additional Features</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {["User Authentication", "Admin Dashboard", "Database", "Payment Processing", "E-commerce", "API Integrations", "VR/3D Content", "Real-time Features"].map((feature) => (
+                        <label key={feature} className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors">
+                          <input
+                            type="checkbox"
+                            checked={selected.technicalFeatures?.includes(feature) || false}
+                            onChange={(e) => {
+                              const current = selected.technicalFeatures || [];
+                              const updated = e.target.checked
+                                ? [...current, feature]
+                                : current.filter((f: string) => f !== feature);
+                              handleUpdateField("technicalFeatures", updated);
+                            }}
+                            className="w-4 h-4 rounded border-white/10 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
+                          />
+                          <span className="text-sm text-gray-300">{feature}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Live URL (editable) */}

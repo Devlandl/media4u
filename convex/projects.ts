@@ -50,6 +50,8 @@ export const createProject = mutation({
       notes: args.notes || "",
       liveUrl: undefined,
       leadId: undefined,
+      backendComplexity: undefined,
+      technicalFeatures: undefined,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -89,6 +91,8 @@ export const createProjectFromLead = mutation({
       notes: `Converted from lead. Original notes: ${lead.notes}`,
       liveUrl: undefined,
       leadId: args.leadId,
+      backendComplexity: undefined,
+      technicalFeatures: undefined,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -128,6 +132,13 @@ export const updateProject = mutation({
     ),
     notes: v.optional(v.string()),
     liveUrl: v.optional(v.string()),
+    backendComplexity: v.optional(v.union(
+      v.literal("none"),
+      v.literal("simple"),
+      v.literal("standard"),
+      v.literal("fullstack")
+    )),
+    technicalFeatures: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
@@ -165,6 +176,8 @@ export const createProjectFromRequest = mutation({
       notes: `Converted from project request.\n\nOriginal request details:\n- Primary Goal: ${request.primaryGoal || "N/A"}\n- Features: ${request.features?.join(", ") || "N/A"}\n- Look & Feel: ${request.lookAndFeel || "N/A"}`,
       liveUrl: undefined,
       leadId: undefined,
+      backendComplexity: undefined,
+      technicalFeatures: undefined,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });

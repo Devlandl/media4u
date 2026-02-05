@@ -166,6 +166,14 @@ export default defineSchema({
     notes: v.string(),
     liveUrl: v.optional(v.string()), // URL when site is launched
     leadId: v.optional(v.id("leads")), // Link back to original lead
+    // Technical Requirements
+    backendComplexity: v.optional(v.union(
+      v.literal("none"),
+      v.literal("simple"),
+      v.literal("standard"),
+      v.literal("fullstack")
+    )),
+    technicalFeatures: v.optional(v.array(v.string())), // e.g., ["authentication", "database", "payment"]
     createdAt: v.number(),
     updatedAt: v.number(),
   })
