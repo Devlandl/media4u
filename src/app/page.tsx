@@ -91,8 +91,8 @@ function HeroSection() {
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <Link href="/contact">
-            <Button size="lg">Build My Website</Button>
+          <Link href="/start-project">
+            <Button size="lg">Start Your Project</Button>
           </Link>
           <Link href="/vr">
             <Button variant="secondary" size="lg">Explore VR Experiences</Button>
@@ -248,8 +248,8 @@ function CTASection() {
             Whether you&apos;re starting with a professional website, elevating your brand with custom design, or creating an immersive VR experience-we&apos;re here to help you show up with clarity and confidence.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
-              <Button size="lg">Start My Website Project</Button>
+            <Link href="/start-project">
+              <Button size="lg">Start Your Project</Button>
             </Link>
             <Link href="/services">
               <Button variant="secondary" size="lg">Explore All Services</Button>

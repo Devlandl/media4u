@@ -283,7 +283,6 @@ export function StartProjectContent(): ReactElement {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -4 }}
-                className={addon.highlight ? "md:col-span-2 lg:col-span-3" : ""}
               >
                 <Card className={`relative overflow-hidden h-full group ${addon.highlight ? "border-purple-500/30" : ""}`}>
                   {/* Background gradient */}

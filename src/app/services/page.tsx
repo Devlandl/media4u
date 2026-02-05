@@ -89,9 +89,9 @@ const services = [
         className="w-full h-full"
       >
         <defs>
-          <linearGradient id="vr-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00d4ff" />
-            <stop offset="100%" stopColor="#8b5cf6" />
+          <linearGradient id="branding-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#8b5cf6" />
+            <stop offset="100%" stopColor="#ff2d92" />
           </linearGradient>
         </defs>
         <rect
@@ -100,27 +100,27 @@ const services = [
           width="70"
           height="40"
           rx="8"
-          stroke="url(#vr-grad)"
+          stroke="url(#branding-grad)"
           strokeWidth="2"
           fill="none"
         />
-        <circle cx="35" cy="50" r="8" stroke="url(#vr-grad)" strokeWidth="2" fill="none" />
-        <circle cx="65" cy="50" r="8" stroke="url(#vr-grad)" strokeWidth="2" fill="none" />
+        <circle cx="35" cy="50" r="8" stroke="url(#branding-grad)" strokeWidth="2" fill="none" />
+        <circle cx="65" cy="50" r="8" stroke="url(#branding-grad)" strokeWidth="2" fill="none" />
         <path
           d="M10 50 L15 50"
-          stroke="url(#vr-grad)"
+          stroke="url(#branding-grad)"
           strokeWidth="2"
           strokeLinecap="round"
         />
         <path
           d="M85 50 L90 50"
-          stroke="url(#vr-grad)"
+          stroke="url(#branding-grad)"
           strokeWidth="2"
           strokeLinecap="round"
         />
         <path
           d="M43 50 L57 50"
-          stroke="url(#vr-grad)"
+          stroke="url(#branding-grad)"
           strokeWidth="2"
           strokeLinecap="round"
         />
@@ -301,9 +301,9 @@ function ServiceCard({ service, isReversed }: ServiceCardProps): React.ReactNode
           ))}
         </ul>
 
-        <Link href="/contact">
+        <Link href="/start-project">
           <Button variant="secondary" size="md">
-            Learn More
+            Get Started
           </Button>
         </Link>
       </div>
