@@ -4,8 +4,8 @@ import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import { ToastProvider } from "@/components/ui/toast-provider";
 import { AuthProvider } from "@/components/AuthContext";
 import { LayoutWrapper } from "@/components/layout/layout-wrapper";
-import { CursorTrail } from "@/components/effects/cursor-trail";
 import { AnimatedMesh } from "@/components/effects/animated-mesh";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 
 export const metadata: Metadata = {
   title: {
@@ -131,11 +131,68 @@ export default function RootLayout({
           }}
         />
 
+        {/* Enhanced Service Schemas */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                '@context': 'https://schema.org',
+                '@type': 'Service',
+                serviceType: 'Web Design & Development',
+                provider: {
+                  '@type': 'Organization',
+                  name: 'Media4U',
+                  url: 'https://media4u.fun',
+                },
+                areaServed: 'Global',
+                description: 'Modern, mobile-responsive websites built for businesses, creators, and brands. From landing pages to full eCommerce - we build sites that convert.',
+                offers: {
+                  '@type': 'Offer',
+                  priceCurrency: 'USD',
+                  price: '899',
+                  priceSpecification: {
+                    '@type': 'PriceSpecification',
+                    minPrice: '899',
+                    maxPrice: '1399',
+                    priceCurrency: 'USD',
+                  },
+                },
+              },
+              {
+                '@context': 'https://schema.org',
+                '@type': 'Service',
+                serviceType: 'VR Development',
+                provider: {
+                  '@type': 'Organization',
+                  name: 'Media4U',
+                  url: 'https://media4u.fun',
+                },
+                areaServed: 'Global',
+                description: 'Custom virtual reality environments, immersive storefronts, and VR experiences that bring brands into the future.',
+                category: 'Virtual Reality Development',
+              },
+              {
+                '@context': 'https://schema.org',
+                '@type': 'Service',
+                serviceType: 'Branding & Design',
+                provider: {
+                  '@type': 'Organization',
+                  name: 'Media4U',
+                  url: 'https://media4u.fun',
+                },
+                areaServed: 'Global',
+                description: 'Logos, social graphics, video assets, and promotional content that make brands stand out across web, social, and VR platforms.',
+              },
+            ]),
+          }}
+        />
+
+        <GoogleAnalytics />
         <ConvexClientProvider>
           <AuthProvider>
             <ToastProvider />
             <AnimatedMesh />
-            <CursorTrail />
             <LayoutWrapper>{children}</LayoutWrapper>
           </AuthProvider>
         </ConvexClientProvider>

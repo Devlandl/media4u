@@ -8,6 +8,7 @@ import { Section, SectionHeader } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { api } from "@convex/_generated/api";
 import Link from "next/link";
+import Image from "next/image";
 import { Palette } from "lucide-react";
 
 type ProjectCategory = "all" | "vr" | "web" | "integrated";
@@ -301,11 +302,12 @@ function ProjectCard({ project, index: _index }: ProjectCardProps) {
       <div className="relative aspect-video overflow-hidden bg-gradient-to-br">
         {hasImage ? (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={project.images![0]}
               alt={project.title}
-              className="w-full h-full object-cover object-top"
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
           </>

@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import { motion, useInView } from "motion/react";
 import { Button, Section, SectionHeader, Card, CardIcon } from "@/components/ui";
-import { VRHeadset3D } from "@/components/effects/vr-headset-3d";
+import { VRSphere360 } from "@/components/effects/vr-sphere-360";
 
 function AnimatedSection({
   children,
@@ -72,7 +72,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-tight text-white"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight text-white"
         >
           Professional Websites That Convert and VR Experiences That Wow
         </motion.h1>
@@ -81,7 +81,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10"
+          className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-10"
         >
           We build modern, high-performing websites that help your business grow. Need to go further? We create immersive VR storefronts and virtual experiences that bring your brand into the future.
         </motion.p>
@@ -90,7 +90,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+          className="flex flex-col sm:flex-row gap-4 justify-center mb-8"
         >
           <Link href="/start-project">
             <Button size="lg">Start Your Project</Button>
@@ -100,14 +100,14 @@ function HeroSection() {
           </Link>
         </motion.div>
 
-        {/* 3D VR Headset */}
+        {/* 360° VR Environment Sphere */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-          className="h-80 md:h-96"
+          className="h-96 md:h-[500px]"
         >
-          <VRHeadset3D />
+          <VRSphere360 />
         </motion.div>
       </div>
     </section>

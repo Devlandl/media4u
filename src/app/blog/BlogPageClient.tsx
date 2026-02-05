@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import Link from "next/link";
+import Image from "next/image";
 import { useMutation, useQuery } from "convex/react";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
@@ -112,10 +113,12 @@ function BlogCard({ post, index, featured = false }: { post: BlogPost; index: nu
       <div className={`relative ${featured ? "h-64 md:h-80" : "h-48"} overflow-hidden`}>
         {post.imageUrl ? (
           <>
-            <img
+            <Image
               src={post.imageUrl}
               alt={post.title}
-              className="absolute inset-0 w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-void-950 via-transparent to-transparent" />
           </>
