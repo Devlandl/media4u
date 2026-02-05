@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Send } from "lucide-react";
 
+// Reusable modal for sending email replies from admin panel
 interface EmailReplyModalProps {
   isOpen: boolean;
   onClose: () => void;
