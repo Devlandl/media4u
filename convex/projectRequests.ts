@@ -12,6 +12,14 @@ export const submitProjectRequest = mutation({
     description: v.string(),
     timeline: v.string(),
     budget: v.string(),
+    // Enhanced Build Path fields
+    vision: v.optional(v.string()),
+    primaryGoal: v.optional(v.string()),
+    features: v.optional(v.array(v.string())),
+    lookAndFeel: v.optional(v.string()),
+    growthStage: v.optional(v.string()),
+    optionalEnhancements: v.optional(v.array(v.string())),
+    userId: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const id = await ctx.db.insert("projectRequests", {
@@ -24,6 +32,14 @@ export const submitProjectRequest = mutation({
       budget: args.budget,
       status: "new",
       createdAt: Date.now(),
+      // Enhanced Build Path fields
+      vision: args.vision,
+      primaryGoal: args.primaryGoal,
+      features: args.features,
+      lookAndFeel: args.lookAndFeel,
+      growthStage: args.growthStage,
+      optionalEnhancements: args.optionalEnhancements,
+      userId: args.userId,
     });
 
     return id;

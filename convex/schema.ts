@@ -107,10 +107,19 @@ export default defineSchema({
     status: v.union(v.literal("new"), v.literal("contacted"), v.literal("quoted"), v.literal("accepted"), v.literal("declined")),
     createdAt: v.number(),
     notes: v.optional(v.string()),
+    // Enhanced Build Path fields
+    vision: v.optional(v.string()),
+    primaryGoal: v.optional(v.string()),
+    features: v.optional(v.array(v.string())),
+    lookAndFeel: v.optional(v.string()),
+    growthStage: v.optional(v.string()),
+    optionalEnhancements: v.optional(v.array(v.string())),
+    userId: v.optional(v.string()), // Link to authenticated user
   })
     .index("by_status", ["status"])
     .index("by_created", ["createdAt"])
-    .index("by_email", ["email"]),
+    .index("by_email", ["email"])
+    .index("by_userId", ["userId"]),
 
   // Newsletter subscribers
   newsletterSubscribers: defineTable({
