@@ -2,11 +2,12 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Mail } from "lucide-react";
+import { Mail, Send } from "lucide-react";
+import { EmailReplyModal } from "@/components/admin/EmailReplyModal";
 
 type ProjectStatus = "new" | "contacted" | "quoted" | "accepted" | "declined";
 
@@ -31,10 +32,12 @@ export default function ProjectRequestsAdminPage() {
   const updateStatus = useMutation(api.projectRequests.updateProjectStatus);
   const deleteRequest = useMutation(api.projectRequests.deleteProjectRequest);
   const subscribeToNewsletter = useMutation(api.newsletter.subscribeToNewsletter);
+  const sendEmailReply = useAction(api.emailReplies.sendEmailReply);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<ProjectStatus | "all">("all");
   const [subscribing, setSubscribing] = useState<string | null>(null);
+  const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
 
   const filtered =
     requests && filterStatus !== "all"
@@ -73,6 +76,20 @@ export default function ProjectRequestsAdminPage() {
     } finally {
       setSubscribing(null);
     }
+  }
+
+  async function handleSendReply(message: string) {
+    if (!selected) return;
+
+    await sendEmailReply({
+      to: selected.email,
+      subject: `Re: Your Project Request - ${selected.projectTypes.join(", ")}`,
+      message,
+      recipientName: selected.name,
+    });
+
+    // Mark as contacted
+    await handleStatusChange(selected._id, "contacted");
   }
 
   return (
@@ -171,10 +188,17 @@ export default function ProjectRequestsAdminPage() {
 
               <div>
                 <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 flex-wrap">
                   <a href={`mailto:${selected.email}`} className="text-cyan-400 hover:text-cyan-300">
                     {selected.email}
                   </a>
+                  <button
+                    onClick={() => setIsReplyModalOpen(true)}
+                    className="px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors border border-cyan-500/50 text-xs font-medium flex items-center gap-1"
+                  >
+                    <Send className="w-3 h-3" />
+                    Reply
+                  </button>
                   <button
                     onClick={() => handleAddToNewsletter(selected.email, selected._id)}
                     disabled={subscribing === selected._id}
@@ -262,6 +286,18 @@ export default function ProjectRequestsAdminPage() {
           )}
         </motion.div>
       </div>
+
+      {/* Email Reply Modal */}
+      {selected && (
+        <EmailReplyModal
+          isOpen={isReplyModalOpen}
+          onClose={() => setIsReplyModalOpen(false)}
+          recipientEmail={selected.email}
+          recipientName={selected.name}
+          subject={`Re: Your Project Request - ${selected.projectTypes.join(", ")}`}
+          onSend={handleSendReply}
+        />
+      )}
     </div>
   );
 }

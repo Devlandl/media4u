@@ -2,11 +2,12 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Search } from "lucide-react";
+import { Search, Mail } from "lucide-react";
+import { EmailReplyModal } from "@/components/admin/EmailReplyModal";
 
 type ContactStatus = "new" | "read" | "replied";
 
@@ -26,9 +27,11 @@ export default function ContactsAdminPage() {
   const submissions = useQuery(api.contactSubmissions.getContactSubmissions, {});
   const updateStatus = useMutation(api.contactSubmissions.updateContactStatus);
   const deleteSubmission = useMutation(api.contactSubmissions.deleteContactSubmission);
+  const sendEmailReply = useAction(api.emailReplies.sendEmailReply);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<ContactStatus | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
 
   // Filter by status first, then search
   let filtered = submissions;
@@ -56,6 +59,20 @@ export default function ContactsAdminPage() {
       await deleteSubmission({ id });
       setSelectedId(null);
     }
+  }
+
+  async function handleSendReply(message: string) {
+    if (!selected) return;
+
+    await sendEmailReply({
+      to: selected.email,
+      subject: `Re: ${selected.service} Inquiry`,
+      message,
+      recipientName: selected.name,
+    });
+
+    // Mark as replied
+    await handleStatusChange(selected._id, "replied");
   }
 
   return (
@@ -159,9 +176,18 @@ export default function ContactsAdminPage() {
 
               <div>
                 <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
-                <a href={`mailto:${selected.email}`} className="text-cyan-400 hover:text-cyan-300">
-                  {selected.email}
-                </a>
+                <div className="flex items-center gap-3">
+                  <a href={`mailto:${selected.email}`} className="text-cyan-400 hover:text-cyan-300">
+                    {selected.email}
+                  </a>
+                  <button
+                    onClick={() => setIsReplyModalOpen(true)}
+                    className="px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors border border-cyan-500/50 text-xs font-medium flex items-center gap-1"
+                  >
+                    <Mail className="w-3 h-3" />
+                    Reply
+                  </button>
+                </div>
               </div>
 
               <div>
@@ -209,6 +235,18 @@ export default function ContactsAdminPage() {
           )}
         </motion.div>
       </div>
+
+      {/* Email Reply Modal */}
+      {selected && (
+        <EmailReplyModal
+          isOpen={isReplyModalOpen}
+          onClose={() => setIsReplyModalOpen(false)}
+          recipientEmail={selected.email}
+          recipientName={selected.name}
+          subject={`Re: ${selected.service} Inquiry`}
+          onSend={handleSendReply}
+        />
+      )}
     </div>
   );
 }
