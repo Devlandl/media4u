@@ -11,8 +11,8 @@ interface TrailPoint {
 export function CursorTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const trailPoints = useRef<TrailPoint[]>([]);
-  const mousePosition = useRef({ x: 0, y: 0 });
-  const animationFrameId = useRef<number>();
+  const mousePosition = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const animationFrameId = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     const canvas = canvasRef.current;

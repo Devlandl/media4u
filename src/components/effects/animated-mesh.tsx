@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 
 export function AnimatedMesh() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationFrameId = useRef<number>();
-  const timeRef = useRef(0);
+  const animationFrameId = useRef<number | undefined>(undefined);
+  const timeRef = useRef<number>(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
