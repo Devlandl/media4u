@@ -6,7 +6,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Phone, Mail, MapPin, Bug, Home, Trash2 } from "lucide-react";
+import { Phone, Mail, DollarSign, Briefcase, Building2, Trash2 } from "lucide-react";
 
 type QuoteStatus = "new" | "contacted" | "quoted" | "closed";
 
@@ -172,25 +172,25 @@ export default function QuotesAdminPage() {
 
               <div className="grid md:grid-cols-3 gap-6">
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Pest Issue</p>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Service Needed</p>
                   <p className="text-white flex items-center gap-2">
-                    <Bug className="w-4 h-4 text-red-400" />
+                    <Briefcase className="w-4 h-4 text-cyan-400" />
                     {selected.issueType}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Property Type</p>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Business Type</p>
                   <p className="text-white flex items-center gap-2">
-                    <Home className="w-4 h-4 text-blue-400" />
+                    <Building2 className="w-4 h-4 text-blue-400" />
                     {selected.propertyType}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Zip Code</p>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Budget</p>
                   <p className="text-white flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-green-400" />
+                    <DollarSign className="w-4 h-4 text-green-400" />
                     {selected.zipCode}
                   </p>
                 </div>
