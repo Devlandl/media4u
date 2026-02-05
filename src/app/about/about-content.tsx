@@ -372,9 +372,9 @@ export function AboutContent(): ReactElement {
               transition={{ delay: 0.4, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <Link href="/contact" className="w-full sm:w-auto">
+              <Link href="/start-project" className="w-full sm:w-auto">
                 <Button size="lg" className="w-full sm:w-auto">
-                  Start a Website Project
+                  Start Your Project
                 </Button>
               </Link>
               <Link href="/services" className="w-full sm:w-auto">

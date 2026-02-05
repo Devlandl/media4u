@@ -226,7 +226,10 @@ function ProjectGrid({ projects, isLoading }: ProjectGridProps) {
           <Palette className="w-16 h-16 text-gray-400" />
         </div>
         <h3 className="text-2xl font-display font-bold text-white mb-2">No Projects Found</h3>
-        <p className="text-gray-400">Try selecting a different category or check back soon!</p>
+        <p className="text-gray-400 mb-6">Try selecting a different category or check back soon!</p>
+        <Link href="/start-project">
+          <Button>Start Your Project</Button>
+        </Link>
       </motion.div>
     );
   }
