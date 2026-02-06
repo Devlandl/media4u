@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { motion } from "motion/react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
@@ -19,7 +19,20 @@ import {
   Send,
 } from "lucide-react";
 
+// Wrap the main content in Suspense for useSearchParams
 export default function CommunitySubmitPage() {
+  return (
+    <Suspense fallback={
+      <div className="mesh-bg min-h-screen pt-24 pb-16 flex items-center justify-center">
+        <div className="text-gray-400">Loading...</div>
+      </div>
+    }>
+      <CommunitySubmitContent />
+    </Suspense>
+  );
+}
+
+function CommunitySubmitContent() {
   const searchParams = useSearchParams();
   const token = searchParams?.get("token") || "";
 
