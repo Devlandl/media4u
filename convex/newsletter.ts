@@ -6,10 +6,13 @@ export const subscribeToNewsletter = mutation({
     email: v.string(),
   },
   handler: async (ctx, args) => {
-    // Check if email already exists
+    // Normalize email to lowercase to prevent duplicates
+    const normalizedEmail = args.email.toLowerCase().trim();
+
+    // Check if email already exists (case insensitive)
     const existing = await ctx.db
       .query("newsletterSubscribers")
-      .withIndex("by_email", (q) => q.eq("email", args.email))
+      .withIndex("by_email", (q) => q.eq("email", normalizedEmail))
       .first();
 
     if (existing) {
@@ -25,9 +28,9 @@ export const subscribeToNewsletter = mutation({
       return { success: false, error: "Email already subscribed", id: existing._id };
     }
 
-    // Create new subscription
+    // Create new subscription with normalized email
     const id = await ctx.db.insert("newsletterSubscribers", {
-      email: args.email,
+      email: normalizedEmail,
       subscribedAt: Date.now(),
       unsubscribed: false,
     });

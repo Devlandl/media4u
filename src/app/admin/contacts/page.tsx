@@ -6,7 +6,7 @@ import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Search, Mail } from "lucide-react";
+import { Search, Mail, FolderPlus } from "lucide-react";
 import { EmailReplyModal } from "@/components/admin/EmailReplyModal";
 
 type ContactStatus = "new" | "read" | "replied";
@@ -28,6 +28,7 @@ export default function ContactsAdminPage() {
   const updateStatus = useMutation(api.contactSubmissions.updateContactStatus);
   const deleteSubmission = useMutation(api.contactSubmissions.deleteContactSubmission);
   const sendEmailReply = useAction(api.emailReplies.sendEmailReply);
+  const convertToProject = useMutation(api.contactSubmissions.createProjectFromContact);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<ContactStatus | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -73,6 +74,14 @@ export default function ContactsAdminPage() {
 
     // Mark as replied
     await handleStatusChange(selected._id, "replied");
+  }
+
+  async function handleConvertToProject(id: Id<"contactSubmissions">) {
+    if (confirm("Convert this contact submission to a project?")) {
+      await convertToProject({ contactId: id });
+      setSelectedId(null);
+      alert("Project created successfully!");
+    }
   }
 
   return (
@@ -220,6 +229,14 @@ export default function ContactsAdminPage() {
                   ))}
                 </div>
               </div>
+
+              <button
+                onClick={() => handleConvertToProject(selected._id)}
+                className="w-full px-4 py-3 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 transition-all border border-cyan-500/30 font-medium flex items-center justify-center gap-2"
+              >
+                <FolderPlus className="w-4 h-4" />
+                Convert to Project
+              </button>
 
               <button
                 onClick={() => handleDelete(selected._id)}

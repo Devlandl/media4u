@@ -20,16 +20,17 @@ export const submitContact = mutation({
       createdAt: Date.now(),
     });
 
-    // Automatically subscribe to newsletter
+    // Automatically subscribe to newsletter (case insensitive)
+    const normalizedEmail = args.email.toLowerCase().trim();
     const existing = await ctx.db
       .query("newsletterSubscribers")
-      .withIndex("by_email", (q) => q.eq("email", args.email))
+      .withIndex("by_email", (q) => q.eq("email", normalizedEmail))
       .first();
 
     if (!existing) {
       // New subscriber
       await ctx.db.insert("newsletterSubscribers", {
-        email: args.email,
+        email: normalizedEmail,
         subscribedAt: Date.now(),
         unsubscribed: false,
       });
@@ -97,5 +98,49 @@ export const deleteContactSubmission = mutation({
     await requireAdmin(ctx);
 
     await ctx.db.delete(args.id);
+  },
+});
+
+// Convert contact submission to project
+export const createProjectFromContact = mutation({
+  args: {
+    contactId: v.id("contactSubmissions"),
+  },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
+    // Get the contact submission
+    const contact = await ctx.db.get(args.contactId);
+    if (!contact) {
+      throw new Error("Contact submission not found");
+    }
+
+    // Create project with contact info
+    const projectId = await ctx.db.insert("projects", {
+      name: contact.name,
+      email: contact.email,
+      company: undefined,
+      phone: undefined,
+      projectType: contact.service,
+      description: contact.message,
+      requirements: undefined,
+      budget: undefined,
+      timeline: undefined,
+      status: "new",
+      notes: `Converted from contact form submission.\n\nOriginal message:\n${contact.message}`,
+      liveUrl: undefined,
+      leadId: undefined,
+      backendComplexity: undefined,
+      technicalFeatures: undefined,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    });
+
+    // Update contact status to replied
+    await ctx.db.patch(args.contactId, {
+      status: "replied",
+    });
+
+    return projectId;
   },
 });

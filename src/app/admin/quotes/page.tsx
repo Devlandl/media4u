@@ -6,7 +6,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Phone, Mail, DollarSign, Briefcase, Building2, Trash2 } from "lucide-react";
+import { Phone, Mail, DollarSign, Briefcase, Building2, Trash2, FolderPlus } from "lucide-react";
 
 type QuoteStatus = "new" | "contacted" | "quoted" | "closed";
 
@@ -28,6 +28,7 @@ export default function QuotesAdminPage() {
   const quotes = useQuery(api.quoteRequests.getAllQuoteRequests, {});
   const updateStatus = useMutation(api.quoteRequests.updateQuoteRequestStatus);
   const deleteQuote = useMutation(api.quoteRequests.deleteQuoteRequest);
+  const convertToProject = useMutation(api.quoteRequests.createProjectFromQuoteRequest);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<QuoteStatus | "all">("all");
@@ -47,6 +48,14 @@ export default function QuotesAdminPage() {
     if (confirm("Delete this quote request?")) {
       await deleteQuote({ id });
       setSelectedId(null);
+    }
+  }
+
+  async function handleConvertToProject(id: Id<"quoteRequests">) {
+    if (confirm("Convert this quote request to a project?")) {
+      await convertToProject({ quoteId: id });
+      setSelectedId(null);
+      alert("Project created successfully!");
     }
   }
 
@@ -228,6 +237,14 @@ export default function QuotesAdminPage() {
                   ))}
                 </div>
               </div>
+
+              <button
+                onClick={() => handleConvertToProject(selected._id)}
+                className="w-full px-4 py-3 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 transition-all border border-cyan-500/30 font-medium flex items-center justify-center gap-2"
+              >
+                <FolderPlus className="w-4 h-4" />
+                Convert to Project
+              </button>
 
               <button
                 onClick={() => handleDelete(selected._id)}

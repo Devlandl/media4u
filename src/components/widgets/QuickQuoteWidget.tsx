@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { useMutation } from "convex/react";
+import { useMutation, useAction } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { MessageCircle, X, Send, CheckCircle } from "lucide-react";
 
@@ -32,6 +32,7 @@ export function QuickQuoteWidget() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const createQuoteRequest = useMutation(api.quoteRequests.createQuoteRequest);
+  const sendNotification = useAction(api.quoteRequests.sendQuoteNotification);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -61,6 +62,17 @@ export function QuickQuoteWidget() {
         issueType: formData.serviceType,
         propertyType: formData.businessType,
         zipCode: formData.budget || "Not specified",
+        description: formData.description || undefined,
+      });
+
+      // Send email notification to Media4U
+      await sendNotification({
+        name: formData.name,
+        email: formData.email || undefined,
+        phone: formData.phone || "",
+        serviceType: formData.serviceType,
+        businessType: formData.businessType,
+        budget: formData.budget || "Not specified",
         description: formData.description || undefined,
       });
 
