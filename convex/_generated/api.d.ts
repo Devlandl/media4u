@@ -12,6 +12,7 @@ import type * as admin from "../admin.js";
 import type * as auth from "../auth.js";
 import type * as blog from "../blog.js";
 import type * as cli from "../cli.js";
+import type * as community from "../community.js";
 import type * as contactSubmissions from "../contactSubmissions.js";
 import type * as devHelpers from "../devHelpers.js";
 import type * as emailReplies from "../emailReplies.js";
@@ -42,6 +43,7 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   blog: typeof blog;
   cli: typeof cli;
+  community: typeof community;
   contactSubmissions: typeof contactSubmissions;
   devHelpers: typeof devHelpers;
   emailReplies: typeof emailReplies;

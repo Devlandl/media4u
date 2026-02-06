@@ -1,0 +1,507 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { motion } from "motion/react";
+import { useQuery, useMutation, useAction } from "convex/react";
+import { api } from "@convex/_generated/api";
+import { useState } from "react";
+import { Id } from "@convex/_generated/dataModel";
+import {
+  Send,
+  Users,
+  Mail,
+  Clock,
+  CheckCircle,
+  XCircle,
+  Star,
+  Trash2,
+  RefreshCw,
+  ExternalLink,
+  Globe,
+} from "lucide-react";
+
+type TabType = "invites" | "pending" | "members";
+
+const statusColors: Record<string, string> = {
+  pending: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+  submitted: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+  approved: "bg-green-500/20 text-green-400 border-green-500/30",
+  revoked: "bg-red-500/20 text-red-400 border-red-500/30",
+  expired: "bg-gray-500/20 text-gray-400 border-gray-500/30",
+};
+
+export default function CommunityAdminPage() {
+  const [activeTab, setActiveTab] = useState<TabType>("invites");
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+
+  return (
+    <div>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8"
+      >
+        <h1 className="text-4xl font-display font-bold mb-2">VR Multiverse Community</h1>
+        <p className="text-gray-400">Manage invites and community members</p>
+      </motion.div>
+
+      {/* Tabs */}
+      <div className="flex gap-3 mb-6 border-b border-white/10 pb-4">
+        <button
+          onClick={() => setActiveTab("invites")}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+            activeTab === "invites"
+              ? "bg-cyan-500/30 text-cyan-400 border border-cyan-500/50"
+              : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
+          }`}
+        >
+          <Mail className="w-4 h-4" />
+          Invites
+        </button>
+        <button
+          onClick={() => setActiveTab("pending")}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+            activeTab === "pending"
+              ? "bg-cyan-500/30 text-cyan-400 border border-cyan-500/50"
+              : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
+          }`}
+        >
+          <Clock className="w-4 h-4" />
+          Pending Approval
+        </button>
+        <button
+          onClick={() => setActiveTab("members")}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+            activeTab === "members"
+              ? "bg-cyan-500/30 text-cyan-400 border border-cyan-500/50"
+              : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
+          }`}
+        >
+          <Users className="w-4 h-4" />
+          Members
+        </button>
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === "invites" && <InvitesTab onOpenInviteModal={() => setIsInviteModalOpen(true)} />}
+      {activeTab === "pending" && <PendingTab />}
+      {activeTab === "members" && <MembersTab />}
+
+      {/* Invite Modal */}
+      <InviteModal isOpen={isInviteModalOpen} onClose={() => setIsInviteModalOpen(false)} />
+    </div>
+  );
+}
+
+// ============================================
+// INVITES TAB
+// ============================================
+
+function InvitesTab({ onOpenInviteModal }: { onOpenInviteModal: () => void }) {
+  const invites = useQuery(api.community.getAllInvites);
+  const revokeInvite = useMutation(api.community.revokeInvite);
+  const resendInvite = useMutation(api.community.resendInvite);
+  const sendInviteEmail = useAction(api.community.sendInviteEmail);
+  const [resending, setResending] = useState<string | null>(null);
+
+  async function handleResend(id: Id<"communityInvites">) {
+    setResending(id);
+    try {
+      const result = await resendInvite({ id });
+      await sendInviteEmail({
+        email: result.email,
+        name: result.name,
+        token: result.token,
+      });
+      alert("Invite resent successfully!");
+    } catch {
+      alert("Failed to resend invite");
+    }
+    setResending(null);
+  }
+
+  async function handleRevoke(id: Id<"communityInvites">) {
+    if (confirm("Revoke this invite?")) {
+      await revokeInvite({ id });
+    }
+  }
+
+  return (
+    <div>
+      {/* Send Invite Button */}
+      <div className="flex justify-center mb-8">
+        <button
+          onClick={onOpenInviteModal}
+          className="px-8 py-4 rounded-xl bg-cyan-500 text-white hover:bg-cyan-600 transition-all flex items-center gap-3 font-semibold text-lg shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
+        >
+          <Send className="w-6 h-6" />
+          Send Invite
+        </button>
+      </div>
+
+      {/* Invites List */}
+      <div className="glass-elevated rounded-2xl overflow-hidden">
+        <div className="p-4 border-b border-white/10 bg-white/5">
+          <p className="text-sm font-semibold text-gray-300">
+            {invites?.length || 0} Invites
+          </p>
+        </div>
+        <div className="divide-y divide-white/10">
+          {invites?.length === 0 ? (
+            <div className="p-8 text-center text-gray-400">
+              No invites sent yet. Click &quot;Send Invite&quot; to get started.
+            </div>
+          ) : (
+            invites?.map((invite: any) => (
+              <div
+                key={invite._id}
+                className="p-4 flex items-center justify-between hover:bg-white/5 transition-colors"
+              >
+                <div className="flex-1">
+                  <p className="font-semibold text-white">{invite.name}</p>
+                  <p className="text-sm text-gray-400">{invite.email}</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Sent {new Date(invite.sentAt).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`text-xs font-medium px-2 py-1 rounded border ${statusColors[invite.status]}`}
+                  >
+                    {invite.status}
+                  </span>
+                  {invite.status === "pending" && (
+                    <>
+                      <button
+                        onClick={() => handleResend(invite._id)}
+                        disabled={resending === invite._id}
+                        className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-all"
+                        title="Resend invite"
+                      >
+                        <RefreshCw className={`w-4 h-4 ${resending === invite._id ? "animate-spin" : ""}`} />
+                      </button>
+                      <button
+                        onClick={() => handleRevoke(invite._id)}
+                        className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                        title="Revoke invite"
+                      >
+                        <XCircle className="w-4 h-4" />
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// PENDING TAB
+// ============================================
+
+function PendingTab() {
+  const pending = useQuery(api.community.getPendingSubmissions);
+  const approveSubmission = useMutation(api.community.approveSubmission);
+  const rejectSubmission = useMutation(api.community.rejectSubmission);
+
+  async function handleApprove(id: Id<"communityMembers">) {
+    if (confirm("Approve this submission?")) {
+      await approveSubmission({ id });
+      alert("Submission approved!");
+    }
+  }
+
+  async function handleReject(id: Id<"communityMembers">) {
+    if (confirm("Reject this submission? They can resubmit.")) {
+      await rejectSubmission({ id });
+    }
+  }
+
+  return (
+    <div>
+      {pending?.length === 0 ? (
+        <div className="glass-elevated rounded-2xl p-12 text-center">
+          <Clock className="w-12 h-12 text-gray-500 mx-auto mb-4" />
+          <p className="text-gray-400">No pending submissions</p>
+        </div>
+      ) : (
+        <div className="grid gap-6">
+          {pending?.map((member: any) => (
+            <div key={member._id} className="glass-elevated rounded-2xl p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h3 className="text-xl font-semibold text-white">{member.worldName}</h3>
+                  <p className="text-sm text-gray-400">
+                    by {member.name} ({member.inviteEmail})
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleApprove(member._id)}
+                    className="px-4 py-2 rounded-lg bg-green-500/10 text-green-400 hover:bg-green-500/20 transition-all border border-green-500/30 font-medium flex items-center gap-2"
+                  >
+                    <CheckCircle className="w-4 h-4" />
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleReject(member._id)}
+                    className="px-4 py-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all border border-red-500/30 font-medium flex items-center gap-2"
+                  >
+                    <XCircle className="w-4 h-4" />
+                    Reject
+                  </button>
+                </div>
+              </div>
+
+              <p className="text-gray-300 mb-4">{member.description}</p>
+
+              {/* Images */}
+              {member.images && member.images.length > 0 && (
+                <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+                  {member.images.map((img: string, idx: number) => (
+                    <img
+                      key={idx}
+                      src={img}
+                      alt={`${member.worldName} ${idx + 1}`}
+                      className="w-32 h-24 object-cover rounded-lg border border-white/10"
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Links */}
+              <div className="flex gap-4 text-sm">
+                {member.multiverseUrl && (
+                  <a
+                    href={member.multiverseUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
+                  >
+                    <Globe className="w-4 h-4" /> Multiverse
+                  </a>
+                )}
+                {member.websiteUrl && (
+                  <a
+                    href={member.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
+                  >
+                    <ExternalLink className="w-4 h-4" /> Website
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ============================================
+// MEMBERS TAB
+// ============================================
+
+function MembersTab() {
+  const members = useQuery(api.community.getAllMembers);
+  const toggleFeatured = useMutation(api.community.toggleFeatured);
+  const deleteMember = useMutation(api.community.deleteMember);
+
+  async function handleToggleFeatured(id: Id<"communityMembers">) {
+    await toggleFeatured({ id });
+  }
+
+  async function handleDelete(id: Id<"communityMembers">) {
+    if (confirm("Delete this community member?")) {
+      await deleteMember({ id });
+    }
+  }
+
+  const approvedMembers = members?.filter((m: any) => m.approved) || [];
+
+  return (
+    <div>
+      {approvedMembers.length === 0 ? (
+        <div className="glass-elevated rounded-2xl p-12 text-center">
+          <Users className="w-12 h-12 text-gray-500 mx-auto mb-4" />
+          <p className="text-gray-400">No approved members yet</p>
+        </div>
+      ) : (
+        <div className="grid md:grid-cols-2 gap-6">
+          {approvedMembers.map((member: any) => (
+            <div key={member._id} className="glass-elevated rounded-2xl overflow-hidden">
+              {/* Image */}
+              {member.images && member.images[0] && (
+                <div className="relative h-40">
+                  <img
+                    src={member.images[0]}
+                    alt={member.worldName}
+                    className="w-full h-full object-cover"
+                  />
+                  {member.featured && (
+                    <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-xs font-medium flex items-center gap-1 border border-yellow-500/30">
+                      <Star className="w-3 h-3" /> Featured
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-white mb-1">{member.worldName}</h3>
+                <p className="text-sm text-gray-400 mb-2">by {member.name}</p>
+                <p className="text-sm text-gray-300 line-clamp-2 mb-4">{member.description}</p>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleToggleFeatured(member._id)}
+                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-1 ${
+                      member.featured
+                        ? "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
+                        : "bg-white/5 text-gray-400 hover:text-yellow-400 border border-white/10"
+                    }`}
+                  >
+                    <Star className="w-4 h-4" />
+                    {member.featured ? "Featured" : "Feature"}
+                  </button>
+                  <button
+                    onClick={() => handleDelete(member._id)}
+                    className="px-3 py-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all border border-red-500/30"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ============================================
+// INVITE MODAL
+// ============================================
+
+function InviteModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
+
+  const createInvite = useMutation(api.community.createInvite);
+  const sendInviteEmail = useAction(api.community.sendInviteEmail);
+
+  async function handleSend() {
+    if (!name.trim() || !email.trim()) {
+      alert("Please enter name and email");
+      return;
+    }
+
+    setIsSending(true);
+    try {
+      const { token } = await createInvite({
+        email: email.trim(),
+        name: name.trim(),
+        message: message.trim() || undefined,
+      });
+
+      await sendInviteEmail({
+        email: email.trim(),
+        name: name.trim(),
+        token,
+        message: message.trim() || undefined,
+      });
+
+      alert("Invite sent successfully!");
+      setName("");
+      setEmail("");
+      setMessage("");
+      onClose();
+    } catch (error: any) {
+      alert(error.message || "Failed to send invite");
+    }
+    setIsSending(false);
+  }
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="relative z-10 w-full max-w-md bg-gray-900 rounded-2xl shadow-2xl border border-white/10 p-6"
+      >
+        <h2 className="text-xl font-semibold text-white mb-4">Send Community Invite</h2>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="John Smith"
+              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="john@example.com"
+              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">
+              Personal Message <span className="text-gray-500">(optional)</span>
+            </label>
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="We loved seeing your VR city and would love to feature it..."
+              rows={3}
+              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+            />
+          </div>
+        </div>
+
+        <div className="flex gap-3 mt-6">
+          <button
+            onClick={onClose}
+            className="flex-1 px-4 py-2.5 rounded-lg bg-white/5 text-gray-400 hover:text-white border border-white/10 font-medium"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSend}
+            disabled={isSending}
+            className="flex-1 px-4 py-2.5 rounded-lg bg-cyan-500 text-white hover:bg-cyan-600 font-medium disabled:opacity-50 flex items-center justify-center gap-2"
+          >
+            {isSending ? (
+              "Sending..."
+            ) : (
+              <>
+                <Send className="w-4 h-4" />
+                Send Invite
+              </>
+            )}
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}

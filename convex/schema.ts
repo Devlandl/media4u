@@ -293,6 +293,51 @@ export default defineSchema({
     .index("by_serviceType", ["serviceType"])
     .index("by_created", ["createdAt"]),
 
+  // VR Multiverse Community Invites
+  communityInvites: defineTable({
+    email: v.string(),
+    name: v.string(),
+    token: v.string(), // Unique invite token for the submission link
+    status: v.union(
+      v.literal("pending"),    // Invite sent, waiting for submission
+      v.literal("submitted"),  // They submitted, waiting for approval
+      v.literal("approved"),   // Approved and live
+      v.literal("expired"),    // Invite expired (optional cleanup)
+      v.literal("revoked")     // Admin revoked the invite
+    ),
+    message: v.optional(v.string()), // Personal message in invite email
+    sentAt: v.number(),
+    expiresAt: v.optional(v.number()), // Optional expiration
+  })
+    .index("by_token", ["token"])
+    .index("by_email", ["email"])
+    .index("by_status", ["status"]),
+
+  // VR Multiverse Community Members (approved submissions)
+  communityMembers: defineTable({
+    inviteId: v.id("communityInvites"), // Link to original invite
+    name: v.string(), // Creator/world name
+    worldName: v.string(), // Name of their VR world/project
+    description: v.string(), // Short description
+    images: v.array(v.string()), // Gallery images (URLs)
+    multiverseUrl: v.optional(v.string()), // Link to their VR world
+    websiteUrl: v.optional(v.string()), // Their website
+    socialLinks: v.optional(v.object({
+      instagram: v.optional(v.string()),
+      youtube: v.optional(v.string()),
+      tiktok: v.optional(v.string()),
+      twitter: v.optional(v.string()),
+    })),
+    featured: v.boolean(), // Featured on top of page
+    approved: v.boolean(), // Must be true to show publicly
+    approvedAt: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_inviteId", ["inviteId"])
+    .index("by_approved", ["approved"])
+    .index("by_featured", ["featured"]),
+
   // Site Settings (global configuration)
   siteSettings: defineTable({
     key: v.string(), // e.g., "social_media", "contact_info"
