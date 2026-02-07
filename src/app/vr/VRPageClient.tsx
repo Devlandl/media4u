@@ -10,7 +10,7 @@ import { Section, SectionHeader } from "@/components/ui/section";
 import { Card, CardIcon } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { Home, Globe, Star, Coins, ExternalLink, Instagram, Youtube, Send, CheckCircle, Loader2, Sparkles, Users, MapPin, Play } from "lucide-react";
+import { Home, Globe, Star, Coins, ExternalLink, Instagram, Youtube, Send, CheckCircle, Loader2, Sparkles, Users, MapPin, Play, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const FEATURES = [
   { label: "Interactive Elements", icon: "touch" },
@@ -225,6 +225,8 @@ export default function VRPageClient() {
   const communityMembers = useQuery(api.community.getApprovedMembers);
   const communityStats = useQuery(api.community.getCommunityStats);
   const [filterType, setFilterType] = useState<"all" | "property" | "destination">("all");
+  const [selectedMember, setSelectedMember] = useState<any>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const filteredExperiences = experiences
     ? experiences.filter((exp) => filterType === "all" || exp.type === filterType)
@@ -335,7 +337,10 @@ export default function VRPageClient() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
               >
-                <div className="group relative glass-elevated rounded-2xl overflow-hidden hover:translate-y-[-8px] transition-all duration-300">
+                <div
+                  className="group relative glass-elevated rounded-2xl overflow-hidden hover:translate-y-[-8px] transition-all duration-300 cursor-pointer"
+                  onClick={() => { setSelectedMember(member); setCurrentImageIndex(0); }}
+                >
                   {/* Featured Badge */}
                   {member.featured && (
                     <div className="absolute top-4 right-4 z-10 px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-xs font-medium flex items-center gap-1 border border-yellow-500/30 backdrop-blur-sm">
@@ -367,7 +372,7 @@ export default function VRPageClient() {
                     <p className="text-sm text-gray-400 line-clamp-3 mb-4">{member.description}</p>
 
                     {/* Links */}
-                    <div className="flex items-center gap-3 flex-wrap">
+                    <div className="flex items-center gap-3 flex-wrap" onClick={(e) => e.stopPropagation()}>
                       {member.videoUrl && (
                         <a
                           href={member.videoUrl}
@@ -405,7 +410,7 @@ export default function VRPageClient() {
 
                     {/* Social Links */}
                     {member.socialLinks && (member.socialLinks.instagram || member.socialLinks.youtube || member.socialLinks.tiktok) && (
-                      <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/10">
+                      <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/10" onClick={(e) => e.stopPropagation()}>
                         {member.socialLinks.instagram && (
                           <a
                             href={member.socialLinks.instagram}
@@ -700,6 +705,180 @@ export default function VRPageClient() {
           </div>
         </motion.div>
       </Section>
+
+      {/* Member Detail Modal */}
+      {selectedMember && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          onClick={() => setSelectedMember(null)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-[#0a0a12] rounded-2xl border border-white/10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedMember(null)}
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Image Gallery */}
+            <div className="relative h-64 md:h-96 overflow-hidden">
+              {selectedMember.images && selectedMember.images.length > 0 ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={selectedMember.images[currentImageIndex]}
+                    alt={selectedMember.worldName}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Image Navigation */}
+                  {selectedMember.images.length > 1 && (
+                    <>
+                      <button
+                        onClick={() => setCurrentImageIndex((prev) => (prev === 0 ? selectedMember.images.length - 1 : prev - 1))}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                      >
+                        <ChevronLeft className="w-6 h-6" />
+                      </button>
+                      <button
+                        onClick={() => setCurrentImageIndex((prev) => (prev === selectedMember.images.length - 1 ? 0 : prev + 1))}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                      >
+                        <ChevronRight className="w-6 h-6" />
+                      </button>
+                      {/* Image Dots */}
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                        {selectedMember.images.map((_: any, idx: number) => (
+                          <button
+                            key={idx}
+                            onClick={() => setCurrentImageIndex(idx)}
+                            className={`w-2 h-2 rounded-full transition-colors ${
+                              idx === currentImageIndex ? "bg-cyan-400" : "bg-white/50 hover:bg-white/70"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </>
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                  <Globe className="w-24 h-24 text-white/20" />
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-transparent to-transparent" />
+            </div>
+
+            {/* Content */}
+            <div className="p-6 md:p-8">
+              {/* Header */}
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-1">
+                    {selectedMember.worldName}
+                  </h2>
+                  <p className="text-cyan-400">by {selectedMember.name}</p>
+                </div>
+                {selectedMember.featured && (
+                  <div className="px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-sm font-medium flex items-center gap-1 border border-yellow-500/30">
+                    <Star className="w-4 h-4" /> Featured
+                  </div>
+                )}
+              </div>
+
+              {/* Description */}
+              <p className="text-gray-300 leading-relaxed mb-6 whitespace-pre-wrap">
+                {selectedMember.description}
+              </p>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-3 mb-6">
+                {selectedMember.videoUrl && (
+                  <a
+                    href={selectedMember.videoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 font-medium hover:bg-purple-500/30 transition-colors border border-purple-500/30"
+                  >
+                    <Play className="w-5 h-5" />
+                    Video Tour
+                  </a>
+                )}
+                {selectedMember.multiverseUrl && (
+                  <a
+                    href={selectedMember.multiverseUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 font-medium hover:bg-cyan-500/30 transition-colors border border-cyan-500/30"
+                  >
+                    <Globe className="w-5 h-5" />
+                    Explore World
+                  </a>
+                )}
+                {selectedMember.websiteUrl && (
+                  <a
+                    href={selectedMember.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 text-gray-300 font-medium hover:bg-white/20 transition-colors border border-white/10"
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    Website
+                  </a>
+                )}
+              </div>
+
+              {/* Social Links */}
+              {selectedMember.socialLinks && (selectedMember.socialLinks.instagram || selectedMember.socialLinks.youtube || selectedMember.socialLinks.tiktok) && (
+                <div className="flex items-center gap-3 pt-6 border-t border-white/10">
+                  <span className="text-sm text-gray-400">Follow:</span>
+                  {selectedMember.socialLinks.instagram && (
+                    <a
+                      href={selectedMember.socialLinks.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-pink-400 hover:bg-pink-500/10 transition-colors"
+                    >
+                      <Instagram className="w-5 h-5" />
+                    </a>
+                  )}
+                  {selectedMember.socialLinks.youtube && (
+                    <a
+                      href={selectedMember.socialLinks.youtube}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                    >
+                      <Youtube className="w-5 h-5" />
+                    </a>
+                  )}
+                  {selectedMember.socialLinks.tiktok && (
+                    <a
+                      href={selectedMember.socialLinks.tiktok}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                      </svg>
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
     </div>
   );
 }
