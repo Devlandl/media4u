@@ -316,7 +316,139 @@ export default function VRPageClient() {
         </Section>
       )}
 
-      {/* Featured Experiences Section - MOVED TO TOP */}
+      {/* Community Members Section - MOVED UP */}
+      {communityMembers && communityMembers.length > 0 && (
+        <Section>
+          <SectionHeader
+            tag="Our Community"
+            title="Trusted "
+            highlight="Creators"
+            description="Meet the builders shaping the future of the Multiverse. A curated community of creators, collaborators, and friends."
+          />
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {communityMembers.map((member: any, idx: number) => (
+              <motion.div
+                key={member._id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+              >
+                <div className="group relative glass-elevated rounded-2xl overflow-hidden hover:translate-y-[-8px] transition-all duration-300">
+                  {/* Featured Badge */}
+                  {member.featured && (
+                    <div className="absolute top-4 right-4 z-10 px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-xs font-medium flex items-center gap-1 border border-yellow-500/30 backdrop-blur-sm">
+                      <Star className="w-3 h-3" /> Featured
+                    </div>
+                  )}
+
+                  {/* Image */}
+                  <div className="relative h-48 overflow-hidden">
+                    {member.images?.[0] ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={member.images[0]}
+                        alt={member.worldName}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                        <Globe className="w-16 h-16 text-white/20" />
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-5">
+                    <h3 className="text-xl font-semibold text-white mb-1">{member.worldName}</h3>
+                    <p className="text-sm text-cyan-400 mb-3">by {member.name}</p>
+                    <p className="text-sm text-gray-400 line-clamp-3 mb-4">{member.description}</p>
+
+                    {/* Links */}
+                    <div className="flex items-center gap-3 flex-wrap">
+                      {member.videoUrl && (
+                        <a
+                          href={member.videoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-500/20 text-purple-400 text-sm font-medium hover:bg-purple-500/30 transition-colors border border-purple-500/30"
+                        >
+                          <Play className="w-4 h-4" />
+                          Video Tour
+                        </a>
+                      )}
+                      {member.multiverseUrl && (
+                        <a
+                          href={member.multiverseUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 text-sm font-medium hover:bg-cyan-500/20 transition-colors border border-cyan-500/30"
+                        >
+                          <Globe className="w-4 h-4" />
+                          Explore
+                        </a>
+                      )}
+                      {member.websiteUrl && (
+                        <a
+                          href={member.websiteUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 text-gray-400 text-sm hover:text-white hover:bg-white/10 transition-colors border border-white/10"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          Website
+                        </a>
+                      )}
+                    </div>
+
+                    {/* Social Links */}
+                    {member.socialLinks && (member.socialLinks.instagram || member.socialLinks.youtube || member.socialLinks.tiktok) && (
+                      <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/10">
+                        {member.socialLinks.instagram && (
+                          <a
+                            href={member.socialLinks.instagram}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-pink-400 hover:bg-pink-500/10 transition-colors"
+                          >
+                            <Instagram className="w-4 h-4" />
+                          </a>
+                        )}
+                        {member.socialLinks.youtube && (
+                          <a
+                            href={member.socialLinks.youtube}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                          >
+                            <Youtube className="w-4 h-4" />
+                          </a>
+                        )}
+                        {member.socialLinks.tiktok && (
+                          <a
+                            href={member.socialLinks.tiktok}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                          >
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                            </svg>
+                          </a>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </Section>
+      )}
+
+      {/* Featured Experiences Section */}
       {experiences && experiences.length > 0 && (
         <Section>
           <SectionHeader
@@ -528,138 +660,6 @@ export default function VRPageClient() {
           ))}
         </div>
       </Section>
-
-      {/* Community Members Section */}
-      {communityMembers && communityMembers.length > 0 && (
-        <Section>
-          <SectionHeader
-            tag="Our Community"
-            title="Trusted "
-            highlight="Creators"
-            description="Meet the builders shaping the future of the Multiverse. A curated community of creators, collaborators, and friends."
-          />
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {communityMembers.map((member: any, idx: number) => (
-              <motion.div
-                key={member._id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-              >
-                <div className="group relative glass-elevated rounded-2xl overflow-hidden hover:translate-y-[-8px] transition-all duration-300">
-                  {/* Featured Badge */}
-                  {member.featured && (
-                    <div className="absolute top-4 right-4 z-10 px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-xs font-medium flex items-center gap-1 border border-yellow-500/30 backdrop-blur-sm">
-                      <Star className="w-3 h-3" /> Featured
-                    </div>
-                  )}
-
-                  {/* Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    {member.images?.[0] ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={member.images[0]}
-                        alt={member.worldName}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
-                        <Globe className="w-16 h-16 text-white/20" />
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-5">
-                    <h3 className="text-xl font-semibold text-white mb-1">{member.worldName}</h3>
-                    <p className="text-sm text-cyan-400 mb-3">by {member.name}</p>
-                    <p className="text-sm text-gray-400 line-clamp-3 mb-4">{member.description}</p>
-
-                    {/* Links */}
-                    <div className="flex items-center gap-3 flex-wrap">
-                      {member.videoUrl && (
-                        <a
-                          href={member.videoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-500/20 text-purple-400 text-sm font-medium hover:bg-purple-500/30 transition-colors border border-purple-500/30"
-                        >
-                          <Play className="w-4 h-4" />
-                          Video Tour
-                        </a>
-                      )}
-                      {member.multiverseUrl && (
-                        <a
-                          href={member.multiverseUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 text-sm font-medium hover:bg-cyan-500/20 transition-colors border border-cyan-500/30"
-                        >
-                          <Globe className="w-4 h-4" />
-                          Explore
-                        </a>
-                      )}
-                      {member.websiteUrl && (
-                        <a
-                          href={member.websiteUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 text-gray-400 text-sm hover:text-white hover:bg-white/10 transition-colors border border-white/10"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                          Website
-                        </a>
-                      )}
-                    </div>
-
-                    {/* Social Links */}
-                    {member.socialLinks && (member.socialLinks.instagram || member.socialLinks.youtube || member.socialLinks.tiktok) && (
-                      <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/10">
-                        {member.socialLinks.instagram && (
-                          <a
-                            href={member.socialLinks.instagram}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-pink-400 hover:bg-pink-500/10 transition-colors"
-                          >
-                            <Instagram className="w-4 h-4" />
-                          </a>
-                        )}
-                        {member.socialLinks.youtube && (
-                          <a
-                            href={member.socialLinks.youtube}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
-                          >
-                            <Youtube className="w-4 h-4" />
-                          </a>
-                        )}
-                        {member.socialLinks.tiktok && (
-                          <a
-                            href={member.socialLinks.tiktok}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
-                          >
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
-                            </svg>
-                          </a>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </Section>
-      )}
 
       {/* CTA Section */}
       <Section className="pb-32">
