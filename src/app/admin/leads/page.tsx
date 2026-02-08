@@ -6,7 +6,7 @@ import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Search, Mail, Plus, X, Briefcase } from "lucide-react";
+import { Search, Mail, Plus, X, Briefcase, Phone, Building2, FileText, Calendar, Trash2 } from "lucide-react";
 import { EmailReplyModal } from "@/components/admin/EmailReplyModal";
 
 type LeadStatus = "new" | "contacted" | "qualified" | "converted" | "lost";
@@ -253,8 +253,13 @@ export default function LeadsAdminPage() {
                 {filtered?.length || 0} Leads
               </p>
             </div>
-            <div className="divide-y divide-white/10 max-h-96 overflow-y-auto">
-              {filtered?.map((lead: any) => (
+            <div className="divide-y divide-white/10 max-h-[600px] overflow-y-auto">
+              {filtered?.length === 0 ? (
+                <div className="p-8 text-center text-gray-400">
+                  No leads yet. Add your first lead above!
+                </div>
+              ) : (
+              filtered?.map((lead: any) => (
                 <motion.button
                   key={lead._id}
                   onClick={() => setSelectedId(lead._id)}
@@ -281,7 +286,8 @@ export default function LeadsAdminPage() {
                     </span>
                   </div>
                 </motion.button>
-              ))}
+              ))
+              )}
             </div>
           </div>
         </motion.div>
@@ -300,63 +306,69 @@ export default function LeadsAdminPage() {
                 <p className="text-xl font-semibold text-white">{selected.name}</p>
               </div>
 
-              <div>
-                <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
-                <div className="flex items-center gap-3 flex-wrap">
-                  <a href={`mailto:${selected.email}`} className="text-cyan-400 hover:text-cyan-300">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
+                  <a
+                    href={`mailto:${selected.email}`}
+                    className="text-cyan-400 hover:text-cyan-300 flex items-center gap-2"
+                  >
+                    <Mail className="w-4 h-4" />
                     {selected.email}
                   </a>
-                  <button
-                    onClick={() => setIsReplyModalOpen(true)}
-                    className="px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors border border-cyan-500/50 text-xs font-medium flex items-center gap-1"
-                  >
-                    <Mail className="w-3 h-3" />
-                    Email
-                  </button>
-                  <button
-                    onClick={handleAddToNewsletter}
-                    disabled={subscribing}
-                    className="px-3 py-1 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-colors border border-purple-500/50 text-xs font-medium flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <Mail className="w-3 h-3" />
-                    {subscribing ? "Adding..." : "Add to Newsletter"}
-                  </button>
-                  {selected.status !== "converted" && (
-                    <button
-                      onClick={() => setIsConvertModalOpen(true)}
-                      className="px-3 py-1 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30 transition-colors border border-green-500/50 text-xs font-medium flex items-center gap-1"
-                    >
-                      <Briefcase className="w-3 h-3" />
-                      Convert to Project
-                    </button>
-                  )}
-                  {selected.status === "converted" && (
-                    <span className="px-3 py-1 rounded-lg bg-green-500/20 text-green-400 border border-green-500/50 text-xs font-medium">
-                      ✓ Converted
-                    </span>
-                  )}
                 </div>
+
+                {selected.phone && (
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Phone</p>
+                    <a
+                      href={`tel:${selected.phone}`}
+                      className="text-cyan-400 hover:text-cyan-300 flex items-center gap-2"
+                    >
+                      <Phone className="w-4 h-4" />
+                      {selected.phone}
+                    </a>
+                  </div>
+                )}
               </div>
 
-              {selected.company && (
-                <div>
-                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Company</p>
-                  <p className="text-white">{selected.company}</p>
-                </div>
-              )}
+              {/* Quick Actions Row */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={() => setIsReplyModalOpen(true)}
+                  className="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors border border-cyan-500/50 text-sm font-medium flex items-center gap-2"
+                >
+                  <Mail className="w-4 h-4" />
+                  Send Email
+                </button>
+                <button
+                  onClick={handleAddToNewsletter}
+                  disabled={subscribing}
+                  className="px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-colors border border-purple-500/50 text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Mail className="w-4 h-4" />
+                  {subscribing ? "Adding..." : "Add to Newsletter"}
+                </button>
+              </div>
 
-              {selected.phone && (
-                <div>
-                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Phone</p>
-                  <a href={`tel:${selected.phone}`} className="text-cyan-400 hover:text-cyan-300">
-                    {selected.phone}
-                  </a>
-                </div>
-              )}
+              <div className="grid md:grid-cols-2 gap-6">
+                {selected.company && (
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Company</p>
+                    <p className="text-white flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-blue-400" />
+                      {selected.company}
+                    </p>
+                  </div>
+                )}
 
-              <div>
-                <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Source</p>
-                <p className="text-white">{selected.source}</p>
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Source</p>
+                  <p className="text-white flex items-center gap-2">
+                    <FileText className="w-4 h-4 text-amber-400" />
+                    {selected.source}
+                  </p>
+                </div>
               </div>
 
               {selected.notes && (
@@ -366,18 +378,20 @@ export default function LeadsAdminPage() {
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Added</p>
-                  <p className="text-sm text-gray-300">
-                    {new Date(selected.createdAt).toLocaleDateString()}
+                  <p className="text-white flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-purple-400" />
+                    {new Date(selected.createdAt).toLocaleString()}
                   </p>
                 </div>
                 {selected.lastContactedAt && (
                   <div>
                     <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Last Contacted</p>
-                    <p className="text-sm text-gray-300">
-                      {new Date(selected.lastContactedAt).toLocaleDateString()}
+                    <p className="text-white flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-green-400" />
+                      {new Date(selected.lastContactedAt).toLocaleString()}
                     </p>
                   </div>
                 )}
@@ -404,10 +418,27 @@ export default function LeadsAdminPage() {
                 </div>
               </div>
 
+              {selected.status !== "converted" && (
+                <button
+                  onClick={() => setIsConvertModalOpen(true)}
+                  className="w-full px-4 py-3 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 transition-all border border-cyan-500/30 font-medium flex items-center justify-center gap-2"
+                >
+                  <Briefcase className="w-4 h-4" />
+                  Convert to Project
+                </button>
+              )}
+              {selected.status === "converted" && (
+                <div className="w-full px-4 py-3 rounded-lg bg-green-500/10 text-green-400 border border-green-500/30 font-medium flex items-center justify-center gap-2">
+                  <Briefcase className="w-4 h-4" />
+                  ✓ Converted to Project
+                </div>
+              )}
+
               <button
                 onClick={() => handleDelete(selected._id)}
-                className="w-full px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all border border-red-500/30 font-medium"
+                className="w-full px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all border border-red-500/30 font-medium flex items-center justify-center gap-2"
               >
+                <Trash2 className="w-4 h-4" />
                 Delete Lead
               </button>
             </div>

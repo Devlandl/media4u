@@ -6,7 +6,7 @@ import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Search, Mail, FolderPlus } from "lucide-react";
+import { Search, Mail, FolderPlus, Briefcase, Calendar, Trash2 } from "lucide-react";
 import { EmailReplyModal } from "@/components/admin/EmailReplyModal";
 
 type ContactStatus = "new" | "read" | "replied";
@@ -139,8 +139,13 @@ export default function ContactsAdminPage() {
                 {filtered?.length || 0} Submissions
               </p>
             </div>
-            <div className="divide-y divide-white/10 max-h-96 overflow-y-auto">
-              {filtered?.map((submission: any) => (
+            <div className="divide-y divide-white/10 max-h-[600px] overflow-y-auto">
+              {filtered?.length === 0 ? (
+                <div className="p-8 text-center text-gray-400">
+                  No contact submissions yet
+                </div>
+              ) : (
+              filtered?.map((submission: any) => (
                 <motion.button
                   key={submission._id}
                   onClick={() => setSelectedId(submission._id)}
@@ -164,7 +169,8 @@ export default function ContactsAdminPage() {
                     </span>
                   </div>
                 </motion.button>
-              ))}
+              ))
+              )}
             </div>
           </div>
         </motion.div>
@@ -183,25 +189,47 @@ export default function ContactsAdminPage() {
                 <p className="text-xl font-semibold text-white">{selected.name}</p>
               </div>
 
-              <div>
-                <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
-                <div className="flex items-center gap-3">
-                  <a href={`mailto:${selected.email}`} className="text-cyan-400 hover:text-cyan-300">
-                    {selected.email}
-                  </a>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={`mailto:${selected.email}`}
+                      className="text-cyan-400 hover:text-cyan-300 flex items-center gap-2"
+                    >
+                      <Mail className="w-4 h-4" />
+                      {selected.email}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-end gap-2">
                   <button
                     onClick={() => setIsReplyModalOpen(true)}
-                    className="px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors border border-cyan-500/50 text-xs font-medium flex items-center gap-1"
+                    className="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors border border-cyan-500/50 text-sm font-medium flex items-center gap-2"
                   >
-                    <Mail className="w-3 h-3" />
-                    Reply
+                    <Mail className="w-4 h-4" />
+                    Reply via Email
                   </button>
                 </div>
               </div>
 
-              <div>
-                <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Service</p>
-                <p className="text-white">{selected.service}</p>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Service Requested</p>
+                  <p className="text-white flex items-center gap-2">
+                    <Briefcase className="w-4 h-4 text-cyan-400" />
+                    {selected.service}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Submitted</p>
+                  <p className="text-white flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-purple-400" />
+                    {new Date(selected.createdAt).toLocaleString()}
+                  </p>
+                </div>
               </div>
 
               <div>
@@ -211,7 +239,7 @@ export default function ContactsAdminPage() {
 
               <div>
                 <p className="text-xs uppercase tracking-wider text-gray-500 mb-3">Status</p>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                   {(["new", "read", "replied"] as const).map((status) => (
                     <button
                       key={status}
@@ -240,8 +268,9 @@ export default function ContactsAdminPage() {
 
               <button
                 onClick={() => handleDelete(selected._id)}
-                className="w-full px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all border border-red-500/30 font-medium"
+                className="w-full px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all border border-red-500/30 font-medium flex items-center justify-center gap-2"
               >
+                <Trash2 className="w-4 h-4" />
                 Delete Submission
               </button>
             </div>

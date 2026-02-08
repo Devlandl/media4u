@@ -6,7 +6,7 @@ import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Mail, Send, Briefcase } from "lucide-react";
+import { Mail, Send, Briefcase, Building2, DollarSign, Clock, Calendar, Trash2 } from "lucide-react";
 import { EmailReplyModal } from "@/components/admin/EmailReplyModal";
 
 type ProjectStatus = "new" | "contacted" | "quoted" | "accepted" | "declined";
@@ -199,73 +199,78 @@ export default function ProjectRequestsAdminPage() {
                 <p className="text-xl font-semibold text-white">{selected.name}</p>
               </div>
 
-              <div>
-                <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <a href={`mailto:${selected.email}`} className="text-cyan-400 hover:text-cyan-300">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
+                  <a
+                    href={`mailto:${selected.email}`}
+                    className="text-cyan-400 hover:text-cyan-300 flex items-center gap-2"
+                  >
+                    <Mail className="w-4 h-4" />
                     {selected.email}
                   </a>
-                  <button
-                    onClick={() => setIsReplyModalOpen(true)}
-                    className="px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors border border-cyan-500/50 text-xs font-medium flex items-center gap-1"
-                  >
-                    <Send className="w-3 h-3" />
-                    Reply
-                  </button>
-                  <button
-                    onClick={() => handleAddToNewsletter(selected.email, selected._id)}
-                    disabled={subscribing === selected._id}
-                    className="px-3 py-1 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-colors border border-purple-500/50 text-xs font-medium flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <Mail className="w-3 h-3" />
-                    {subscribing === selected._id ? "Adding..." : "Add to Newsletter"}
-                  </button>
-                  {selected.status !== "accepted" && (
-                    <button
-                      onClick={() => setIsConvertModalOpen(true)}
-                      className="px-3 py-1 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30 transition-colors border border-green-500/50 text-xs font-medium flex items-center gap-1"
-                    >
-                      <Briefcase className="w-3 h-3" />
-                      Convert to Project
-                    </button>
-                  )}
-                  {selected.status === "accepted" && (
-                    <span className="px-3 py-1 rounded-lg bg-green-500/20 text-green-400 border border-green-500/50 text-xs font-medium">
-                      ✓ Converted
-                    </span>
-                  )}
                 </div>
+
+                {selected.businessName && (
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Business Name</p>
+                    <p className="text-white flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-blue-400" />
+                      {selected.businessName}
+                    </p>
+                  </div>
+                )}
               </div>
 
-              {selected.businessName && (
+              {/* Quick Actions Row */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={() => setIsReplyModalOpen(true)}
+                  className="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors border border-cyan-500/50 text-sm font-medium flex items-center gap-2"
+                >
+                  <Send className="w-4 h-4" />
+                  Reply via Email
+                </button>
+                <button
+                  onClick={() => handleAddToNewsletter(selected.email, selected._id)}
+                  disabled={subscribing === selected._id}
+                  className="px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-colors border border-purple-500/50 text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Mail className="w-4 h-4" />
+                  {subscribing === selected._id ? "Adding..." : "Add to Newsletter"}
+                </button>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6">
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Business Name</p>
-                  <p className="text-white">{selected.businessName}</p>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Project Types</p>
+                  <div className="flex flex-wrap gap-1">
+                    {selected.projectTypes.map((type: string) => (
+                      <span
+                        key={type}
+                        className="px-2 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 text-xs border border-cyan-500/30"
+                      >
+                        {type}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              )}
 
-              <div>
-                <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Project Types</p>
-                <div className="flex flex-wrap gap-2">
-                  {selected.projectTypes.map((type: string) => (
-                    <span
-                      key={type}
-                      className="px-2 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 text-xs border border-cyan-500/30"
-                    >
-                      {type}
-                    </span>
-                  ))}
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Timeline</p>
+                  <p className="text-white flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-amber-400" />
+                    {selected.timeline}
+                  </p>
                 </div>
-              </div>
 
-              <div>
-                <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Timeline</p>
-                <p className="text-white">{selected.timeline}</p>
-              </div>
-
-              <div>
-                <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Budget</p>
-                <p className="text-white">{selected.budget}</p>
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Budget</p>
+                  <p className="text-white flex items-center gap-2">
+                    <DollarSign className="w-4 h-4 text-green-400" />
+                    {selected.budget}
+                  </p>
+                </div>
               </div>
 
               <div>
@@ -275,7 +280,8 @@ export default function ProjectRequestsAdminPage() {
 
               <div>
                 <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Submitted</p>
-                <p className="text-white">
+                <p className="text-white flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-purple-400" />
                   {new Date(selected.createdAt).toLocaleString()}
                 </p>
               </div>
@@ -299,10 +305,27 @@ export default function ProjectRequestsAdminPage() {
                 </div>
               </div>
 
+              {selected.status !== "accepted" && (
+                <button
+                  onClick={() => setIsConvertModalOpen(true)}
+                  className="w-full px-4 py-3 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 transition-all border border-cyan-500/30 font-medium flex items-center justify-center gap-2"
+                >
+                  <Briefcase className="w-4 h-4" />
+                  Convert to Project
+                </button>
+              )}
+              {selected.status === "accepted" && (
+                <div className="w-full px-4 py-3 rounded-lg bg-green-500/10 text-green-400 border border-green-500/30 font-medium flex items-center justify-center gap-2">
+                  <Briefcase className="w-4 h-4" />
+                  ✓ Converted to Project
+                </div>
+              )}
+
               <button
                 onClick={() => handleDelete(selected._id)}
-                className="w-full px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all border border-red-500/30 font-medium"
+                className="w-full px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all border border-red-500/30 font-medium flex items-center justify-center gap-2"
               >
+                <Trash2 className="w-4 h-4" />
                 Delete Request
               </button>
             </div>
