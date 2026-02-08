@@ -46,7 +46,7 @@ export default function SignupPage() {
       { email, password, name },
       {
         onSuccess: () => {
-          router.push("/");
+          router.push("/portal");
         },
         onError: (ctx: { error: { message?: string } }) => {
           setError(ctx.error.message ?? "Signup failed. Please try again.");
