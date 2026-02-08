@@ -16,6 +16,13 @@ import {
   TrendingUp,
   TrendingDown,
   Clock,
+  Users,
+  Briefcase,
+  Target,
+  AlertCircle,
+  Send,
+  UserPlus,
+  Globe,
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -24,6 +31,9 @@ export default function AdminDashboard() {
   const blogPosts = useQuery(api.blog.getAllPosts, {});
   const projects = useQuery(api.portfolio.getAllProjects);
   const projectRequests = useQuery(api.projectRequests.getProjectRequests, {});
+  const leads = useQuery(api.leads.getAllLeads);
+  const communityMembers = useQuery(api.community.getAllMembers);
+  const communityRequests = useQuery(api.community.getInviteRequests);
 
   // Calculate trends (comparing recent activity)
   function calculateTrend(items: any[] | undefined) {
@@ -45,6 +55,16 @@ export default function AdminDashboard() {
   const contactTrend = calculateTrend(contactSubmissions);
   const blogTrend = calculateTrend(blogPosts);
   const projectTrend = calculateTrend(projects);
+  const leadsTrend = calculateTrend(leads);
+
+  // Calculate pending items for "Needs Attention"
+  const unreadContacts = contactSubmissions?.filter((c: any) => c.status === "new").length || 0;
+  const newLeads = leads?.filter((l: any) => l.status === "new").length || 0;
+  const pendingRequests = projectRequests?.filter((r: any) => r.status === "new").length || 0;
+  const pendingCommunity = communityRequests?.filter((r: any) => r.status === "pending").length || 0;
+  const pendingApprovals = communityMembers?.filter((m: any) => !m.approved).length || 0;
+
+  const totalPendingItems = unreadContacts + newLeads + pendingRequests + pendingCommunity + pendingApprovals;
 
   const stats = [
     {
@@ -64,6 +84,22 @@ export default function AdminDashboard() {
       trend: { trend: 0, isUp: false },
     },
     {
+      label: "Leads",
+      value: leads?.length || 0,
+      href: "/admin/leads",
+      icon: Target,
+      color: "from-green-500 to-emerald-500",
+      trend: leadsTrend,
+    },
+    {
+      label: "Project Requests",
+      value: projectRequests?.length || 0,
+      href: "/admin/project-requests",
+      icon: Briefcase,
+      color: "from-cyan-500 to-blue-500",
+      trend: calculateTrend(projectRequests),
+    },
+    {
       label: "Blog Posts",
       value: blogPosts?.length || 0,
       href: "/admin/blog",
@@ -76,8 +112,24 @@ export default function AdminDashboard() {
       value: projects?.length || 0,
       href: "/admin/portfolio",
       icon: ImageIcon,
-      color: "from-emerald-500 to-teal-500",
+      color: "from-rose-500 to-pink-500",
       trend: projectTrend,
+    },
+    {
+      label: "Community Members",
+      value: communityMembers?.filter((m: any) => m.approved).length || 0,
+      href: "/admin/community",
+      icon: Users,
+      color: "from-violet-500 to-purple-500",
+      trend: calculateTrend(communityMembers?.filter((m: any) => m.approved)),
+    },
+    {
+      label: "VR Experiences",
+      value: useQuery(api.vr.getAllExperiences)?.length || 0,
+      href: "/admin/vr",
+      icon: Globe,
+      color: "from-teal-500 to-cyan-500",
+      trend: { trend: 0, isUp: false },
     },
   ];
 
@@ -95,6 +147,12 @@ export default function AdminDashboard() {
       time: item.createdAt,
       color: "text-cyan-400",
     })) || []),
+    ...(leads?.slice(0, 2).map((item: any) => ({
+      type: "New Lead",
+      name: item.name,
+      time: item.createdAt,
+      color: "text-green-400",
+    })) || []),
     ...(blogPosts?.filter((p: any) => p.published).slice(0, 2).map((item: any) => ({
       type: "Blog Post",
       name: item.title,
@@ -108,24 +166,76 @@ export default function AdminDashboard() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-12"
+        className="mb-8"
       >
         <h1 className="text-4xl font-display font-bold mb-2">Dashboard</h1>
         <p className="text-gray-400">Welcome to your admin panel. Manage your content below.</p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Needs Attention Banner */}
+      {totalPendingItems > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30"
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <AlertCircle className="w-5 h-5 text-amber-400" />
+            <h2 className="text-lg font-semibold text-white">Needs Attention</h2>
+            <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 text-sm font-medium">
+              {totalPendingItems} items
+            </span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            {unreadContacts > 0 && (
+              <Link href="/admin/contacts" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                <Mail className="w-4 h-4 text-blue-400" />
+                <span className="text-sm text-white">{unreadContacts} unread contacts</span>
+              </Link>
+            )}
+            {newLeads > 0 && (
+              <Link href="/admin/leads" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                <Target className="w-4 h-4 text-green-400" />
+                <span className="text-sm text-white">{newLeads} new leads</span>
+              </Link>
+            )}
+            {pendingRequests > 0 && (
+              <Link href="/admin/project-requests" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                <Briefcase className="w-4 h-4 text-cyan-400" />
+                <span className="text-sm text-white">{pendingRequests} project requests</span>
+              </Link>
+            )}
+            {pendingCommunity > 0 && (
+              <Link href="/admin/community" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                <UserPlus className="w-4 h-4 text-purple-400" />
+                <span className="text-sm text-white">{pendingCommunity} invite requests</span>
+              </Link>
+            )}
+            {pendingApprovals > 0 && (
+              <Link href="/admin/community" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                <Users className="w-4 h-4 text-violet-400" />
+                <span className="text-sm text-white">{pendingApprovals} pending approvals</span>
+              </Link>
+            )}
+          </div>
+        </motion.div>
+      )}
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ delay: index * 0.05 }}
           >
             <Link href={stat.href}>
-              <div className="glass-elevated rounded-2xl p-6 hover:border-white/20 transition-all duration-200 cursor-pointer group">
-                <div className="flex items-start justify-between mb-4">
-                  <stat.icon className="w-10 h-10 text-white" />
+              <div className="glass-elevated rounded-2xl p-5 hover:border-white/20 transition-all duration-200 cursor-pointer group h-full">
+                <div className="flex items-start justify-between mb-3">
+                  <div className={`p-2 rounded-lg bg-gradient-to-br ${stat.color} bg-opacity-20`}>
+                    <stat.icon className="w-5 h-5 text-white" />
+                  </div>
                   {stat.trend && stat.trend.trend > 0 && (
                     <div className={`flex items-center gap-1 text-xs font-semibold ${
                       stat.trend.isUp ? "text-green-400" : "text-red-400"
@@ -139,51 +249,69 @@ export default function AdminDashboard() {
                     </div>
                   )}
                 </div>
-                <p className="text-gray-400 text-sm mb-2">{stat.label}</p>
-                <p className="text-3xl font-bold text-white">{stat.value}</p>
+                <p className="text-gray-400 text-sm mb-1">{stat.label}</p>
+                <p className="text-2xl font-bold text-white">{stat.value}</p>
               </div>
             </Link>
           </motion.div>
         ))}
       </div>
 
+      {/* Quick Actions */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="mt-12"
+        className="mt-10"
       >
-        <h2 className="text-2xl font-display font-bold mb-6">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <h2 className="text-2xl font-display font-bold mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Link href="/admin/blog?action=new" className="group">
-            <div className="glass-elevated rounded-2xl p-6 hover:border-white/20 transition-all duration-200">
-              <PenLine className="w-10 h-10 text-white mb-3" />
-              <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors">
-                Create Blog Post
+            <div className="glass-elevated rounded-xl p-4 hover:border-white/20 transition-all duration-200 h-full">
+              <PenLine className="w-8 h-8 text-amber-400 mb-2" />
+              <h3 className="text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors">
+                Write Blog Post
               </h3>
-              <p className="text-gray-400 text-sm">Write and publish a new blog post</p>
             </div>
           </Link>
 
           <Link href="/admin/portfolio?action=new" className="group">
-            <div className="glass-elevated rounded-2xl p-6 hover:border-white/20 transition-all duration-200">
-              <Plus className="w-10 h-10 text-white mb-3" />
-              <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+            <div className="glass-elevated rounded-xl p-4 hover:border-white/20 transition-all duration-200 h-full">
+              <Plus className="w-8 h-8 text-pink-400 mb-2" />
+              <h3 className="text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors">
                 Add Project
               </h3>
-              <p className="text-gray-400 text-sm">Add a new portfolio project</p>
+            </div>
+          </Link>
+
+          <Link href="/admin/newsletter" className="group">
+            <div className="glass-elevated rounded-xl p-4 hover:border-white/20 transition-all duration-200 h-full">
+              <Send className="w-8 h-8 text-purple-400 mb-2" />
+              <h3 className="text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors">
+                Send Newsletter
+              </h3>
+            </div>
+          </Link>
+
+          <Link href="/admin/leads" className="group">
+            <div className="glass-elevated rounded-xl p-4 hover:border-white/20 transition-all duration-200 h-full">
+              <UserPlus className="w-8 h-8 text-green-400 mb-2" />
+              <h3 className="text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors">
+                Add Lead
+              </h3>
             </div>
           </Link>
         </div>
       </motion.div>
 
+      {/* Recent Activity */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="mt-12"
+        className="mt-10"
       >
-        <h2 className="text-2xl font-display font-bold mb-6">Recent Activity</h2>
+        <h2 className="text-2xl font-display font-bold mb-4">Recent Activity</h2>
         <div className="glass-elevated rounded-2xl overflow-hidden">
           <div className="divide-y divide-white/10">
             {recentActivity.length > 0 ? (
@@ -218,17 +346,18 @@ export default function AdminDashboard() {
         </div>
       </motion.div>
 
+      {/* Tip */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="mt-12 p-6 rounded-2xl bg-white/5 border border-white/10"
+        className="mt-10 p-5 rounded-2xl bg-white/5 border border-white/10"
       >
-        <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
-          <Lightbulb className="w-5 h-5" /> Tip
+        <h3 className="text-base font-semibold mb-2 flex items-center gap-2">
+          <Lightbulb className="w-5 h-5 text-amber-400" /> Pro Tip
         </h3>
         <p className="text-gray-400 text-sm">
-          Use the sidebar navigation to manage your content. All changes are saved automatically to the database.
+          Check the &quot;Needs Attention&quot; banner above for items requiring your action. You can also use Settings → Integrations to test your email configuration.
         </p>
       </motion.div>
     </div>
