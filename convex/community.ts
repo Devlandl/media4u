@@ -373,6 +373,7 @@ export const getAllMembers = query({
 // ============================================
 
 // Submit a request for an invite (public)
+// Request an invite to join the VR Multiverse Community
 export const requestInvite = mutation({
   args: {
     name: v.string(),
