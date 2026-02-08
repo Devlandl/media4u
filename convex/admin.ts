@@ -23,7 +23,8 @@ export const getAllUsers = query({
 
           return {
             _id: roleRecord.userId,
-            name: authUser?.name || `User ${roleRecord.userId.slice(-8)}`,
+            // Use displayName from our table first, then Better Auth name, then fallback
+            name: roleRecord.displayName || authUser?.name || `User ${roleRecord.userId.slice(-8)}`,
             email: authUser?.email || roleRecord.userId,
             role: roleRecord.role,
           };
@@ -31,7 +32,7 @@ export const getAllUsers = query({
           // Fallback if user not found in Better Auth
           return {
             _id: roleRecord.userId,
-            name: `User ${roleRecord.userId.slice(-8)}`,
+            name: roleRecord.displayName || `User ${roleRecord.userId.slice(-8)}`,
             email: roleRecord.userId,
             role: roleRecord.role,
           };
@@ -109,6 +110,32 @@ export const addUserByEmail = mutation({
       });
       return { success: true, message: `Added user as ${args.role}` };
     }
+  },
+});
+
+// Update user display name (admin only)
+export const updateUserName = mutation({
+  args: {
+    userId: v.string(),
+    name: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+
+    // Find the user's role record
+    const roleRecord = await ctx.db
+      .query("userRoles")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .first();
+
+    if (!roleRecord) {
+      throw new Error("User not found");
+    }
+
+    // Update the display name in our table
+    await ctx.db.patch(roleRecord._id, { displayName: args.name });
+
+    return { success: true, message: `Updated name to ${args.name}` };
   },
 });
 

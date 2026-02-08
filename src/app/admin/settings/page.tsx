@@ -16,6 +16,9 @@ import {
   Server,
   Mail,
   RefreshCw,
+  Pencil,
+  Check,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -85,12 +88,18 @@ function UserManagementTab() {
   const userRoles = useQuery(api.admin.getAllUserRoles);
   const setUserRole = useMutation(api.auth.setUserRole);
   const addUserByEmail = useMutation(api.admin.addUserByEmail);
+  const updateUserName = useMutation(api.admin.updateUserName);
 
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
   const [newUserId, setNewUserId] = useState("");
   const [newUserRole, setNewUserRole] = useState<"admin" | "user" | "client">("user");
   const [isAdding, setIsAdding] = useState(false);
   const [addMessage, setAddMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  // Edit name state
+  const [editingUserId, setEditingUserId] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
+  const [savingName, setSavingName] = useState(false);
 
   const getUserRole = (userId: string) => {
     const roleRecord = userRoles?.find((r: { userId: string }) => r.userId === userId);
@@ -126,6 +135,31 @@ function UserManagementTab() {
     } finally {
       setIsAdding(false);
     }
+  };
+
+  const handleStartEditName = (userId: string, currentName: string) => {
+    setEditingUserId(userId);
+    setEditName(currentName);
+  };
+
+  const handleSaveName = async (userId: string) => {
+    if (!editName.trim()) return;
+    setSavingName(true);
+    try {
+      await updateUserName({ userId, name: editName.trim() });
+      setEditingUserId(null);
+      setEditName("");
+    } catch (error) {
+      console.error("Failed to update name:", error);
+      alert("Failed to update name");
+    } finally {
+      setSavingName(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingUserId(null);
+    setEditName("");
   };
 
   if (!users || !userRoles) {
@@ -204,9 +238,50 @@ function UserManagementTab() {
             <tbody>
               {users.map((user: { _id: string; name: string; email: string; role?: string }) => {
                 const currentRole = user.role || getUserRole(user._id);
+                const isEditing = editingUserId === user._id;
                 return (
                   <tr key={user._id} className="border-b border-white/5 hover:bg-white/5">
-                    <td className="py-3 px-4 text-white">{user.name}</td>
+                    <td className="py-3 px-4 text-white">
+                      {isEditing ? (
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="text"
+                            value={editName}
+                            onChange={(e) => setEditName(e.target.value)}
+                            className="px-2 py-1 rounded bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 w-40"
+                            autoFocus
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") handleSaveName(user._id);
+                              if (e.key === "Escape") handleCancelEdit();
+                            }}
+                          />
+                          <button
+                            onClick={() => handleSaveName(user._id)}
+                            disabled={savingName}
+                            className="p-1 text-green-400 hover:text-green-300 disabled:opacity-50"
+                          >
+                            <Check className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={handleCancelEdit}
+                            className="p-1 text-red-400 hover:text-red-300"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <span>{user.name}</span>
+                          <button
+                            onClick={() => handleStartEditName(user._id, user.name)}
+                            className="p-1 text-gray-500 hover:text-cyan-400 transition-colors"
+                            title="Edit name"
+                          >
+                            <Pencil className="w-3 h-3" />
+                          </button>
+                        </div>
+                      )}
+                    </td>
                     <td className="py-3 px-4 text-gray-400">{user.email}</td>
                     <td className="py-3 px-4">
                       <span
