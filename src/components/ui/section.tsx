@@ -44,7 +44,8 @@ export function SectionHeader({ tag, title, highlight, description, centered = t
         {highlight ? (
           <>
             {titleParts[0]}
-            {highlight}
+            {titleParts[0] && " "}
+            <span className="text-gradient">{highlight}</span>
             {titleParts[1]}
           </>
         ) : (
