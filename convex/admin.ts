@@ -63,7 +63,7 @@ export const checkAdminAccess = internalMutation({
 export const setUserRoleInternal = internalMutation({
   args: {
     userId: v.string(),
-    role: v.union(v.literal("admin"), v.literal("user"), v.literal("client")),
+    role: v.union(v.literal("admin"), v.literal("user")),
   },
   handler: async (ctx, args) => {
     const existing = await ctx.db
@@ -86,7 +86,7 @@ export const setUserRoleInternal = internalMutation({
 export const addUserByEmail = mutation({
   args: {
     userId: v.string(),
-    role: v.union(v.literal("admin"), v.literal("user"), v.literal("client")),
+    role: v.union(v.literal("admin"), v.literal("user")),
   },
   handler: async (ctx, args) => {
     await requireAdmin(ctx);

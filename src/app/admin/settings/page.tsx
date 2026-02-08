@@ -92,7 +92,7 @@ function UserManagementTab() {
 
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
   const [newUserId, setNewUserId] = useState("");
-  const [newUserRole, setNewUserRole] = useState<"admin" | "user" | "client">("user");
+  const [newUserRole, setNewUserRole] = useState<"admin" | "user">("user");
   const [isAdding, setIsAdding] = useState(false);
   const [addMessage, setAddMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -106,7 +106,7 @@ function UserManagementTab() {
     return roleRecord?.role || "user";
   };
 
-  const handleRoleChange = async (userId: string, newRole: "admin" | "user" | "client") => {
+  const handleRoleChange = async (userId: string, newRole: "admin" | "user") => {
     setUpdatingUserId(userId);
     try {
       await setUserRole({ userId, role: newRole });
@@ -192,11 +192,10 @@ function UserManagementTab() {
               <label className="block text-sm text-gray-400 mb-2">Role</label>
               <select
                 value={newUserRole}
-                onChange={(e) => setNewUserRole(e.target.value as "admin" | "user" | "client")}
+                onChange={(e) => setNewUserRole(e.target.value as "admin" | "user")}
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
               >
                 <option value="user">User</option>
-                <option value="client">Client</option>
                 <option value="admin">Admin</option>
               </select>
             </div>
@@ -288,9 +287,7 @@ function UserManagementTab() {
                         className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
                           currentRole === "admin"
                             ? "bg-purple-500/20 text-purple-400 border border-purple-500/30"
-                            : currentRole === "client"
-                            ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
-                            : "bg-gray-500/20 text-gray-400 border border-gray-500/30"
+                            : "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
                         }`}
                       >
                         {currentRole}
@@ -299,12 +296,11 @@ function UserManagementTab() {
                     <td className="py-3 px-4">
                       <select
                         value={currentRole}
-                        onChange={(e) => handleRoleChange(user._id, e.target.value as "admin" | "user" | "client")}
+                        onChange={(e) => handleRoleChange(user._id, e.target.value as "admin" | "user")}
                         disabled={updatingUserId === user._id}
                         className="px-3 py-1 rounded bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed [&>option]:bg-gray-800 [&>option]:text-white"
                       >
                         <option value="user">User</option>
-                        <option value="client">Client</option>
                         <option value="admin">Admin</option>
                       </select>
                     </td>

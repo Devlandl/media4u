@@ -8,7 +8,7 @@ export default defineSchema({
   // User roles (for admin access - separate from Better Auth user table)
   userRoles: defineTable({
     userId: v.string(), // Better Auth user ID
-    role: v.union(v.literal("admin"), v.literal("user"), v.literal("client")),
+    role: v.union(v.literal("admin"), v.literal("user")),
     displayName: v.optional(v.string()), // Admin-set display name
     createdAt: v.number(),
   })

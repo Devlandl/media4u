@@ -112,22 +112,17 @@ export const updateOrderStatus = internalMutation({
       ...(paidAt ? { paidAt } : {}),
     });
 
-    // If paid, update user role to "client"
+    // If paid, ensure user has a role
     if (status === "paid" && order.userId) {
       const existingRole = await ctx.db
         .query("userRoles")
         .withIndex("by_userId", (q) => q.eq("userId", order.userId!))
         .first();
 
-      if (existingRole) {
-        // Only upgrade if current role is "user"
-        if (existingRole.role === "user") {
-          await ctx.db.patch(existingRole._id, { role: "client" });
-        }
-      } else {
+      if (!existingRole) {
         await ctx.db.insert("userRoles", {
           userId: order.userId!,
-          role: "client",
+          role: "user",
           createdAt: Date.now(),
         });
       }
@@ -174,21 +169,17 @@ export const createSubscription = internalMutation({
       updatedAt: Date.now(),
     });
 
-    // Update user role to "client" if active
+    // Ensure user has a role if subscription is active
     if (args.status === "active" && args.userId) {
       const existingRole = await ctx.db
         .query("userRoles")
         .withIndex("by_userId", (q) => q.eq("userId", args.userId!))
         .first();
 
-      if (existingRole) {
-        if (existingRole.role === "user") {
-          await ctx.db.patch(existingRole._id, { role: "client" });
-        }
-      } else {
+      if (!existingRole) {
         await ctx.db.insert("userRoles", {
           userId: args.userId!,
-          role: "client",
+          role: "user",
           createdAt: Date.now(),
         });
       }
@@ -359,20 +350,17 @@ export const linkUserToPayments = internalMutation({
     const hasPaidOrders = orders.some((o) => o.status === "paid");
     const hasActiveSubscription = subscriptions.some((s) => s.status === "active");
 
+    // Ensure user has a role if they have paid orders or active subscription
     if (hasPaidOrders || hasActiveSubscription) {
       const existingRole = await ctx.db
         .query("userRoles")
         .withIndex("by_userId", (q) => q.eq("userId", userId))
         .first();
 
-      if (existingRole) {
-        if (existingRole.role === "user") {
-          await ctx.db.patch(existingRole._id, { role: "client" });
-        }
-      } else {
+      if (!existingRole) {
         await ctx.db.insert("userRoles", {
           userId,
-          role: "client",
+          role: "user",
           createdAt: Date.now(),
         });
       }
