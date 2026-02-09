@@ -1,13 +1,35 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { requireAdmin, getAuthenticatedUser } from "./auth";
 
-// Get all projects (sorted by creation date, newest first)
+// Get all projects (admin only - sorted by creation date, newest first)
 export const getAllProjects = query({
   handler: async (ctx) => {
+    await requireAdmin(ctx);
+
     const projects = await ctx.db
       .query("projects")
       .order("desc")
       .collect();
+    return projects;
+  },
+});
+
+// Get user's own projects (clients see only their projects)
+export const getMyProjects = query({
+  handler: async (ctx) => {
+    const user = await getAuthenticatedUser(ctx);
+    if (!user) {
+      throw new Error("Authentication required");
+    }
+
+    // Get projects linked to user's email
+    const projects = await ctx.db
+      .query("projects")
+      .filter((q) => q.eq(q.field("email"), user.email))
+      .order("desc")
+      .collect();
+
     return projects;
   },
 });
