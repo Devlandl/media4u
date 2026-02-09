@@ -167,6 +167,10 @@ export default defineSchema({
     requirements: v.optional(v.string()),
     budget: v.optional(v.string()),
     timeline: v.optional(v.string()),
+    // Payment Status
+    paymentStatus: v.optional(v.union(v.literal("unpaid"), v.literal("paid"))),
+    packageType: v.optional(v.union(v.literal("starter"), v.literal("professional"))), // Links to order
+    orderId: v.optional(v.id("orders")), // Link to order record
     // Client Branding & Social Info
     brandColors: v.optional(v.object({
       primary: v.optional(v.string()),

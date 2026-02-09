@@ -1,7 +1,8 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { mutation, query, internalMutation } from "./_generated/server";
 import { requireAdmin, getAuthenticatedUser } from "./auth";
 import { internal } from "./_generated/api";
+import { Id } from "./_generated/dataModel";
 
 // Get all projects (admin only - sorted by creation date, newest first)
 export const getAllProjects = query({
@@ -44,7 +45,55 @@ export const getProjectById = query({
   },
 });
 
-// Create a new project manually
+// Create an unpaid project from package selection (client-facing)
+export const createUnpaidProject = mutation({
+  args: {
+    packageType: v.union(v.literal("starter"), v.literal("professional")),
+  },
+  handler: async (ctx, args) => {
+    const user = await getAuthenticatedUser(ctx);
+    if (!user) {
+      throw new Error("Authentication required");
+    }
+
+    const packageNames = {
+      starter: "Starter Website Package",
+      professional: "Professional Website Package",
+    };
+
+    const packageDescriptions = {
+      starter: "3-4 page professional website with mobile-responsive design, SEO-ready structure, and contact form integration.",
+      professional: "6-8 page website or eCommerce site with custom design, branding consultation, and advanced features.",
+    };
+
+    const projectId = await ctx.db.insert("projects", {
+      name: user.name ?? user.email ?? "Client",
+      email: user.email ?? "",
+      company: undefined,
+      phone: undefined,
+      projectType: packageNames[args.packageType],
+      description: packageDescriptions[args.packageType],
+      requirements: undefined,
+      budget: args.packageType === "starter" ? "$899" : "$1,399",
+      timeline: undefined,
+      status: "new",
+      notes: `Project created from ${args.packageType} package selection. Awaiting payment.`,
+      liveUrl: undefined,
+      leadId: undefined,
+      backendComplexity: undefined,
+      technicalFeatures: undefined,
+      paymentStatus: "unpaid",
+      packageType: args.packageType,
+      orderId: undefined,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    });
+
+    return projectId;
+  },
+});
+
+// Create a new project manually (admin-created, always paid)
 export const createProject = mutation({
   args: {
     name: v.string(),
@@ -75,6 +124,9 @@ export const createProject = mutation({
       leadId: undefined,
       backendComplexity: undefined,
       technicalFeatures: undefined,
+      paymentStatus: "paid", // Admin-created projects are considered paid
+      packageType: undefined,
+      orderId: undefined,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -125,6 +177,9 @@ export const createProjectFromLead = mutation({
       leadId: args.leadId,
       backendComplexity: undefined,
       technicalFeatures: undefined,
+      paymentStatus: "paid", // Lead conversions are considered paid
+      packageType: undefined,
+      orderId: undefined,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -224,6 +279,9 @@ export const createProjectFromRequest = mutation({
       leadId: undefined,
       backendComplexity: undefined,
       technicalFeatures: undefined,
+      paymentStatus: "paid", // Project request conversions are considered paid
+      packageType: undefined,
+      orderId: undefined,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -234,6 +292,38 @@ export const createProjectFromRequest = mutation({
     });
 
     return projectId;
+  },
+});
+
+// Mark project as paid (called by webhook after payment)
+export const markProjectAsPaid = internalMutation({
+  args: {
+    projectId: v.string(), // String because it comes from Stripe metadata
+    orderId: v.id("orders"),
+  },
+  handler: async (ctx, args) => {
+    const projectId = args.projectId as Id<"projects">;
+    const project = await ctx.db.get(projectId);
+    if (!project) {
+      console.error(`Project not found: ${args.projectId}`);
+      return { success: false };
+    }
+
+    await ctx.db.patch(projectId, {
+      paymentStatus: "paid",
+      orderId: args.orderId,
+      updatedAt: Date.now(),
+    });
+
+    // Send welcome email now that project is paid
+    await ctx.scheduler.runAfter(0, internal.projectEmails.sendProjectWelcomeEmailInternal, {
+      clientName: project.name,
+      clientEmail: project.email,
+      projectType: project.projectType,
+      projectDescription: project.description,
+    });
+
+    return { success: true };
   },
 });
 

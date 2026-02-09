@@ -8,7 +8,7 @@ import { Doc } from "../../../convex/_generated/dataModel";
 import { useAuth } from "@/components/AuthContext";
 import Link from "next/link";
 import { format } from "date-fns";
-import { Briefcase, Lock, ExternalLink } from "lucide-react";
+import { Briefcase, Lock, ExternalLink, CreditCard } from "lucide-react";
 
 const PRODUCT_NAMES: Record<string, string> = {
   starter: "Starter Website Package",
@@ -51,6 +51,37 @@ export default function PortalPage(): ReactElement {
   );
 
   const projects = useQuery(api.projects.getMyProjects);
+
+  const handlePayNow = async (packageType: "starter" | "professional", projectId: string) => {
+    try {
+      const response = await fetch("/api/stripe/create-checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productType: packageType,
+          userId: user?.id,
+          customerEmail: user?.email,
+          customerName: user?.name,
+          projectId,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to create checkout session");
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err) {
+      console.error("Payment error:", err);
+      alert("Failed to start payment. Please try again.");
+    }
+  };
 
   const recentOrders = orders?.slice(0, 3) ?? [];
   const paidOrdersCount = orders?.filter((o: Doc<"orders">) => o.status === "paid").length ?? 0;
@@ -211,18 +242,36 @@ export default function PortalPage(): ReactElement {
                       <p className="text-sm text-gray-400 truncate">{project.company}</p>
                     )}
                   </div>
-                  <span
-                    className={`text-xs font-medium px-2 py-1 rounded-full border flex-shrink-0 ml-2 ${
-                      statusColors[project.status as ProjectStatus]
-                    }`}
-                  >
-                    {statusLabels[project.status as ProjectStatus]}
-                  </span>
+                  <div className="flex gap-1 flex-shrink-0 ml-2">
+                    {project.paymentStatus === "unpaid" && (
+                      <span className="text-xs font-medium px-2 py-1 rounded-full border bg-red-500/20 text-red-400 border-red-500/30">
+                        Unpaid
+                      </span>
+                    )}
+                    <span
+                      className={`text-xs font-medium px-2 py-1 rounded-full border ${
+                        statusColors[project.status as ProjectStatus]
+                      }`}
+                    >
+                      {statusLabels[project.status as ProjectStatus]}
+                    </span>
+                  </div>
                 </div>
 
                 <p className="text-sm text-gray-300 line-clamp-2 mb-4">
                   {project.description}
                 </p>
+
+                {/* Show Pay Now button for unpaid projects */}
+                {project.paymentStatus === "unpaid" && project.packageType && (
+                  <button
+                    onClick={() => handlePayNow(project.packageType!, project._id)}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:opacity-90 transition-opacity font-semibold mb-3"
+                  >
+                    <CreditCard className="w-4 h-4" />
+                    Pay Now - {project.budget}
+                  </button>
+                )}
 
                 <div className="flex gap-2">
                   {project.liveUrl && (

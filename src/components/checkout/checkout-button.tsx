@@ -4,6 +4,8 @@ import { type ReactElement, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/AuthContext";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "convex/react";
+import { api } from "@convex/_generated/api";
 
 type ProductType = "starter" | "professional" | "webcare";
 
@@ -26,6 +28,7 @@ export function CheckoutButton({
   const { user, isAuthenticated, isLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const createUnpaidProject = useMutation(api.projects.createUnpaidProject);
 
   const defaultLabels: Record<ProductType, string> = {
     starter: "Get Started - $899",
@@ -46,6 +49,12 @@ export function CheckoutButton({
     setLoading(true);
 
     try {
+      // For packages (not webcare), create unpaid project first
+      let projectId;
+      if (productType === "starter" || productType === "professional") {
+        projectId = await createUnpaidProject({ packageType: productType });
+      }
+
       const response = await fetch("/api/stripe/create-checkout", {
         method: "POST",
         headers: {
@@ -56,6 +65,7 @@ export function CheckoutButton({
           userId: user?.id,
           customerEmail: user?.email,
           customerName: user?.name,
+          projectId, // Pass project ID for packages
         }),
       });
 

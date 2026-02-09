@@ -29,6 +29,7 @@ interface CheckoutRequest {
   userId?: string;
   customerEmail: string;
   customerName?: string;
+  projectId?: string; // For packages (starter/professional)
   successUrl?: string;
   cancelUrl?: string;
 }
@@ -71,7 +72,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const convex = getConvexClient();
 
     const body = (await request.json()) as CheckoutRequest;
-    const { productType, userId, customerEmail, customerName, successUrl, cancelUrl } = body;
+    const { productType, userId, customerEmail, customerName, projectId, successUrl, cancelUrl } = body;
 
     if (!productType || !customerEmail) {
       return NextResponse.json(
@@ -122,6 +123,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       metadata: {
         userId: userId ?? "",
         productType,
+        projectId: projectId ?? "", // Include projectId for packages
       },
     };
 

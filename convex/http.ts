@@ -53,12 +53,21 @@ http.route({
 
           if (session.mode === "payment") {
             // One-time payment completed
-            await ctx.runMutation(internal.stripe.updateOrderStatus, {
+            const updatedOrder = await ctx.runMutation(internal.stripe.updateOrderStatus, {
               stripeSessionId: session.id,
               status: "paid",
               stripePaymentIntentId: session.payment_intent as string,
               paidAt: Date.now(),
             });
+
+            // If this order is linked to a project, mark project as paid
+            const projectId = session.metadata?.projectId;
+            if (projectId && updatedOrder.orderId) {
+              await ctx.runMutation(internal.projects.markProjectAsPaid, {
+                projectId,
+                orderId: updatedOrder.orderId,
+              });
+            }
           } else if (session.mode === "subscription") {
             // Subscription checkout completed - subscription created event will handle the details
             console.log("Subscription checkout completed:", session.id);
