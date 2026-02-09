@@ -2,14 +2,14 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useQuery, useMutation, useAction } from "convex/react";
 import Link from "next/link";
 import { api } from "@convex/_generated/api";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Card, CardIcon } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Home, Globe, Star, Coins, ExternalLink, Instagram, Youtube, Send, CheckCircle, Loader2, Sparkles, Users, MapPin, Play, X, ChevronLeft, ChevronRight, Heart } from "lucide-react";
 
 const FEATURES = [
@@ -220,6 +220,106 @@ function VRHeadsetVisual() {
   );
 }
 
+// Helper: get liked IDs from localStorage
+function getLikedIds(): Set<string> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const stored = localStorage.getItem("community-likes");
+    return stored ? new Set(JSON.parse(stored)) : new Set();
+  } catch {
+    return new Set();
+  }
+}
+
+// Helper: save liked IDs to localStorage
+function saveLikedIds(ids: Set<string>) {
+  try {
+    localStorage.setItem("community-likes", JSON.stringify([...ids]));
+  } catch {
+    // localStorage not available
+  }
+}
+
+// Like button component for member cards
+function LikeButton({ memberId, likes }: { memberId: string; likes: number }) {
+  const [isLiked, setIsLiked] = useState(false);
+  const [optimisticLikes, setOptimisticLikes] = useState(likes);
+  const likeMember = useMutation(api.community.likeMember);
+  const unlikeMember = useMutation(api.community.unlikeMember);
+
+  useEffect(() => {
+    setIsLiked(getLikedIds().has(memberId));
+  }, [memberId]);
+
+  useEffect(() => {
+    setOptimisticLikes(likes);
+  }, [likes]);
+
+  const handleLike = useCallback(async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const liked = getLikedIds();
+
+    if (isLiked) {
+      setIsLiked(false);
+      setOptimisticLikes((prev) => Math.max(prev - 1, 0));
+      liked.delete(memberId);
+      saveLikedIds(liked);
+      try {
+        await unlikeMember({ id: memberId as any });
+      } catch {
+        setIsLiked(true);
+        setOptimisticLikes((prev) => prev + 1);
+        liked.add(memberId);
+        saveLikedIds(liked);
+      }
+    } else {
+      setIsLiked(true);
+      setOptimisticLikes((prev) => prev + 1);
+      liked.add(memberId);
+      saveLikedIds(liked);
+      try {
+        await likeMember({ id: memberId as any });
+      } catch {
+        setIsLiked(false);
+        setOptimisticLikes((prev) => Math.max(prev - 1, 0));
+        liked.delete(memberId);
+        saveLikedIds(liked);
+      }
+    }
+  }, [isLiked, memberId, likeMember, unlikeMember]);
+
+  return (
+    <button
+      onClick={handleLike}
+      className="flex items-center gap-1.5 group/like"
+      aria-label={isLiked ? "Unlike" : "Like"}
+    >
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={isLiked ? "liked" : "not-liked"}
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0.8 }}
+          transition={{ type: "spring", stiffness: 500, damping: 15 }}
+        >
+          <Heart
+            className={`w-5 h-5 transition-colors ${
+              isLiked
+                ? "fill-red-500 text-red-500"
+                : "text-gray-500 group-hover/like:text-red-400"
+            }`}
+          />
+        </motion.div>
+      </AnimatePresence>
+      {optimisticLikes > 0 && (
+        <span className={`text-sm font-medium ${isLiked ? "text-red-400" : "text-gray-500"}`}>
+          {optimisticLikes}
+        </span>
+      )}
+    </button>
+  );
+}
+
 export default function VRPageClient() {
   const experiences = useQuery(api.vr.getAllExperiences);
   const communityMembers = useQuery(api.community.getApprovedMembers);
@@ -376,8 +476,15 @@ export default function VRPageClient() {
 
                   {/* Content */}
                   <div className="p-5">
-                    <h3 className="text-xl font-semibold text-white mb-1">{member.worldName}</h3>
-                    <p className="text-sm text-cyan-400 mb-3">by {member.name}</p>
+                    <div className="flex items-start justify-between mb-1">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-xl font-semibold text-white">{member.worldName}</h3>
+                        <p className="text-sm text-cyan-400 mb-3">by {member.name}</p>
+                      </div>
+                      <div className="ml-3 shrink-0" onClick={(e) => e.stopPropagation()}>
+                        <LikeButton memberId={member._id} likes={member.likes || 0} />
+                      </div>
+                    </div>
                     <p className="text-sm text-gray-400 line-clamp-3 mb-4">{member.description}</p>
 
                     {/* Links */}
