@@ -11,7 +11,7 @@ import { Lock, Eye, EyeOff, Copy, Check, Save, ArrowLeft } from "lucide-react";
 export default function ProjectVaultPage() {
   const params = useParams();
   const router = useRouter();
-  const projectId = params.projectId as Id<"projects">;
+  const projectId = params?.projectId as Id<"projects">;
 
   const project = useQuery(api.projects.getProjectById, { id: projectId });
   const updateVault = useMutation(api.projects.updateIntegrationVault);
