@@ -64,10 +64,10 @@ export default function PortalOrdersPage(): ReactElement {
             When you purchase a package, your orders will appear here.
           </p>
           <Link
-            href="/start-project"
+            href="/portal/projects"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold transition-all hover:shadow-lg hover:shadow-cyan-500/25"
           >
-            Browse Packages
+            Start a Project
           </Link>
         </motion.div>
       ) : (

@@ -8,7 +8,31 @@ import { Doc } from "../../../convex/_generated/dataModel";
 import { useAuth } from "@/components/AuthContext";
 import Link from "next/link";
 import { format } from "date-fns";
-import { Briefcase, Lock, ExternalLink, CreditCard } from "lucide-react";
+import { Briefcase, Lock, ExternalLink, CreditCard, ArrowRight } from "lucide-react";
+
+const GETTING_STARTED_STEPS = [
+  {
+    number: "01",
+    title: "Start a Project",
+    description: "Tell us what you want to build - website, branding, VR, or all three.",
+    href: "/portal/projects",
+    cta: "Build Your Project",
+  },
+  {
+    number: "02",
+    title: "We Review Your Request",
+    description: "We review your blueprint and follow up within 1-2 business days with a plan.",
+    href: null,
+    cta: null,
+  },
+  {
+    number: "03",
+    title: "We Build and Launch",
+    description: "Once you approve the plan, we get to work and keep you updated every step of the way.",
+    href: null,
+    cta: null,
+  },
+];
 
 const PRODUCT_NAMES: Record<string, string> = {
   starter: "Starter Website Package",
@@ -84,7 +108,8 @@ export default function PortalPage(): ReactElement {
   };
 
   const recentOrders = orders?.slice(0, 3) ?? [];
-  const paidOrdersCount = orders?.filter((o: Doc<"orders">) => o.status === "paid").length ?? 0;
+  const allOrdersCount = orders?.length ?? 0;
+  const pendingOrdersCount = orders?.filter((o: Doc<"orders">) => o.status === "pending").length ?? 0;
   const recentProjects = projects?.slice(0, 3) ?? [];
   const activeProjectsCount = projects?.filter((p: Doc<"projects">) =>
     p.status !== "completed" && p.status !== "launched"
@@ -98,33 +123,76 @@ export default function PortalPage(): ReactElement {
         className="mb-8"
       >
         <h1 className="text-4xl font-display font-bold mb-2">
-          Welcome back, <span className="text-gradient-cyber">{user?.name}</span>
+          Welcome back, <span className="text-white">{user?.name}</span>
         </h1>
         <p className="text-gray-400">
           Track your projects, manage orders, and access your integration vault.
         </p>
       </motion.div>
 
-      {/* Quick Stats */}
-      <div className="grid md:grid-cols-4 gap-6 mb-8">
+      {/* Getting Started - only show when brand new (no projects, no orders) */}
+      {projects !== undefined && projects.length === 0 && recentOrders.length === 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass-elevated rounded-2xl p-6 border border-cyan-500/30"
+          className="mb-8 glass-elevated rounded-2xl p-8 border border-cyan-500/20"
         >
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
+          <div className="mb-6">
+            <span className="inline-block mb-2 text-xs font-semibold tracking-[0.2em] uppercase text-cyan-400">
+              Welcome
+            </span>
+            <h2 className="text-2xl font-display font-bold text-white mb-1">
+              Here is how it works
+            </h2>
+            <p className="text-gray-400 text-sm">
+              You are all set up. Here is what happens next.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4 mb-6">
+            {GETTING_STARTED_STEPS.map((step, index) => (
+              <div key={step.number} className="relative">
+                {index < GETTING_STARTED_STEPS.length - 1 && (
+                  <div className="hidden md:block absolute top-5 left-full w-full h-px bg-white/10 z-0" />
+                )}
+                <div className="relative z-10 p-4 rounded-xl bg-white/5 border border-white/10 h-full">
+                  <div className="text-3xl font-display font-bold text-white/10 mb-2">{step.number}</div>
+                  <h3 className="text-base font-semibold text-white mb-1">{step.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <Link
+            href="/portal/projects"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500 text-black font-semibold hover:bg-cyan-400 transition-colors text-sm"
+          >
+            Build Your First Project
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
+      )}
+
+      {/* Quick Stats */}
+      <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="glass-elevated rounded-2xl p-6"
+        >
+          <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
             <Briefcase className="w-4 h-4" />
             My Projects
           </div>
           <div className="text-3xl font-display font-bold text-white">
             {projects?.length ?? 0}
           </div>
-          {activeProjectsCount > 0 && (
-            <div className="text-xs text-cyan-400 mt-1">
-              {activeProjectsCount} active
-            </div>
-          )}
+          <div className="text-xs text-gray-500 mt-1">
+            {activeProjectsCount > 0 ? `${activeProjectsCount} in progress` : "No active projects"}
+          </div>
         </motion.div>
 
         <motion.div
@@ -133,9 +201,16 @@ export default function PortalPage(): ReactElement {
           transition={{ delay: 0.2 }}
           className="glass-elevated rounded-2xl p-6"
         >
-          <div className="text-sm text-gray-400 mb-1">Total Orders</div>
+          <div className="text-sm text-gray-400 mb-3">Orders</div>
           <div className="text-3xl font-display font-bold text-white">
-            {paidOrdersCount}
+            {allOrdersCount}
+          </div>
+          <div className="text-xs mt-1">
+            {pendingOrdersCount > 0 ? (
+              <span className="text-yellow-400">{pendingOrdersCount} pending payment</span>
+            ) : (
+              <span className="text-gray-500">No pending orders</span>
+            )}
           </div>
         </motion.div>
 
@@ -145,27 +220,16 @@ export default function PortalPage(): ReactElement {
           transition={{ delay: 0.3 }}
           className="glass-elevated rounded-2xl p-6"
         >
-          <div className="text-sm text-gray-400 mb-1">Subscription Status</div>
-          <div className="text-3xl font-display font-bold">
+          <div className="text-sm text-gray-400 mb-3">Web Care Plan</div>
+          <div className="text-2xl font-display font-bold">
             {subscription?.status === "active" ? (
               <span className="text-green-400">Active</span>
             ) : (
-              <span className="text-gray-500">None</span>
+              <span className="text-white">No Active Plan</span>
             )}
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="glass-elevated rounded-2xl p-6"
-        >
-          <div className="text-sm text-gray-400 mb-1">Account Email</div>
-          <div className="text-lg font-medium text-white truncate">
-            {user?.email}
-          </div>
-        </motion.div>
       </div>
 
       {/* Active Subscription */}
@@ -319,7 +383,8 @@ export default function PortalPage(): ReactElement {
         )}
       </motion.div>
 
-      {/* Recent Orders */}
+      {/* Recent Orders - hide when brand new with nothing yet */}
+      {(recentOrders.length > 0 || (projects && projects.length > 0)) && (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -382,6 +447,7 @@ export default function PortalPage(): ReactElement {
           </div>
         )}
       </motion.div>
+      )}
     </div>
   );
 }

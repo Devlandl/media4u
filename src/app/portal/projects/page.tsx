@@ -4,8 +4,9 @@ import { motion } from "motion/react";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useState } from "react";
-import { Search, ExternalLink, Calendar, Package, Lock, Globe, Palette, Glasses, Rocket, ArrowRight, Plus } from "lucide-react";
+import { Search, ExternalLink, Calendar, Package, Lock, Globe, Palette, Glasses, Rocket, ArrowRight, Plus, ChevronLeft } from "lucide-react";
 import Link from "next/link";
+import { ProjectWizard } from "../../start-project/project-wizard";
 
 type ProjectStatus = "new" | "planning" | "design" | "development" | "review" | "completed" | "launched";
 
@@ -72,7 +73,7 @@ const BUILD_OPTIONS = [
   },
 ];
 
-function BuildYourProject() {
+function BuildYourProject({ onStart }: { onStart: () => void }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -103,7 +104,7 @@ function BuildYourProject() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.08 }}
             >
-              <Link href="/start-project">
+              <button onClick={onStart} className="w-full text-left">
                 <div
                   className={`group relative p-6 rounded-2xl bg-gradient-to-br ${option.gradient} border border-white/10 ${option.borderColor} transition-all duration-300 hover:scale-[1.02] cursor-pointer`}
                 >
@@ -125,7 +126,7 @@ function BuildYourProject() {
                     <ArrowRight className="w-5 h-5 text-gray-500 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0 mt-1" />
                   </div>
                 </div>
-              </Link>
+              </button>
             </motion.div>
           );
         })}
@@ -141,13 +142,13 @@ function BuildYourProject() {
         <p className="text-gray-400 mb-4">
           Not sure where to start? Our project wizard will help you figure it out - step by step.
         </p>
-        <Link
-          href="/start-project"
+        <button
+          onClick={onStart}
           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 text-black font-semibold hover:bg-cyan-400 transition-colors"
         >
           Start the Process
           <ArrowRight className="w-4 h-4" />
-        </Link>
+        </button>
       </motion.div>
     </motion.div>
   );
@@ -156,6 +157,7 @@ function BuildYourProject() {
 export default function ClientProjectsPage() {
   const projects = useQuery(api.projects.getMyProjects);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showWizard, setShowWizard] = useState(false);
 
   const filtered = projects?.filter((p) => {
     if (!searchQuery.trim()) return true;
@@ -177,27 +179,54 @@ export default function ClientProjectsPage() {
         className="mb-8 flex items-center justify-between"
       >
         <div>
-          <h1 className="text-4xl font-display font-bold mb-2">My Projects</h1>
-          <p className="text-gray-400">View and track your website projects</p>
+          {showWizard ? (
+            <>
+              <button
+                onClick={() => setShowWizard(false)}
+                className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors text-sm mb-2"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Back to Projects
+              </button>
+              <h1 className="text-4xl font-display font-bold mb-2">Start a Project</h1>
+              <p className="text-gray-400">Fill out the steps below and we will follow up within 1-2 business days.</p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-4xl font-display font-bold mb-2">My Projects</h1>
+              <p className="text-gray-400">View and track your website projects</p>
+            </>
+          )}
         </div>
-        {hasProjects && (
-          <Link
-            href="/start-project"
+        {hasProjects && !showWizard && (
+          <button
+            onClick={() => setShowWizard(true)}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:border-white/20 hover:bg-white/10 transition-all text-sm font-medium"
           >
             <Plus className="w-4 h-4" />
             New Project
-          </Link>
+          </button>
         )}
       </motion.div>
 
-      {/* Show build options when no projects */}
-      {projects !== undefined && !hasProjects && (
-        <BuildYourProject />
+      {/* Inline wizard */}
+      {showWizard && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <ProjectWizard />
+        </motion.div>
       )}
 
-      {/* Show projects grid when they have projects */}
-      {hasProjects && (
+      {/* Show build options when no projects and not in wizard */}
+      {!showWizard && projects !== undefined && !hasProjects && (
+        <BuildYourProject onStart={() => setShowWizard(true)} />
+      )}
+
+      {/* Show projects grid when they have projects and not in wizard */}
+      {hasProjects && !showWizard && (
         <>
           {/* Search Bar */}
           <div className="mb-6">
