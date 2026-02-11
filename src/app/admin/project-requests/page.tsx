@@ -36,14 +36,18 @@ export default function ProjectRequestsAdminPage() {
   const createProjectFromRequest = useMutation(api.projects.createProjectFromRequest);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [filterStatus, setFilterStatus] = useState<ProjectStatus | "all">("all");
+  const [filterStatus, setFilterStatus] = useState<ProjectStatus | "all" | "active">("active");
   const [subscribing, setSubscribing] = useState<string | null>(null);
   const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
   const [isConvertModalOpen, setIsConvertModalOpen] = useState(false);
 
   const filtered =
-    requests && filterStatus !== "all"
-      ? requests.filter((r: any) => r.status === filterStatus)
+    requests
+      ? filterStatus === "all"
+        ? requests
+        : filterStatus === "active"
+          ? requests.filter((r: any) => r.status !== "accepted" && r.status !== "declined")
+          : requests.filter((r: any) => r.status === filterStatus)
       : requests;
 
   const selected = requests?.find((r: any) => r._id === selectedId);
@@ -119,7 +123,7 @@ export default function ProjectRequestsAdminPage() {
 
       {/* Filters */}
       <div className="flex gap-3 mb-6 flex-wrap">
-        {(["all", "new", "contacted", "quoted", "accepted", "declined"] as const).map((status) => (
+        {(["active", "all", "new", "contacted", "quoted", "accepted", "declined"] as const).map((status) => (
           <button
             key={status}
             onClick={() => setFilterStatus(status)}
@@ -129,7 +133,7 @@ export default function ProjectRequestsAdminPage() {
                 : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
             }`}
           >
-            {status === "all" ? "All" : statusLabels[status]}
+            {status === "active" ? "Active" : status === "all" ? "All" : statusLabels[status]}
           </button>
         ))}
       </div>
