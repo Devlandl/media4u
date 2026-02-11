@@ -82,7 +82,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "STRIPE_PRICE_WEBCARE not configured" }, { status: 500 });
     }
 
-    // Create checkout session with delayed start and auto-cancel
+    // Create checkout session with delayed start.
+    // cancel_at is NOT supported in subscription_data here, so we pass it
+    // via metadata and the webhook applies it after the subscription is created.
     const session = await stripe.checkout.sessions.create({
       customer: customer.id,
       payment_method_types: ["card"],
@@ -90,14 +92,12 @@ export async function POST(request: NextRequest) {
       mode: "subscription",
       subscription_data: {
         trial_end: trialEnd,
-        cancel_at: cancelAt,
         metadata: {
           userId: userId ?? "",
           projectId: projectId ?? "",
           customDeal: "true",
           monthlyAmount: String(monthlyAmountDollars),
-          trialEnd: String(trialEnd),
-          cancelAt: String(cancelAt),
+          cancelAt: String(cancelAt), // webhook will apply this
         },
       },
       success_url: `${siteUrl}/portal?sub=started`,

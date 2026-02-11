@@ -112,6 +112,21 @@ http.route({
           break;
         }
 
+        case "customer.subscription.created": {
+          const subscription = event.data.object as Stripe.Subscription;
+          // If this is a custom deal subscription, apply the cancel_at from metadata
+          const cancelAtStr = subscription.metadata?.cancelAt;
+          if (subscription.metadata?.customDeal === "true" && cancelAtStr) {
+            const cancelAtTimestamp = parseInt(cancelAtStr, 10);
+            if (!isNaN(cancelAtTimestamp)) {
+              await stripe.subscriptions.update(subscription.id, {
+                cancel_at: cancelAtTimestamp,
+              });
+            }
+          }
+          break;
+        }
+
         case "customer.subscription.updated": {
           const subscription = event.data.object as Stripe.Subscription;
           // Use start_date and created as fallbacks for period tracking
