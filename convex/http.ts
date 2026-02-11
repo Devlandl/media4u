@@ -77,6 +77,15 @@ http.route({
 
         case "invoice.paid": {
           const invoice = event.data.object as Stripe.Invoice;
+
+          // Check if this is a setup fee invoice for a custom deal project
+          if (invoice.metadata?.type === "setup_fee" && invoice.metadata?.projectId) {
+            await ctx.runMutation(internal.projects.markSetupInvoicePaidByWebhook, {
+              stripeInvoiceId: invoice.id,
+            });
+            break;
+          }
+
           const subscriptionDetails = invoice.parent?.subscription_details;
           const subscriptionId = subscriptionDetails?.subscription;
 

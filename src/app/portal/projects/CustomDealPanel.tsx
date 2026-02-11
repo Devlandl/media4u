@@ -61,29 +61,45 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
             <Receipt className="w-5 h-5 text-yellow-400" />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-white mb-0.5">Setup Fee - $500</h3>
+            <h3 className="font-semibold text-white mb-0.5">
+              Setup Fee - ${project.setupFeeAmount ?? 500}
+            </h3>
             <p className="text-sm text-gray-400 mb-4">
-              A Stripe invoice for the one-time setup fee will be sent to <span className="text-white">{project.email}</span>. Pay it directly from that email.
+              A Stripe invoice for the one-time setup fee will be sent to <span className="text-white">{project.email}</span>. Pay it directly from that email or use the Pay Invoice button below.
             </p>
 
             {/* Status indicator */}
             {invoiceStatus === "pending" && (
+              <div className="flex items-center gap-2 text-sm text-yellow-400">
+                <Clock className="w-4 h-4" />
+                Invoice coming soon - you will receive an email from Stripe
+              </div>
+            )}
+
+            {invoiceStatus === "sent" && (
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                <div className="flex items-center gap-2 text-sm text-yellow-400">
-                  <Clock className="w-4 h-4" />
-                  Invoice pending - check your email
+                <div className="flex items-center gap-2 text-sm text-blue-400">
+                  <Receipt className="w-4 h-4" />
+                  Invoice sent - check your email to pay
                 </div>
+                {project.setupInvoiceUrl && (
+                  <a
+                    href={project.setupInvoiceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 hover:bg-yellow-500/20 transition-all text-sm font-medium"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Pay Invoice
+                  </a>
+                )}
                 <button
                   onClick={handleMarkPaid}
                   disabled={markingPaid}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/20 text-gray-300 hover:text-white hover:border-white/30 hover:bg-white/10 transition-all text-sm font-medium disabled:opacity-60"
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white text-xs transition-all disabled:opacity-60"
                 >
-                  {markingPaid ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <CheckCircle className="w-4 h-4" />
-                  )}
-                  {"I've Paid the Invoice"}
+                  {markingPaid ? <Loader2 className="w-3 h-3 animate-spin" /> : null}
+                  Paid another way?
                 </button>
               </div>
             )}
@@ -91,7 +107,7 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
             {invoiceStatus === "needs_verification" && (
               <div className="flex items-center gap-2 text-sm text-blue-400">
                 <RotateCcw className="w-4 h-4" />
-                Payment submitted - admin is verifying (usually within 1 business day)
+                Payment submitted - verifying (usually within 1 business day)
               </div>
             )}
 
@@ -118,7 +134,9 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
             <CreditCard className="w-5 h-5 text-cyan-400" />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-white mb-0.5">Monthly Subscription - $149/month</h3>
+            <h3 className="font-semibold text-white mb-0.5">
+              Monthly Subscription - ${project.monthlyAmount ?? 149}/month
+            </h3>
             <p className="text-sm text-gray-400 mb-4">
               Your ongoing service plan. Start it anytime - you can begin even before the setup invoice is confirmed.
             </p>

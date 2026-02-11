@@ -40,6 +40,7 @@ export default function ProjectsAdminPage() {
   const deleteProjectNote = useMutation(api.projects.deleteProjectNote);
   const setCustomDeal = useMutation(api.projects.setCustomDeal);
   const confirmSetupInvoicePaid = useMutation(api.projects.confirmSetupInvoicePaid);
+  const updateCustomDealAmounts = useMutation(api.projects.updateCustomDealAmounts);
 
   // Project Files
   const generateUploadUrl = useMutation(api.projectFiles.generateUploadUrl);
@@ -674,11 +675,10 @@ export default function ProjectsAdminPage() {
                 <div className="flex items-center gap-2 mb-4">
                   <Receipt className="w-5 h-5 text-yellow-400" />
                   <p className="text-sm font-semibold text-white">Custom Deal</p>
-                  <span className="text-xs text-gray-500 ml-1">($500 setup + $149/mo subscription flow)</span>
                 </div>
 
                 <div className="glass rounded-xl p-4 space-y-4">
-                  {/* Toggle custom deal */}
+                  {/* Toggle */}
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-white">Enable Custom Deal Flow</p>
@@ -698,39 +698,110 @@ export default function ProjectsAdminPage() {
                     </button>
                   </div>
 
-                  {/* Invoice status fields - only show when custom deal is on */}
+                  {/* Custom amount fields + invoice - only show when enabled */}
                   {selected.isCustomDeal && (
-                    <div className="pt-3 border-t border-white/10 space-y-3">
-                      {/* Setup invoice status display */}
-                      <div className="flex items-center justify-between">
+                    <div className="pt-3 border-t border-white/10 space-y-4">
+
+                      {/* Amount fields */}
+                      <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <p className="text-xs text-gray-400">Setup Invoice ($500)</p>
-                          <div className="flex items-center gap-2 mt-1">
+                          <label className="block text-xs text-gray-400 mb-1.5">Setup Fee ($)</label>
+                          <input
+                            type="number"
+                            defaultValue={selected.setupFeeAmount ?? 500}
+                            onBlur={async (e) => {
+                              const val = parseFloat(e.target.value);
+                              if (!isNaN(val) && val > 0) {
+                                await updateCustomDealAmounts({ projectId: selected._id, setupFeeAmount: val });
+                              }
+                            }}
+                            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-400 mb-1.5">Monthly ($)</label>
+                          <input
+                            type="number"
+                            defaultValue={selected.monthlyAmount ?? 149}
+                            onBlur={async (e) => {
+                              const val = parseFloat(e.target.value);
+                              if (!isNaN(val) && val > 0) {
+                                await updateCustomDealAmounts({ projectId: selected._id, monthlyAmount: val });
+                              }
+                            }}
+                            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Setup Invoice status + send button */}
+                      <div>
+                        <p className="text-xs text-gray-400 mb-2">Setup Invoice</p>
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="flex items-center gap-2">
                             {selected.setupInvoiceStatus === "paid" && (
-                              <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30">Paid - Confirmed</span>
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30">Paid</span>
+                            )}
+                            {selected.setupInvoiceStatus === "sent" && (
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">Invoice Sent</span>
                             )}
                             {selected.setupInvoiceStatus === "needs_verification" && (
-                              <span className="text-xs px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">Client says paid - needs verification</span>
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">Client says paid</span>
                             )}
                             {(!selected.setupInvoiceStatus || selected.setupInvoiceStatus === "pending") && (
-                              <span className="text-xs px-2 py-0.5 rounded-full bg-gray-500/20 text-gray-400 border border-gray-500/30">Pending</span>
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-gray-500/20 text-gray-400 border border-gray-500/30">Not sent</span>
+                            )}
+                            {selected.setupInvoiceUrl && (
+                              <a href={selected.setupInvoiceUrl} target="_blank" rel="noopener noreferrer"
+                                className="text-xs text-cyan-400 hover:text-cyan-300 underline">
+                                View invoice
+                              </a>
                             )}
                           </div>
+
+                          {/* Send invoice button - show if not yet paid */}
+                          {selected.setupInvoiceStatus !== "paid" && (
+                            <button
+                              onClick={async () => {
+                                const amount = selected.setupFeeAmount ?? 500;
+                                if (!confirm(`Send a $${amount} Stripe invoice to ${selected.email}?`)) return;
+                                try {
+                                  const res = await fetch("/api/stripe/create-invoice", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                      projectId: selected._id,
+                                      customerEmail: selected.email,
+                                      customerName: selected.name,
+                                      amountDollars: amount,
+                                      description: `Website Setup Fee - ${selected.projectType}`,
+                                    }),
+                                  });
+                                  const data = await res.json() as { success?: boolean; error?: string };
+                                  if (!res.ok) throw new Error(data.error ?? "Failed");
+                                  alert("Invoice sent via Stripe! Client will receive an email.");
+                                } catch (err) {
+                                  alert(`Error: ${err instanceof Error ? err.message : "Failed to send invoice"}`);
+                                }
+                              }}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30 border border-yellow-500/30 text-xs font-medium transition-colors"
+                            >
+                              <Receipt className="w-3.5 h-3.5" />
+                              {selected.setupInvoiceStatus === "sent" ? "Resend Invoice" : "Send Stripe Invoice"}
+                            </button>
+                          )}
+
+                          {/* Manual confirm button (fallback) */}
+                          {selected.setupInvoiceStatus === "needs_verification" && !selected.setupInvoicePaid && (
+                            <button
+                              onClick={async () => { await confirmSetupInvoicePaid({ projectId: selected._id }); }}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/30 text-xs font-medium transition-colors"
+                            >
+                              <Check className="w-3.5 h-3.5" />
+                              Confirm Paid
+                            </button>
+                          )}
                         </div>
-                        {selected.setupInvoiceStatus === "needs_verification" && !selected.setupInvoicePaid && (
-                          <button
-                            onClick={async () => {
-                              await confirmSetupInvoicePaid({ projectId: selected._id });
-                            }}
-                            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/30 text-xs font-medium transition-colors"
-                          >
-                            <Check className="w-3.5 h-3.5" />
-                            Confirm Paid
-                          </button>
-                        )}
-                        {selected.setupInvoicePaid && (
-                          <span className="text-xs text-green-400">Invoice confirmed</span>
-                        )}
                       </div>
 
                       {/* Intake status */}

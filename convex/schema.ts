@@ -173,12 +173,17 @@ export default defineSchema({
     orderId: v.optional(v.id("orders")), // Link to order record
     // Custom Deal / Intake Flow
     isCustomDeal: v.optional(v.boolean()), // Admin-marked custom deal (intake + invoice + subscription flow)
+    setupFeeAmount: v.optional(v.number()), // Custom setup fee in dollars (default 500)
+    monthlyAmount: v.optional(v.number()),  // Custom monthly amount in dollars (default 149)
     setupInvoiceStatus: v.optional(v.union(
-      v.literal("pending"),           // Invoice not yet sent/acknowledged
-      v.literal("needs_verification"), // Client clicked "I've Paid"
-      v.literal("paid")               // Admin confirmed payment
+      v.literal("pending"),           // Invoice not yet sent
+      v.literal("sent"),              // Stripe invoice sent to client
+      v.literal("needs_verification"), // Client clicked "I've Paid" (manual fallback)
+      v.literal("paid")               // Confirmed paid (webhook or admin)
     )),
-    setupInvoicePaid: v.optional(v.boolean()), // Admin confirmed $500 invoice paid
+    setupInvoicePaid: v.optional(v.boolean()), // Invoice paid (auto via webhook or admin confirmed)
+    setupInvoiceStripeId: v.optional(v.string()), // Stripe invoice ID
+    setupInvoiceUrl: v.optional(v.string()),      // Stripe hosted invoice URL (share with client)
     logoStorageId: v.optional(v.id("_storage")), // Client-uploaded logo
     websiteGoals: v.optional(v.string()), // Intake: what they want the website to do
     intakeSubmittedAt: v.optional(v.number()), // When client submitted the intake form

@@ -557,6 +557,61 @@ export const confirmSetupInvoicePaid = mutation({
   },
 });
 
+// Admin updates custom deal amounts
+export const updateCustomDealAmounts = mutation({
+  args: {
+    projectId: v.id("projects"),
+    setupFeeAmount: v.optional(v.number()),
+    monthlyAmount: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    const { projectId, ...fields } = args;
+    await ctx.db.patch(projectId, { ...fields, updatedAt: Date.now() });
+    return { success: true };
+  },
+});
+
+// Save Stripe invoice details after creation (called by API route)
+export const saveSetupInvoice = mutation({
+  args: {
+    projectId: v.id("projects"),
+    stripeInvoiceId: v.string(),
+    invoiceUrl: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    await ctx.db.patch(args.projectId, {
+      setupInvoiceStripeId: args.stripeInvoiceId,
+      setupInvoiceUrl: args.invoiceUrl,
+      setupInvoiceStatus: "sent",
+      updatedAt: Date.now(),
+    });
+    return { success: true };
+  },
+});
+
+// Mark setup invoice as paid (called by webhook)
+export const markSetupInvoicePaidByWebhook = internalMutation({
+  args: { stripeInvoiceId: v.string() },
+  handler: async (ctx, args) => {
+    const project = await ctx.db
+      .query("projects")
+      .filter((q) => q.eq(q.field("setupInvoiceStripeId"), args.stripeInvoiceId))
+      .first();
+
+    if (!project) return { found: false };
+
+    await ctx.db.patch(project._id, {
+      setupInvoiceStatus: "paid",
+      setupInvoicePaid: true,
+      updatedAt: Date.now(),
+    });
+
+    return { found: true };
+  },
+});
+
 // Admin toggles custom deal flag on a project
 export const setCustomDeal = mutation({
   args: {
