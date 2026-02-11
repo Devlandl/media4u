@@ -26,6 +26,7 @@ export const getProjectsWithInvoices = query({
         setupInvoiceUrl: p.setupInvoiceUrl,
         setupInvoiceStripeId: p.setupInvoiceStripeId,
         setupFeeAmount: p.setupFeeAmount,
+        budget: p.budget,
         projectType: p.projectType,
         createdAt: p.createdAt,
         updatedAt: p.updatedAt,

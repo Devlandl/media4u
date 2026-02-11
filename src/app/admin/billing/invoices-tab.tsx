@@ -5,7 +5,8 @@ import { motion } from "motion/react";
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { format } from "date-fns";
-import { ArrowLeft, ExternalLink, FileText } from "lucide-react";
+import { ArrowLeft, ExternalLink, FileText, FolderOpen } from "lucide-react";
+import Link from "next/link";
 
 type InvoiceStatus = "pending" | "sent" | "needs_verification" | "paid";
 
@@ -22,6 +23,11 @@ const STATUS_LABELS: Record<InvoiceStatus, string> = {
   needs_verification: "Needs Verification",
   paid: "Paid",
 };
+
+function formatAmount(inv: { setupFeeAmount?: number; budget?: string }) {
+  if (inv.setupFeeAmount) return `$${inv.setupFeeAmount}`;
+  return inv.budget ?? "N/A";
+}
 
 export function InvoicesTab() {
   const [filterStatus, setFilterStatus] = useState<InvoiceStatus | "all">("all");
@@ -84,7 +90,7 @@ export function InvoicesTab() {
                     {inv.name}
                   </p>
                   <span className="text-white font-medium text-sm">
-                    {inv.setupFeeAmount ? `$${inv.setupFeeAmount}` : "N/A"}
+                    {formatAmount(inv)}
                   </span>
                 </div>
                 <p className="text-xs text-gray-400 truncate">
@@ -155,7 +161,7 @@ export function InvoicesTab() {
               <div>
                 <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Amount</p>
                 <p className="text-2xl font-display font-bold text-white">
-                  {selected.setupFeeAmount ? `$${selected.setupFeeAmount}` : "N/A"}
+                  {formatAmount(selected)}
                 </p>
               </div>
               <div>
@@ -187,7 +193,14 @@ export function InvoicesTab() {
               </div>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href={`/admin/projects?id=${selected._id}`}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-light/10 text-brand-light hover:bg-brand-light/20 transition-all border border-brand-light/30"
+              >
+                <FolderOpen className="w-4 h-4" />
+                View Project
+              </Link>
               {selected.setupInvoiceUrl && (
                 <a
                   href={selected.setupInvoiceUrl}

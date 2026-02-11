@@ -4,7 +4,8 @@
 import { motion } from "motion/react";
 import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@convex/_generated/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Id } from "@convex/_generated/dataModel";
 import { Search, Plus, X, ExternalLink, FileDown, MessageSquarePlus, Trash2, Palette, Share2, Lock, Copy, Check, Upload, Image as ImageIcon, File, Mail, Receipt, ToggleLeft, ToggleRight, CheckCircle, Clock, CreditCard, AlertCircle, RotateCcw, Monitor } from "lucide-react";
 import { EmailReplyModal } from "@/components/admin/EmailReplyModal";
@@ -32,6 +33,7 @@ const statusLabels: Record<ProjectStatus, string> = {
 };
 
 export default function ProjectsAdminPage() {
+  const searchParams = useSearchParams();
   const projects = useQuery(api.projects.getAllProjects);
   const createProject = useMutation(api.projects.createProject);
   const updateProject = useMutation(api.projects.updateProject);
@@ -52,6 +54,18 @@ export default function ProjectsAdminPage() {
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<ProjectStatus | "all" | "active">("active");
+
+  // Auto-select project from URL query param (e.g. ?id=xxx from billing invoices)
+  useEffect(() => {
+    const idParam = searchParams?.get("id");
+    if (idParam && projects && !selectedId) {
+      const match = projects.find((p) => p._id === idParam);
+      if (match) {
+        setSelectedId(idParam);
+        setFilterStatus("all");
+      }
+    }
+  }, [searchParams, projects, selectedId]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newNote, setNewNote] = useState("");
