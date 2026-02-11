@@ -2,15 +2,17 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { CreditCard, RefreshCw } from "lucide-react";
+import { CreditCard, RefreshCw, Receipt } from "lucide-react";
 import { OrdersTab } from "./orders-tab";
 import { SubscriptionsTab } from "./subscriptions-tab";
+import { InvoicesTab } from "./invoices-tab";
 
-type BillingTab = "orders" | "subscriptions";
+type BillingTab = "orders" | "subscriptions" | "invoices";
 
 const TABS: Array<{ key: BillingTab; label: string; icon: typeof CreditCard }> = [
   { key: "orders", label: "Orders", icon: CreditCard },
   { key: "subscriptions", label: "Subscriptions", icon: RefreshCw },
+  { key: "invoices", label: "Invoices", icon: Receipt },
 ];
 
 export default function AdminBillingPage() {
@@ -24,7 +26,7 @@ export default function AdminBillingPage() {
         className="mb-8"
       >
         <h1 className="text-2xl sm:text-4xl font-display font-bold mb-2">Billing</h1>
-        <p className="text-gray-400">View and manage orders and subscriptions</p>
+        <p className="text-gray-400">View and manage orders, subscriptions, and invoices</p>
       </motion.div>
 
       {/* Tab Navigation */}
@@ -48,6 +50,7 @@ export default function AdminBillingPage() {
       {/* Tab Content */}
       {activeTab === "orders" && <OrdersTab />}
       {activeTab === "subscriptions" && <SubscriptionsTab />}
+      {activeTab === "invoices" && <InvoicesTab />}
     </div>
   );
 }

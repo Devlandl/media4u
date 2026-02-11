@@ -4,6 +4,35 @@ import { requireAdmin, getAuthenticatedUser } from "./auth";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 
+// Get projects that have setup invoices (for billing invoices tab)
+export const getProjectsWithInvoices = query({
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+
+    const projects = await ctx.db
+      .query("projects")
+      .order("desc")
+      .collect();
+
+    // Filter to only projects with a setup invoice
+    return projects
+      .filter((p) => p.setupInvoiceStripeId)
+      .map((p) => ({
+        _id: p._id,
+        name: p.name,
+        email: p.email,
+        company: p.company,
+        setupInvoiceStatus: p.setupInvoiceStatus,
+        setupInvoiceUrl: p.setupInvoiceUrl,
+        setupInvoiceStripeId: p.setupInvoiceStripeId,
+        setupFeeAmount: p.setupFeeAmount,
+        projectType: p.projectType,
+        createdAt: p.createdAt,
+        updatedAt: p.updatedAt,
+      }));
+  },
+});
+
 // Get all projects (admin only - sorted by creation date, newest first)
 export const getAllProjects = query({
   handler: async (ctx) => {
