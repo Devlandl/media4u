@@ -37,7 +37,7 @@ const PACKAGES: Package[] = [
       "30-day post-launch support",
     ],
     bestFor: "Small businesses, creators, and ministries who need a clean, professional online presence.",
-    gradient: "from-purple-500 to-pink-500",
+    gradient: "from-brand to-brand-dark",
     popular: false,
     productType: "starter",
   },
@@ -54,7 +54,7 @@ const PACKAGES: Package[] = [
       "Optional VR storefront integration",
     ],
     bestFor: "Growing businesses ready to invest in a strong digital presence - with room to expand into VR.",
-    gradient: "from-cyan-500 to-blue-500",
+    gradient: "from-brand-light to-brand",
     popular: true,
     productType: "professional",
   },
@@ -90,7 +90,7 @@ const ADD_ONS: AddOn[] = [
     title: "Ongoing Web Care",
     description: "Keep your site updated, secure, and performing. Monthly maintenance plans custom-priced based on your package.",
     icon: RefreshCw,
-    gradient: "from-cyan-500/10 to-blue-500/10",
+    gradient: "from-brand-light/10 to-blue-500/10",
   },
   {
     title: "SEO & Optimization",
@@ -108,14 +108,14 @@ const ADD_ONS: AddOn[] = [
     title: "Branding & Visual Identity",
     description: "Logo design, brand guidelines, and marketing materials that keep your message consistent.",
     icon: Palette,
-    gradient: "from-pink-500/10 to-rose-500/10",
+    gradient: "from-brand-dark/10 to-rose-500/10",
   },
   {
     title: "VR Environments",
     description: "Custom virtual storefronts, showrooms, and immersive experiences. A powerful extension - not required to get started.",
     highlight: true,
     icon: Zap,
-    gradient: "from-purple-500/20 to-fuchsia-500/20",
+    gradient: "from-brand-dark/20 to-fuchsia-500/20",
   },
 ];
 
@@ -125,7 +125,7 @@ const PROJECT_TYPES = [
     title: "Landing Pages",
     description: "High-converting single pages for campaigns, launches, or lead generation.",
     icon: Target,
-    gradient: "from-cyan-500/20 to-cyan-500/5",
+    gradient: "from-brand-light/20 to-brand-light/5",
   },
   {
     title: "Business Websites",
@@ -143,13 +143,13 @@ const PROJECT_TYPES = [
     title: "Web Applications",
     description: "Custom dashboards, portals, and interactive tools built for your workflow.",
     icon: Cpu,
-    gradient: "from-purple-500/20 to-purple-500/5",
+    gradient: "from-brand-dark/20 to-brand-dark/5",
   },
   {
     title: "VR Experiences",
     description: "Immersive virtual environments, storefronts, and interactive 3D spaces.",
     icon: Glasses,
-    gradient: "from-pink-500/20 to-pink-500/5",
+    gradient: "from-brand-dark/20 to-brand-dark/5",
   },
   {
     title: "Full Stack Solutions",
@@ -261,7 +261,7 @@ export function StartProjectContent(): ReactElement {
               transition={{ duration: 0.4, delay: index * 0.1 }}
               className="text-center group"
             >
-              <div className="text-5xl font-display font-bold text-white/10 group-hover:text-cyan-500/30 transition-colors duration-300 mb-3">
+              <div className="text-5xl font-display font-bold text-white/10 group-hover:text-brand-light/30 transition-colors duration-300 mb-3">
                 {step.number}
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">{step.title}</h3>
@@ -310,7 +310,7 @@ export function StartProjectContent(): ReactElement {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="relative"
             >
-              <Card className={`h-full ${pkg.popular ? "border-cyan-500/50 shadow-[0_0_40px_rgba(0,212,255,0.15)]" : ""}`}>
+              <Card className={`h-full ${pkg.popular ? "border-brand-light/50 shadow-[0_0_40px_rgba(0,212,255,0.15)]" : ""}`}>
                 {/* Badge */}
                 <div className="mb-4">
                   <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${pkg.gradient} text-white`}>
@@ -332,7 +332,7 @@ export function StartProjectContent(): ReactElement {
                 <ul className="space-y-3 mb-6">
                   {pkg.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2 text-sm text-gray-400">
-                      <span className="text-cyan-400 mt-1">✓</span>
+                      <span className="text-brand-light mt-1">✓</span>
                       {feature}
                     </li>
                   ))}
@@ -397,7 +397,7 @@ export function StartProjectContent(): ReactElement {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -4 }}
               >
-                <Card className={`relative overflow-hidden h-full group ${addon.highlight ? "border-purple-500/30" : ""}`}>
+                <Card className={`relative overflow-hidden h-full group ${addon.highlight ? "border-brand-dark/30" : ""}`}>
                   {/* Background gradient */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${addon.gradient} opacity-50 group-hover:opacity-70 transition-opacity duration-300`} />
 
@@ -412,7 +412,7 @@ export function StartProjectContent(): ReactElement {
                     <h3 className="text-xl font-display font-semibold mb-2 text-white flex items-center gap-2">
                       {addon.title}
                       {addon.highlight && (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-xs text-purple-300">
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-brand-dark/20 border border-brand-dark/30 text-xs text-brand-light">
                           <Sparkles className="w-3 h-3" />
                           Optional
                         </span>
@@ -468,7 +468,7 @@ export function StartProjectContent(): ReactElement {
           </p>
           <p className="text-gray-400">
             <strong>Questions first?</strong>{" "}
-            <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 transition-colors">
+            <Link href="/contact" className="text-brand-light hover:text-brand-light transition-colors">
               Contact us here
             </Link>
           </p>

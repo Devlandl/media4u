@@ -36,7 +36,7 @@ export function SectionHeader({ tag, title, highlight, description, centered = t
   return (
     <div className={clsx("mb-8 md:mb-12 w-full", centered && "text-center")}>
       {tag && (
-        <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-cyan-400">
+        <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-brand-light">
           {tag}
         </span>
       )}

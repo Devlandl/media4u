@@ -84,7 +84,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isLoading}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
                 placeholder="your@email.com"
                 autoFocus
                 required
@@ -100,7 +100,7 @@ export default function LoginPage() {
                 <label htmlFor="password" className="block text-sm font-medium text-gray-300">
                   Password
                 </label>
-                <Link href="/forgot-password" className="text-sm text-cyan-400 hover:text-cyan-300">
+                <Link href="/forgot-password" className="text-sm text-brand-light hover:text-brand-light">
                   Forgot?
                 </Link>
               </div>
@@ -110,7 +110,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
                 placeholder="••••••••"
                 required
               />
@@ -144,7 +144,7 @@ export default function LoginPage() {
             className="mt-6 text-center text-gray-400 text-sm"
           >
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="text-cyan-400 hover:text-cyan-300 font-medium">
+            <Link href="/signup" className="text-brand-light hover:text-brand-light font-medium">
               Sign up
             </Link>
           </motion.div>

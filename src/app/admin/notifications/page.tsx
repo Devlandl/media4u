@@ -18,8 +18,8 @@ const activityIcons: Record<ActivityType, string> = {
 };
 
 const activityColors: Record<ActivityType, string> = {
-  vault_updated: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-  note_added: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
+  vault_updated: "bg-brand-dark/20 text-brand-light border-brand-dark/30",
+  note_added: "bg-brand-light/20 text-brand-light border-brand-light/30",
   project_updated: "bg-orange-500/20 text-orange-400 border-orange-500/30",
 };
 
@@ -65,7 +65,7 @@ export default function NotificationsPage() {
       >
         <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
           <div>
-            <h1 className="text-3xl font-display font-bold text-white mb-2">
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-white mb-2">
               Client Updates
             </h1>
             <p className="text-gray-400">
@@ -76,7 +76,7 @@ export default function NotificationsPage() {
           {unreadCount > 0 && (
             <button
               onClick={handleMarkAllAsRead}
-              className="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/50 text-sm font-medium flex items-center gap-2 transition-all"
+              className="px-4 py-2 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 border border-brand-light/50 text-sm font-medium flex items-center gap-2 transition-all"
             >
               <CheckCheck className="w-4 h-4" />
               Mark All as Read ({unreadCount})
@@ -85,15 +85,15 @@ export default function NotificationsPage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <div className="glass-elevated rounded-xl p-4">
             <div className="text-2xl font-bold text-white mb-1">
               {activities?.length || 0}
             </div>
             <div className="text-sm text-gray-400">Total Notifications</div>
           </div>
-          <div className="glass-elevated rounded-xl p-4 border border-cyan-500/30">
-            <div className="text-2xl font-bold text-cyan-400 mb-1">
+          <div className="glass-elevated rounded-xl p-4 border border-brand-light/30">
+            <div className="text-2xl font-bold text-brand-light mb-1">
               {unreadCount}
             </div>
             <div className="text-sm text-gray-400">Unread</div>
@@ -113,7 +113,7 @@ export default function NotificationsPage() {
             onClick={() => setFilter("all")}
             className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
               filter === "all"
-                ? "bg-cyan-500 text-white"
+                ? "bg-brand-light text-white"
                 : "bg-white/5 text-gray-400 hover:bg-white/10"
             }`}
           >
@@ -123,7 +123,7 @@ export default function NotificationsPage() {
             onClick={() => setFilter("unread")}
             className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
               filter === "unread"
-                ? "bg-cyan-500 text-white"
+                ? "bg-brand-light text-white"
                 : "bg-white/5 text-gray-400 hover:bg-white/10"
             }`}
           >
@@ -133,7 +133,7 @@ export default function NotificationsPage() {
             onClick={() => setFilter("read")}
             className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
               filter === "read"
-                ? "bg-cyan-500 text-white"
+                ? "bg-brand-light text-white"
                 : "bg-white/5 text-gray-400 hover:bg-white/10"
             }`}
           >
@@ -152,7 +152,7 @@ export default function NotificationsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
               className={`group glass-elevated rounded-xl p-5 hover:scale-[1.01] transition-all ${
-                !activity.read ? "border border-cyan-500/30" : ""
+                !activity.read ? "border border-brand-light/30" : ""
               }`}
             >
               <div className="flex items-start gap-4">
@@ -175,7 +175,7 @@ export default function NotificationsPage() {
                         <span className="text-gray-600">•</span>
                         <Link
                           href={`/admin/projects?id=${activity.projectId}`}
-                          className="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1"
+                          className="text-brand-light hover:text-brand-light transition-colors flex items-center gap-1"
                         >
                           {activity.projectName}
                           <ExternalLink className="w-3 h-3" />
@@ -198,7 +198,7 @@ export default function NotificationsPage() {
                       )}
                       <button
                         onClick={() => handleDelete(activity._id)}
-                        className="p-2 rounded-lg hover:bg-red-500/20 text-red-400 opacity-0 group-hover:opacity-100 transition-all"
+                        className="p-2 rounded-lg hover:bg-red-500/20 text-red-400 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all"
                         title="Delete"
                       >
                         <Trash2 className="w-4 h-4" />

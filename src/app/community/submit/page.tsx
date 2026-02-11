@@ -227,7 +227,7 @@ function CommunitySubmitContent() {
             <p className="text-gray-400 mb-6">{validation.error}</p>
             <Link
               href="/"
-              className="inline-block px-6 py-3 rounded-lg bg-cyan-500 text-white font-medium hover:bg-cyan-600 transition-colors"
+              className="inline-block px-6 py-3 rounded-lg bg-brand-light text-white font-medium hover:bg-brand transition-colors"
             >
               Go to Homepage
             </Link>
@@ -247,8 +247,8 @@ function CommunitySubmitContent() {
             animate={{ opacity: 1, scale: 1 }}
             className="glass-elevated rounded-2xl p-8 text-center"
           >
-            <div className="w-20 h-20 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-10 h-10 text-cyan-400" />
+            <div className="w-20 h-20 bg-brand-light/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-10 h-10 text-brand-light" />
             </div>
             <h1 className="text-2xl font-bold text-white mb-2">Submission Received!</h1>
             <p className="text-gray-400 mb-6">
@@ -257,7 +257,7 @@ function CommunitySubmitContent() {
             </p>
             <Link
               href="/"
-              className="inline-block px-6 py-3 rounded-lg bg-cyan-500 text-white font-medium hover:bg-cyan-600 transition-colors"
+              className="inline-block px-6 py-3 rounded-lg bg-brand-light text-white font-medium hover:bg-brand transition-colors"
             >
               Back to Media4U
             </Link>
@@ -285,9 +285,9 @@ function CommunitySubmitContent() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <span className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30">
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm font-medium text-cyan-400">You&apos;re Invited!</span>
+          <span className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-brand-light/10 border border-brand-light/30">
+            <Sparkles className="w-4 h-4 text-brand-light" />
+            <span className="text-sm font-medium text-brand-light">You&apos;re Invited!</span>
           </span>
           <h1 className="text-3xl md:text-4xl font-display font-bold text-white mb-2">
             Welcome, {validation.invite?.name}!
@@ -305,13 +305,13 @@ function CommunitySubmitContent() {
           className="glass rounded-2xl p-6 mb-8"
         >
           <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <CheckCircle className="w-5 h-5 text-cyan-400" />
+            <CheckCircle className="w-5 h-5 text-brand-light" />
             What You&apos;ll Need
           </h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="flex items-start gap-3">
-              <div className="p-2 rounded-lg bg-cyan-500/10">
-                <Camera className="w-5 h-5 text-cyan-400" />
+              <div className="p-2 rounded-lg bg-brand-light/10">
+                <Camera className="w-5 h-5 text-brand-light" />
               </div>
               <div>
                 <h3 className="font-medium text-white text-sm">Screenshots</h3>
@@ -319,8 +319,8 @@ function CommunitySubmitContent() {
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="p-2 rounded-lg bg-purple-500/10">
-                <Video className="w-5 h-5 text-purple-400" />
+              <div className="p-2 rounded-lg bg-brand-dark/10">
+                <Video className="w-5 h-5 text-brand-light" />
               </div>
               <div>
                 <h3 className="font-medium text-white text-sm">Video Tour</h3>
@@ -371,7 +371,7 @@ function CommunitySubmitContent() {
               value={formData.worldName}
               onChange={(e) => setFormData({ ...formData, worldName: e.target.value })}
               placeholder="e.g., Neon City VR, Crystal Island, etc."
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
               required
             />
           </div>
@@ -386,7 +386,7 @@ function CommunitySubmitContent() {
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Tell us about your VR world. What makes it special? What can visitors experience there?"
               rows={4}
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
               required
             />
           </div>
@@ -420,15 +420,15 @@ function CommunitySubmitContent() {
                   relative border-2 border-dashed rounded-xl p-6 text-center cursor-pointer
                   transition-all duration-200
                   ${isDragging
-                    ? "border-cyan-400 bg-cyan-500/10"
-                    : "border-white/20 hover:border-cyan-500/50 hover:bg-white/5"
+                    ? "border-brand-light bg-brand-light/10"
+                    : "border-white/20 hover:border-brand-light/50 hover:bg-white/5"
                   }
                   ${uploadingCount > 0 ? "pointer-events-none opacity-60" : ""}
                 `}
               >
                 {uploadingCount > 0 ? (
                   <div className="flex flex-col items-center gap-2">
-                    <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
+                    <Loader2 className="w-8 h-8 text-brand-light animate-spin" />
                     <p className="text-gray-400">
                       Uploading {uploadingCount} image{uploadingCount > 1 ? "s" : ""}...
                     </p>
@@ -437,9 +437,9 @@ function CommunitySubmitContent() {
                   <div className="flex flex-col items-center gap-2">
                     <div className={`
                       w-12 h-12 rounded-full flex items-center justify-center
-                      ${isDragging ? "bg-cyan-500/20" : "bg-white/5"}
+                      ${isDragging ? "bg-brand-light/20" : "bg-white/5"}
                     `}>
-                      <ImagePlus className={`w-6 h-6 ${isDragging ? "text-cyan-400" : "text-gray-400"}`} />
+                      <ImagePlus className={`w-6 h-6 ${isDragging ? "text-brand-light" : "text-gray-400"}`} />
                     </div>
                     <div>
                       <p className="text-white font-medium">
@@ -489,7 +489,7 @@ function CommunitySubmitContent() {
           {/* Video Tour */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
-              <Video className="w-4 h-4 text-purple-400" />
+              <Video className="w-4 h-4 text-brand-light" />
               Video Tour
               <span className="text-gray-500 font-normal">(optional)</span>
             </label>
@@ -498,7 +498,7 @@ function CommunitySubmitContent() {
               value={formData.videoUrl}
               onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
               placeholder="YouTube or video link to showcase your world"
-              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50"
+              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-dark/50"
             />
             <p className="text-xs text-gray-500 mt-1">
               Add a video tour to make your showcase more engaging
@@ -509,7 +509,7 @@ function CommunitySubmitContent() {
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
-                <Globe className="w-4 h-4 text-cyan-400" />
+                <Globe className="w-4 h-4 text-brand-light" />
                 Multiverse Link
               </label>
               <input
@@ -517,13 +517,13 @@ function CommunitySubmitContent() {
                 value={formData.multiverseUrl}
                 onChange={(e) => setFormData({ ...formData, multiverseUrl: e.target.value })}
                 placeholder="Link to your VR world"
-                className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
-                <ExternalLink className="w-4 h-4 text-cyan-400" />
+                <ExternalLink className="w-4 h-4 text-brand-light" />
                 Website
               </label>
               <input
@@ -531,7 +531,7 @@ function CommunitySubmitContent() {
                 value={formData.websiteUrl}
                 onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}
                 placeholder="Your website (optional)"
-                className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
               />
             </div>
           </div>
@@ -549,7 +549,7 @@ function CommunitySubmitContent() {
                   value={formData.instagram}
                   onChange={(e) => setFormData({ ...formData, instagram: e.target.value })}
                   placeholder="Instagram URL"
-                  className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 text-sm"
+                  className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 text-sm"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -559,7 +559,7 @@ function CommunitySubmitContent() {
                   value={formData.youtube}
                   onChange={(e) => setFormData({ ...formData, youtube: e.target.value })}
                   placeholder="YouTube URL"
-                  className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 text-sm"
+                  className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 text-sm"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -571,7 +571,7 @@ function CommunitySubmitContent() {
                   value={formData.tiktok}
                   onChange={(e) => setFormData({ ...formData, tiktok: e.target.value })}
                   placeholder="TikTok URL"
-                  className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 text-sm"
+                  className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 text-sm"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -581,7 +581,7 @@ function CommunitySubmitContent() {
                   value={formData.twitter}
                   onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
                   placeholder="X/Twitter URL"
-                  className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 text-sm"
+                  className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 text-sm"
                 />
               </div>
             </div>
@@ -591,7 +591,7 @@ function CommunitySubmitContent() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-4 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-lg bg-gradient-to-r from-brand-light to-brand-dark text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {isSubmitting ? (
               "Submitting..."

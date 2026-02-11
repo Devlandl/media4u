@@ -78,7 +78,7 @@ export function ImageModal({ src, alt, className = "" }: ImageModalProps) {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsOpen(false)}
-                  className="absolute -top-12 right-0 text-white hover:text-cyan-400 transition-colors z-10"
+                  className="absolute -top-12 right-0 text-white hover:text-brand-light transition-colors z-10"
                   aria-label="Close"
                 >
                   <svg

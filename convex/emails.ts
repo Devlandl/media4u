@@ -38,7 +38,7 @@ export const sendContactFormEmail = action({
         ${emailInfoBox("Service Interested", args.service)}
         ${emailInfoBox("Message", args.message.replace(/\n/g, "<br>"))}
         ${emailDivider()}
-        ${emailButton("View in Admin Panel", "https://media4u.fun/admin/contacts")}
+        ${emailButton("View in Admin Panel", "https://media4u.fun/admin/inbox")}
       `);
 
       const adminResponse = await fetch("https://api.resend.com/emails", {

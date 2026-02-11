@@ -12,9 +12,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: "relative overflow-hidden bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white before:absolute before:inset-0 before:bg-gradient-to-r before:from-pink-500 before:via-purple-500 before:to-cyan-500 before:opacity-0 before:transition-opacity hover:before:opacity-100 [&>span]:relative",
-  secondary: "relative overflow-hidden bg-white/10 border border-white/20 text-white hover:bg-white/15 hover:border-white/40 hover:shadow-lg hover:shadow-cyan-500/20",
-  ghost: "text-gray-400 hover:text-white hover:bg-white/5",
+  primary: "bg-white text-zinc-950 hover:bg-zinc-200",
+  secondary: "border border-brand/40 text-zinc-300 hover:border-brand-light hover:text-white",
+  ghost: "text-zinc-400 hover:text-white hover:bg-white/5",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

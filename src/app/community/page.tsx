@@ -22,7 +22,7 @@ export default function CommunityPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-cyan-400">
+          <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-brand-light">
             Curated Creators
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white">
@@ -82,7 +82,7 @@ export default function CommunityPage() {
           transition={{ duration: 0.6 }}
           className="relative overflow-hidden rounded-3xl p-8 md:p-12 lg:p-16"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-light/10 via-brand-dark/10 to-brand-dark/10" />
           <div className="absolute inset-0 glass" />
           <div className="absolute inset-0 rounded-3xl border border-white/10" />
 
@@ -119,13 +119,13 @@ export default function CommunityPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
-              className="inline-block px-6 py-3 rounded-lg bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-white text-zinc-950 text-sm font-semibold hover:bg-zinc-200 transition-colors"
             >
               Start Your Project
             </Link>
             <Link
               href="/vr"
-              className="inline-block px-6 py-3 rounded-lg bg-white/5 text-white font-semibold hover:bg-white/10 transition-colors border border-white/10"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border border-brand/40 text-zinc-300 text-sm font-medium hover:border-brand-light hover:text-white transition-colors"
             >
               Explore VR Services
             </Link>
@@ -211,7 +211,7 @@ function InviteRequestForm() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Your name"
-          className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+          className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
           required
         />
       </div>
@@ -221,7 +221,7 @@ function InviteRequestForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Your email"
-          className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+          className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
           required
         />
       </div>
@@ -231,7 +231,7 @@ function InviteRequestForm() {
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Tell us about your VR world (optional)"
           rows={3}
-          className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+          className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
         />
       </div>
       {error && (
@@ -240,7 +240,7 @@ function InviteRequestForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-3 rounded-lg bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+        className="w-full py-3 rounded-full bg-white text-zinc-950 font-semibold hover:bg-zinc-200 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
       >
         {isSubmitting ? (
           <>
@@ -351,7 +351,7 @@ function CommunityCard({ member }: { member: any }) {
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+          <div className="w-full h-full bg-gradient-to-br from-brand-light/20 to-brand-dark/20 flex items-center justify-center">
             <Globe className="w-16 h-16 text-white/20" />
           </div>
         )}
@@ -363,7 +363,7 @@ function CommunityCard({ member }: { member: any }) {
         <div className="flex items-start justify-between mb-1">
           <div className="min-w-0 flex-1">
             <h3 className="text-xl font-semibold text-white">{member.worldName}</h3>
-            <p className="text-sm text-cyan-400 mb-3">by {member.name}</p>
+            <p className="text-sm text-brand-light mb-3">by {member.name}</p>
           </div>
           {/* Like Button */}
           <button
@@ -404,7 +404,7 @@ function CommunityCard({ member }: { member: any }) {
               href={member.multiverseUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 text-sm font-medium hover:bg-cyan-500/20 transition-colors border border-cyan-500/30"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-light/10 text-brand-light text-sm font-medium hover:bg-brand-light/20 transition-colors border border-brand-light/30"
             >
               <Globe className="w-4 h-4" />
               Explore
@@ -431,7 +431,7 @@ function CommunityCard({ member }: { member: any }) {
                 href={member.socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-pink-400 hover:bg-pink-500/10 transition-colors"
+                className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-pink-400 hover:bg-brand-dark/10 transition-colors"
               >
                 <Instagram className="w-4 h-4" />
               </a>

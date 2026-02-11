@@ -16,10 +16,10 @@ const PRODUCT_NAMES: Record<string, string> = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  paid: "bg-green-500/20 text-green-400 border-green-500/30",
-  pending: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-  failed: "bg-red-500/20 text-red-400 border-red-500/30",
-  refunded: "bg-gray-500/20 text-gray-400 border-gray-500/30",
+  paid: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
+  pending: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
+  failed: "bg-red-500/10 text-red-400 border border-red-500/20",
+  refunded: "bg-zinc-500/10 text-zinc-400 border border-zinc-500/20",
 };
 
 export default function PortalOrdersPage(): ReactElement {
@@ -37,8 +37,8 @@ export default function PortalOrdersPage(): ReactElement {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-4xl font-display font-bold mb-2">
-          Order <span className="text-gradient-cyber">History</span>
+        <h1 className="text-xl lg:text-2xl font-semibold mb-2">
+          Order <span className="text-white">History</span>
         </h1>
         <p className="text-gray-400">
           View all your past purchases and order details.
@@ -52,12 +52,12 @@ export default function PortalOrdersPage(): ReactElement {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-elevated rounded-2xl p-12 text-center"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-8 lg:p-12 text-center"
         >
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/5 flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-zinc-800 flex items-center justify-center">
             <ClipboardList className="w-8 h-8 text-gray-400" />
           </div>
-          <h3 className="text-xl font-display font-semibold mb-2">
+          <h3 className="text-xl font-medium mb-2">
             No orders yet
           </h3>
           <p className="text-gray-400 mb-6">
@@ -65,7 +65,7 @@ export default function PortalOrdersPage(): ReactElement {
           </p>
           <Link
             href="/portal/projects"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold transition-all hover:shadow-lg hover:shadow-cyan-500/25"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-zinc-950 hover:bg-zinc-200 font-medium transition-all"
           >
             Start a Project
           </Link>
@@ -78,16 +78,16 @@ export default function PortalOrdersPage(): ReactElement {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="glass-elevated rounded-2xl p-6 cursor-pointer hover:bg-white/5 hover:border-cyan-500/30 transition-all duration-300 group"
+                className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6 cursor-pointer hover:bg-zinc-800/50 hover:border-zinc-700 transition-all duration-300 group"
               >
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-medium text-white text-lg group-hover:text-cyan-400 transition-colors">
+                      <h3 className="font-medium text-white text-lg group-hover:text-white transition-colors">
                         {PRODUCT_NAMES[order.productType] ?? order.productType}
                       </h3>
                       <span
-                        className={`px-2 py-0.5 rounded-full text-xs font-medium border ${STATUS_STYLES[order.status] ?? STATUS_STYLES.pending}`}
+                        className={`px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[order.status] ?? STATUS_STYLES.pending}`}
                       >
                         {order.status}
                       </span>
@@ -106,7 +106,7 @@ export default function PortalOrdersPage(): ReactElement {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-display font-bold text-white">
+                    <div className="text-xl lg:text-2xl font-semibold text-white">
                       ${(order.amount / 100).toFixed(2)}
                     </div>
                     <div className="text-sm text-gray-400">

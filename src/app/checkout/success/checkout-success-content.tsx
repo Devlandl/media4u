@@ -44,7 +44,7 @@ export function CheckoutSuccessContent(): ReactElement {
           className="max-w-2xl mx-auto text-center"
         >
           {/* Success Icon */}
-          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-green-500 to-cyan-500 flex items-center justify-center">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-green-500 to-brand-light flex items-center justify-center">
             <svg
               className="w-10 h-10 text-white"
               fill="none"
@@ -107,20 +107,20 @@ export function CheckoutSuccessContent(): ReactElement {
             </h2>
             <ul className="space-y-3 text-sm text-gray-400">
               <li className="flex items-start gap-3">
-                <span className="text-cyan-400 mt-0.5">1.</span>
+                <span className="text-brand-light mt-0.5">1.</span>
                 <span>
                   You&apos;ll receive a confirmation email with your order details
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-cyan-400 mt-0.5">2.</span>
+                <span className="text-brand-light mt-0.5">2.</span>
                 <span>
                   Our team will review your project and reach out within 1-2
                   business days
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-cyan-400 mt-0.5">3.</span>
+                <span className="text-brand-light mt-0.5">3.</span>
                 <span>
                   We&apos;ll schedule a kickoff call to discuss your project in detail
                 </span>

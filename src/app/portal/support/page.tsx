@@ -90,8 +90,8 @@ export default function PortalSupportPage(): ReactElement {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-4xl font-display font-bold mb-2">
-          Help & <span className="text-gradient-cyber">Support</span>
+        <h1 className="text-xl lg:text-2xl font-semibold mb-2">
+          Help & <span className="text-white">Support</span>
         </h1>
         <p className="text-gray-400">
           Get answers to common questions or reach out for personalized help.
@@ -105,16 +105,16 @@ export default function PortalSupportPage(): ReactElement {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass-elevated rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 group cursor-pointer"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6 hover:bg-zinc-800/50 transition-all duration-300 group cursor-pointer"
         >
-          <div className="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center mb-4 group-hover:bg-cyan-500/30 transition-colors">
-            <Mail className="w-6 h-6 text-cyan-400" />
+          <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center mb-4 group-hover:bg-zinc-700 transition-colors">
+            <Mail className="w-6 h-6 text-zinc-400" />
           </div>
           <h3 className="text-lg font-semibold text-white mb-2">Email Support</h3>
           <p className="text-gray-400 text-sm mb-3">
             Get help via email. We typically respond within 24 hours.
           </p>
-          <div className="flex items-center gap-2 text-cyan-400 text-sm font-medium">
+          <div className="flex items-center gap-2 text-zinc-300 text-sm font-medium">
             support@media4u.fun
             <ExternalLink className="w-4 h-4" />
           </div>
@@ -124,10 +124,10 @@ export default function PortalSupportPage(): ReactElement {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
-          <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mb-4">
-            <MessageCircle className="w-6 h-6 text-purple-400" />
+          <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center mb-4">
+            <MessageCircle className="w-6 h-6 text-zinc-400" />
           </div>
           <h3 className="text-lg font-semibold text-white mb-2">Live Chat</h3>
           <p className="text-gray-400 text-sm mb-3">
@@ -145,10 +145,10 @@ export default function PortalSupportPage(): ReactElement {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
-          <div className="w-12 h-12 rounded-full bg-magenta-500/20 flex items-center justify-center mb-4">
-            <FileQuestion className="w-6 h-6 text-magenta-400" />
+          <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center mb-4">
+            <FileQuestion className="w-6 h-6 text-zinc-400" />
           </div>
           <h3 className="text-lg font-semibold text-white mb-2">Knowledge Base</h3>
           <p className="text-gray-400 text-sm mb-3">
@@ -168,20 +168,20 @@ export default function PortalSupportPage(): ReactElement {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="glass-elevated rounded-2xl p-6 mb-8"
+        className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6 mb-8"
       >
-        <h2 className="text-2xl font-display font-bold text-white mb-6">
+        <h2 className="text-lg font-medium text-white mb-6">
           Frequently Asked Questions
         </h2>
         <div className="space-y-3">
           {FAQ_ITEMS.map((item, index) => (
             <div
               key={index}
-              className="border border-white/10 rounded-lg overflow-hidden bg-white/5"
+              className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900"
             >
               <button
                 onClick={() => toggleFaq(index)}
-                className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
+                className="w-full px-4 py-3 lg:px-6 lg:py-4 flex items-center justify-between text-left hover:bg-zinc-800/50 transition-colors"
               >
                 <span className="font-medium text-white pr-4">{item.question}</span>
                 <ChevronDown
@@ -199,7 +199,7 @@ export default function PortalSupportPage(): ReactElement {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 pb-4 text-gray-400 text-sm leading-relaxed border-t border-white/10 pt-4">
+                    <div className="px-4 pb-3 lg:px-6 lg:pb-4 text-gray-400 text-sm leading-relaxed border-t border-zinc-800 pt-4">
                       {item.answer}
                     </div>
                   </motion.div>
@@ -215,9 +215,9 @@ export default function PortalSupportPage(): ReactElement {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="glass-elevated rounded-2xl p-6"
+        className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
       >
-        <h2 className="text-2xl font-display font-bold text-white mb-2">
+        <h2 className="text-lg font-medium text-white mb-2">
           Still Need Help?
         </h2>
         <p className="text-gray-400 text-sm mb-6">
@@ -228,7 +228,7 @@ export default function PortalSupportPage(): ReactElement {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6 p-4 rounded-lg bg-green-500/20 border border-green-500/30 flex items-center gap-3"
+            className="mb-6 p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-3"
           >
             <CheckCircle className="w-5 h-5 text-green-400" />
             <p className="text-green-300 text-sm">
@@ -241,7 +241,7 @@ export default function PortalSupportPage(): ReactElement {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/30"
+            className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/20"
           >
             <p className="text-red-300 text-sm">{error}</p>
           </motion.div>
@@ -257,7 +257,7 @@ export default function PortalSupportPage(): ReactElement {
               id="subject"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors"
+              className="w-full px-4 py-3 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-600 transition-colors"
               placeholder="What do you need help with?"
               disabled={isSending}
             />
@@ -271,7 +271,7 @@ export default function PortalSupportPage(): ReactElement {
               rows={5}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none"
+              className="w-full px-4 py-3 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-600 transition-colors resize-none"
               placeholder="Describe your issue or question in detail..."
               disabled={isSending}
             />
@@ -280,7 +280,7 @@ export default function PortalSupportPage(): ReactElement {
             type="button"
             onClick={handleSubmit}
             disabled={isSending || !subject.trim() || !message.trim()}
-            className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-white text-zinc-950 hover:bg-zinc-200 font-medium rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSending ? (
               <>

@@ -48,7 +48,7 @@ const FALLBACK_BLOG_POSTS: BlogPost[] = [
     category: "VR Technology",
     date: "Jan 15, 2024",
     readTime: "8 min read",
-    gradient: "from-cyan-500 via-blue-500 to-purple-600",
+    gradient: "from-brand-light via-brand to-brand-dark",
     featured: true,
   },
   {
@@ -58,7 +58,7 @@ const FALLBACK_BLOG_POSTS: BlogPost[] = [
     category: "Web Design",
     date: "Jan 10, 2024",
     readTime: "5 min read",
-    gradient: "from-purple-500 via-pink-500 to-rose-500",
+    gradient: "from-brand via-brand-dark to-brand-dark",
   },
   {
     id: "understanding-metaverse",
@@ -67,7 +67,7 @@ const FALLBACK_BLOG_POSTS: BlogPost[] = [
     category: "Multiverse",
     date: "Jan 5, 2024",
     readTime: "6 min read",
-    gradient: "from-emerald-500 via-teal-500 to-cyan-500",
+    gradient: "from-emerald-500 via-teal-500 to-teal-400",
   },
   {
     id: "choosing-vr-platform",
@@ -85,7 +85,7 @@ const FALLBACK_BLOG_POSTS: BlogPost[] = [
     category: "Case Study",
     date: "Dec 20, 2023",
     readTime: "4 min read",
-    gradient: "from-pink-500 via-purple-500 to-indigo-500",
+    gradient: "from-brand-light via-brand to-brand-dark",
   },
 ];
 
@@ -135,7 +135,7 @@ function BlogCard({ post, index, featured = false }: { post: BlogPost; index: nu
         </div>
       </div>
       <div className={`p-6 ${featured ? "md:p-8" : ""}`}>
-        <h3 className={`font-display font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors ${
+        <h3 className={`font-display font-bold text-white mb-3 group-hover:text-brand-light transition-colors ${
           featured ? "text-2xl md:text-3xl" : "text-lg md:text-xl"
         }`}>
           {post.title}
@@ -148,7 +148,7 @@ function BlogCard({ post, index, featured = false }: { post: BlogPost; index: nu
           <span>{post.readTime}</span>
         </div>
       </div>
-      <div className="absolute inset-0 border-2 border-transparent rounded-2xl transition-all duration-300 group-hover:border-cyan-500/20 pointer-events-none" />
+      <div className="absolute inset-0 border-2 border-transparent rounded-2xl transition-all duration-300 group-hover:border-brand-light/20 pointer-events-none" />
     </motion.article>
     </Link>
   );
@@ -200,7 +200,7 @@ function NewsletterSection() {
 
   return (
     <Section className="relative">
-      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 rounded-3xl" />
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-light/5 via-brand-dark/5 to-brand-dark/5 rounded-3xl" />
       <div className="relative max-w-2xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -221,7 +221,7 @@ function NewsletterSection() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               disabled={isSubmitting}
-              className="flex-1 px-6 py-4 rounded-full bg-white/[0.03] border border-white/[0.08] text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.05] transition-all disabled:opacity-50"
+              className="flex-1 px-6 py-4 rounded-full bg-white/[0.03] border border-white/[0.08] text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-light/50 focus:bg-white/[0.05] transition-all disabled:opacity-50"
               aria-label="Email address"
             />
             <Button type="submit" variant="primary" size="lg" disabled={isSubmitting}>
@@ -308,7 +308,7 @@ export default function BlogPageClient() {
             className="text-center py-20"
           >
             <div className="flex justify-center mb-4">
-              <Loader2 className="w-16 h-16 text-cyan-400 animate-spin" />
+              <Loader2 className="w-16 h-16 text-brand-light animate-spin" />
             </div>
             <h2 className="text-2xl font-display font-bold text-white mb-2">Loading posts...</h2>
           </motion.div>

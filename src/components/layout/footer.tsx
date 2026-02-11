@@ -6,8 +6,10 @@ import { api } from "@convex/_generated/api";
 
 const quickLinks = [
   { href: "/about", label: "About Us" },
+  { href: "/blog", label: "Blog" },
   { href: "/services", label: "Services" },
   { href: "/portfolio", label: "Portfolio" },
+  { href: "/start-project", label: "Start a Project" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -56,7 +58,7 @@ export function Footer() {
                 <li key={link.href + link.label}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 text-sm hover:text-cyan-400 transition-colors duration-200"
+                    className="text-gray-400 text-sm hover:text-brand-light transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -75,7 +77,7 @@ export function Footer() {
                 <li key={index}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 text-sm hover:text-cyan-400 transition-colors duration-200"
+                    className="text-gray-400 text-sm hover:text-brand-light transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -94,7 +96,7 @@ export function Footer() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 text-cyan-400 text-sm font-medium hover:border-cyan-400 transition-colors duration-200"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-zinc-950 text-sm font-semibold hover:bg-zinc-200 transition-colors"
             >
               Let&apos;s Talk
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

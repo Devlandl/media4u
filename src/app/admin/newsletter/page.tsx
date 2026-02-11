@@ -6,7 +6,7 @@ import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Download, Send, Calendar, Save, Plus, Trash2, Eye } from "lucide-react";
+import { ArrowLeft, Download, Send, Calendar, Save, Plus, Trash2, Eye } from "lucide-react";
 import NewsletterEditor from "@/components/admin/NewsletterEditor";
 
 interface NewsletterFormData {
@@ -277,14 +277,14 @@ export default function NewsletterAdminPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-4xl font-display font-bold mb-2">Newsletter Management</h1>
+        <h1 className="text-2xl sm:text-4xl font-display font-bold mb-2">Newsletter Management</h1>
         <p className="text-gray-400">Create, schedule, and send newsletters to your subscribers</p>
       </motion.div>
 
       {/* Master-Detail Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Left Sidebar - Newsletter List */}
-        <div className="lg:col-span-1">
+        <div className={`lg:col-span-1 ${selectedId || isCreating ? 'hidden lg:block' : ''}`}>
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -296,7 +296,7 @@ export default function NewsletterAdminPage() {
                 onClick={() => setFilterStatus("all")}
                 className={`px-3 py-1.5 rounded text-sm transition-colors ${
                   filterStatus === "all"
-                    ? "bg-cyan-500/20 text-cyan-400"
+                    ? "bg-brand-light/20 text-brand-light"
                     : "hover:bg-white/5 text-gray-400"
                 }`}
               >
@@ -306,7 +306,7 @@ export default function NewsletterAdminPage() {
                 onClick={() => setFilterStatus("draft")}
                 className={`px-3 py-1.5 rounded text-sm transition-colors ${
                   filterStatus === "draft"
-                    ? "bg-cyan-500/20 text-cyan-400"
+                    ? "bg-brand-light/20 text-brand-light"
                     : "hover:bg-white/5 text-gray-400"
                 }`}
               >
@@ -316,7 +316,7 @@ export default function NewsletterAdminPage() {
                 onClick={() => setFilterStatus("scheduled")}
                 className={`px-3 py-1.5 rounded text-sm transition-colors ${
                   filterStatus === "scheduled"
-                    ? "bg-cyan-500/20 text-cyan-400"
+                    ? "bg-brand-light/20 text-brand-light"
                     : "hover:bg-white/5 text-gray-400"
                 }`}
               >
@@ -326,7 +326,7 @@ export default function NewsletterAdminPage() {
                 onClick={() => setFilterStatus("sent")}
                 className={`px-3 py-1.5 rounded text-sm transition-colors ${
                   filterStatus === "sent"
-                    ? "bg-cyan-500/20 text-cyan-400"
+                    ? "bg-brand-light/20 text-brand-light"
                     : "hover:bg-white/5 text-gray-400"
                 }`}
               >
@@ -338,7 +338,7 @@ export default function NewsletterAdminPage() {
             <div className="p-4 border-b border-white/10">
               <button
                 onClick={handleNewNewsletter}
-                className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-brand-light to-brand-dark text-white font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
               >
                 <Plus className="w-4 h-4" /> New Newsletter
               </button>
@@ -395,7 +395,7 @@ export default function NewsletterAdminPage() {
         </div>
 
         {/* Right Panel - Newsletter Editor */}
-        <div className="lg:col-span-2">
+        <div className={`lg:col-span-2 ${!selectedId && !isCreating ? 'hidden lg:block' : ''}`}>
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -408,6 +408,15 @@ export default function NewsletterAdminPage() {
               </div>
             ) : (
               <div className="space-y-6">
+                {(selectedId || isCreating) && (
+                  <button
+                    onClick={() => { setSelectedId(null); setIsCreating(false); setFormData({ subject: "", content: "" }); }}
+                    className="lg:hidden flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-4 transition-colors"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    Back to list
+                  </button>
+                )}
                 {/* Subject Input */}
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -421,7 +430,7 @@ export default function NewsletterAdminPage() {
                     }
                     disabled={!canEdit}
                     placeholder="Enter newsletter subject..."
-                    className="w-full px-4 py-3 rounded-lg bg-dark-bg border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-4 py-3 rounded-lg bg-dark-bg border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
@@ -457,7 +466,7 @@ export default function NewsletterAdminPage() {
                         value={scheduledDate}
                         onChange={(e) => setScheduledDate(e.target.value)}
                         min={new Date().toISOString().split("T")[0]}
-                        className="w-full px-4 py-2 rounded-lg bg-dark-bg border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-4 py-2 rounded-lg bg-dark-bg border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
                       />
                     </div>
                     <div>
@@ -468,7 +477,7 @@ export default function NewsletterAdminPage() {
                         type="time"
                         value={scheduledTime}
                         onChange={(e) => setScheduledTime(e.target.value)}
-                        className="w-full px-4 py-2 rounded-lg bg-dark-bg border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-4 py-2 rounded-lg bg-dark-bg border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
                       />
                     </div>
                   </div>
@@ -511,7 +520,7 @@ export default function NewsletterAdminPage() {
                     <>
                       <button
                         onClick={handleSaveDraft}
-                        className="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors flex items-center gap-2 border border-cyan-500/50"
+                        className="px-4 py-2 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-colors flex items-center gap-2 border border-brand-light/50"
                       >
                         <Save className="w-4 h-4" /> Save Draft
                       </button>
@@ -527,7 +536,7 @@ export default function NewsletterAdminPage() {
                       <button
                         onClick={handleSendNow}
                         disabled={isSending}
-                        className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:opacity-90 transition-opacity flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-4 py-2 rounded-lg bg-gradient-to-r from-brand-light to-brand-dark text-white hover:opacity-90 transition-opacity flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <Send className="w-4 h-4" />
                         {isSending ? "Sending..." : "Send Now"}
@@ -558,13 +567,13 @@ export default function NewsletterAdminPage() {
         className="mb-8"
       >
         <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-          <h2 className="text-2xl font-display font-bold">Subscribers</h2>
+          <h2 className="text-xl sm:text-2xl font-display font-bold">Subscribers</h2>
           <div className="flex gap-2 flex-wrap">
             {selectedEmails.length > 0 && (
               <button
                 onClick={handleSendToSelected}
                 disabled={isSending || !selectedId}
-                className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-4 py-2 rounded-lg bg-gradient-to-r from-brand-light to-brand-dark text-white hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <Send className="w-4 h-4" />
                 {isSending ? "Sending..." : `Send to ${selectedEmails.length} Selected`}
@@ -573,7 +582,7 @@ export default function NewsletterAdminPage() {
             <button
               onClick={exportCSV}
               disabled={activeSubscribers.length === 0}
-              className="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-colors border border-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-4 py-2 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-colors border border-brand-light/50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               <Download className="w-4 h-4" /> Export CSV
             </button>
@@ -584,7 +593,7 @@ export default function NewsletterAdminPage() {
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           <div className="glass-elevated rounded-2xl p-6">
             <p className="text-gray-400 text-sm mb-2">Active Subscribers</p>
-            <p className="text-4xl font-bold text-cyan-400">{activeSubscribers.length}</p>
+            <p className="text-4xl font-bold text-brand-light">{activeSubscribers.length}</p>
           </div>
           <div className="glass-elevated rounded-2xl p-6">
             <p className="text-gray-400 text-sm mb-2">Unsubscribed</p>
@@ -620,8 +629,8 @@ export default function NewsletterAdminPage() {
               {activeSubscribers.map((subscriber: any) => (
                 <div
                   key={subscriber._id}
-                  className={`p-4 flex items-center justify-between hover:bg-white/5 transition-colors ${
-                    selectedEmails.includes(subscriber.email) ? "bg-cyan-500/10" : ""
+                  className={`p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 hover:bg-white/5 transition-colors ${
+                    selectedEmails.includes(subscriber.email) ? "bg-brand-light/10" : ""
                   }`}
                 >
                   <div className="flex items-center gap-3 flex-1">
@@ -629,7 +638,7 @@ export default function NewsletterAdminPage() {
                       type="checkbox"
                       checked={selectedEmails.includes(subscriber.email)}
                       onChange={() => toggleEmailSelection(subscriber.email)}
-                      className="w-5 h-5 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500 focus:ring-offset-0 cursor-pointer"
+                      className="w-5 h-5 rounded border-white/20 bg-white/5 text-brand-light focus:ring-brand-light focus:ring-offset-0 cursor-pointer"
                     />
                     <div>
                       <p className="font-semibold text-white">{subscriber.email}</p>

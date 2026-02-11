@@ -6,7 +6,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { FileText } from "lucide-react";
+import { FileText, ArrowLeft } from "lucide-react";
 
 interface BlogFormData {
   title: string;
@@ -29,11 +29,11 @@ interface BlogPost extends BlogFormData {
 }
 
 const gradients = [
-  "from-cyan-500 via-blue-500 to-purple-600",
-  "from-purple-500 via-pink-500 to-rose-500",
-  "from-emerald-500 via-teal-500 to-cyan-500",
+  "from-brand-light via-brand to-brand-dark",
+  "from-brand via-brand-dark to-brand-dark",
+  "from-emerald-500 via-teal-500 to-teal-400",
   "from-orange-500 via-amber-500 to-yellow-500",
-  "from-pink-500 via-purple-500 to-indigo-500",
+  "from-brand-light via-brand to-brand-dark",
 ];
 
 export default function BlogAdminPage() {
@@ -181,15 +181,15 @@ export default function BlogAdminPage() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8 flex items-center justify-between"
+        className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
       >
         <div>
-          <h1 className="text-4xl font-display font-bold mb-2">Blog Posts</h1>
+          <h1 className="text-2xl sm:text-4xl font-display font-bold mb-2">Blog Posts</h1>
           <p className="text-gray-400">Create and manage your blog content</p>
         </div>
         <button
           onClick={handleNewPost}
-          className="px-6 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium"
+          className="px-6 py-3 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-all border border-brand-light/50 font-medium"
         >
           + New Post
         </button>
@@ -203,7 +203,7 @@ export default function BlogAdminPage() {
             onClick={() => setFilterPublished(filter)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all capitalize ${
               filterPublished === filter
-                ? "bg-cyan-500/30 text-cyan-400 border border-cyan-500/50"
+                ? "bg-brand-light/30 text-brand-light border border-brand-light/50"
                 : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
             }`}
           >
@@ -217,7 +217,7 @@ export default function BlogAdminPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:col-span-1"
+          className={`lg:col-span-1 ${selectedId || isCreating ? 'hidden lg:block' : ''}`}
         >
           <div className="glass-elevated rounded-2xl overflow-hidden">
             <div className="p-4 border-b border-white/10 bg-white/5">
@@ -231,7 +231,7 @@ export default function BlogAdminPage() {
                   whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
                   className={`w-full p-4 text-left transition-all border-l-4 ${
                     selectedId === post._id
-                      ? "border-cyan-500 bg-white/10"
+                      ? "border-brand-light bg-white/10"
                       : "border-transparent hover:border-white/20"
                   }`}
                 >
@@ -260,7 +260,7 @@ export default function BlogAdminPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="lg:col-span-2"
+          className={`lg:col-span-2 ${!selectedId && !isCreating ? 'hidden lg:block' : ''}`}
         >
           {!isCreating && !selectedId ? (
             <div className="glass-elevated rounded-2xl p-12 flex flex-col items-center justify-center min-h-96">
@@ -270,7 +270,7 @@ export default function BlogAdminPage() {
                 <p className="text-gray-400 mb-8">Choose a post from the list to edit it, or create a new one.</p>
                 <button
                   onClick={handleNewPost}
-                  className="px-8 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium"
+                  className="px-8 py-3 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-all border border-brand-light/50 font-medium"
                 >
                   + Create New Post
                 </button>
@@ -278,13 +278,20 @@ export default function BlogAdminPage() {
             </div>
           ) : (
             <div className="glass-elevated rounded-2xl p-6 space-y-6">
+            <button
+              onClick={() => { setSelectedId(null); setIsCreating(false); }}
+              className="lg:hidden flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-4 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to list
+            </button>
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Title</label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                 placeholder="Post title"
               />
             </div>
@@ -295,7 +302,7 @@ export default function BlogAdminPage() {
                 type="text"
                 value={formData.slug}
                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                 placeholder="post-slug"
               />
             </div>
@@ -307,7 +314,7 @@ export default function BlogAdminPage() {
                   type="text"
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   placeholder="Category"
                 />
               </div>
@@ -318,7 +325,7 @@ export default function BlogAdminPage() {
                   type="text"
                   value={formData.readTime}
                   onChange={(e) => setFormData({ ...formData, readTime: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   placeholder="5 min read"
                 />
               </div>
@@ -329,7 +336,7 @@ export default function BlogAdminPage() {
               <textarea
                 value={formData.excerpt}
                 onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
                 rows={2}
                 placeholder="Short summary of the post"
               />
@@ -343,7 +350,7 @@ export default function BlogAdminPage() {
                 type="file"
                 accept="image/*"
                 onChange={(e) => setImageFile(e.target.files?.[0] || null)}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-500/20 file:text-cyan-400 hover:file:bg-cyan-500/30"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-brand-light/20 file:text-brand-light hover:file:bg-brand-light/30"
               />
               {imageFile && (
                 <p className="text-sm text-gray-400 mt-2">Selected: {imageFile.name}</p>
@@ -355,7 +362,7 @@ export default function BlogAdminPage() {
               <textarea
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none font-mono text-sm"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none font-mono text-sm"
                 rows={6}
                 placeholder="Your blog post content..."
               />
@@ -366,7 +373,7 @@ export default function BlogAdminPage() {
               <select
                 value={formData.gradient}
                 onChange={(e) => setFormData({ ...formData, gradient: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
               >
                 {gradients.map((g) => (
                   <option key={g} value={g}>
@@ -402,7 +409,7 @@ export default function BlogAdminPage() {
               <button
                 onClick={handleSave}
                 disabled={isUploading}
-                className="flex-1 px-6 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-6 py-3 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-all border border-brand-light/50 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isUploading ? "Uploading..." : isCreating ? "Create" : "Update"}
               </button>

@@ -6,7 +6,6 @@ import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
 import Link from "next/link";
 import {
-  Mail,
   Inbox,
   FileText,
   Image as ImageIcon,
@@ -18,25 +17,23 @@ import {
   Clock,
   Users,
   Briefcase,
-  Target,
   AlertCircle,
   Send,
   UserPlus,
   Globe,
+  Mail,
 } from "lucide-react";
 
 export default function AdminDashboard() {
-  const contactSubmissions = useQuery(api.contactSubmissions.getContactSubmissions, {});
+  const inboxItems = useQuery(api.inbox.getInboxItems);
   const subscriberCount = useQuery(api.newsletter.getSubscriberCount, {});
   const blogPosts = useQuery(api.blog.getAllPosts, {});
-  const projects = useQuery(api.portfolio.getAllProjects);
-  const projectRequests = useQuery(api.projectRequests.getProjectRequests, {});
-  const leads = useQuery(api.leads.getAllLeads);
+  const portfolioProjects = useQuery(api.portfolio.getAllProjects);
   const communityMembers = useQuery(api.community.getAllMembers);
   const communityRequests = useQuery(api.community.getInviteRequests);
   const clientProjects = useQuery(api.projects.getAllProjects);
+  const vrExperiences = useQuery(api.vr.getAllExperiences);
 
-  // Calculate trends (comparing recent activity)
   function calculateTrend(items: any[] | undefined) {
     if (!items || items.length === 0) return { trend: 0, isUp: false };
 
@@ -53,52 +50,41 @@ export default function AdminDashboard() {
     return { trend: Math.abs(Math.round(percentChange)), isUp: percentChange > 0 };
   }
 
-  const contactTrend = calculateTrend(contactSubmissions);
+  const inboxTrend = calculateTrend(inboxItems);
   const blogTrend = calculateTrend(blogPosts);
-  const projectTrend = calculateTrend(projects);
-  const leadsTrend = calculateTrend(leads);
+  const portfolioTrend = calculateTrend(portfolioProjects);
 
-  // Calculate pending items for "Needs Attention"
-  const unreadContacts = contactSubmissions?.filter((c: any) => c.status === "new").length || 0;
-  const newLeads = leads?.filter((l: any) => l.status === "new").length || 0;
-  const pendingRequests = projectRequests?.filter((r: any) => r.status === "new").length || 0;
+  // Needs Attention counts
+  const newInboxItems = inboxItems?.filter((i: any) => i.unifiedStatus === "new").length || 0;
   const pendingCommunity = communityRequests?.filter((r: any) => r.status === "pending").length || 0;
   const pendingApprovals = communityMembers?.filter((m: any) => !m.approved).length || 0;
 
-  const totalPendingItems = unreadContacts + newLeads + pendingRequests + pendingCommunity + pendingApprovals;
+  const totalPendingItems = newInboxItems + pendingCommunity + pendingApprovals;
 
   const stats = [
     {
-      label: "Contact Submissions",
-      value: contactSubmissions?.length || 0,
-      href: "/admin/contacts",
-      icon: Mail,
-      color: "from-blue-500 to-cyan-500",
-      trend: contactTrend,
+      label: "Inbox",
+      value: inboxItems?.length || 0,
+      href: "/admin/inbox",
+      icon: Inbox,
+      color: "from-brand to-brand-light",
+      trend: inboxTrend,
     },
     {
       label: "Newsletter Subscribers",
       value: subscriberCount || 0,
       href: "/admin/newsletter",
-      icon: Inbox,
-      color: "from-purple-500 to-pink-500",
+      icon: Mail,
+      color: "from-brand to-brand-dark",
       trend: { trend: 0, isUp: false },
     },
     {
-      label: "Leads",
-      value: leads?.length || 0,
-      href: "/admin/leads",
-      icon: Target,
-      color: "from-green-500 to-emerald-500",
-      trend: leadsTrend,
-    },
-    {
-      label: "Project Requests",
-      value: projectRequests?.length || 0,
-      href: "/admin/project-requests",
+      label: "Client Projects",
+      value: clientProjects?.length || 0,
+      href: "/admin/projects",
       icon: Briefcase,
-      color: "from-cyan-500 to-blue-500",
-      trend: calculateTrend(projectRequests),
+      color: "from-orange-500 to-yellow-500",
+      trend: calculateTrend(clientProjects),
     },
     {
       label: "Blog Posts",
@@ -110,57 +96,37 @@ export default function AdminDashboard() {
     },
     {
       label: "Portfolio Projects",
-      value: projects?.length || 0,
+      value: portfolioProjects?.length || 0,
       href: "/admin/portfolio",
       icon: ImageIcon,
       color: "from-rose-500 to-pink-500",
-      trend: projectTrend,
+      trend: portfolioTrend,
     },
     {
       label: "Community Members",
       value: communityMembers?.filter((m: any) => m.approved).length || 0,
       href: "/admin/community",
       icon: Users,
-      color: "from-violet-500 to-purple-500",
+      color: "from-brand to-brand-dark",
       trend: calculateTrend(communityMembers?.filter((m: any) => m.approved)),
     },
     {
       label: "VR Experiences",
-      value: useQuery(api.vr.getAllExperiences)?.length || 0,
+      value: vrExperiences?.length || 0,
       href: "/admin/vr",
       icon: Globe,
-      color: "from-teal-500 to-cyan-500",
+      color: "from-teal-500 to-brand-light",
       trend: { trend: 0, isUp: false },
-    },
-    {
-      label: "Client Projects",
-      value: clientProjects?.length || 0,
-      href: "/admin/projects",
-      icon: Briefcase,
-      color: "from-orange-500 to-yellow-500",
-      trend: calculateTrend(clientProjects),
     },
   ];
 
-  // Get recent activity
+  // Recent activity from inbox items
   const recentActivity = [
-    ...(contactSubmissions?.slice(0, 3).map((item: any) => ({
-      type: "Contact",
+    ...(inboxItems?.slice(0, 5).map((item: any) => ({
+      type: item.source === "contact" ? "Contact" : item.source === "request" ? "Project Request" : item.source === "quote" ? "Quote" : "Lead",
       name: item.name,
       time: item.createdAt,
-      color: "text-blue-400",
-    })) || []),
-    ...(projectRequests?.slice(0, 3).map((item: any) => ({
-      type: "Project Request",
-      name: item.name,
-      time: item.createdAt,
-      color: "text-cyan-400",
-    })) || []),
-    ...(leads?.slice(0, 2).map((item: any) => ({
-      type: "New Lead",
-      name: item.name,
-      time: item.createdAt,
-      color: "text-green-400",
+      color: item.source === "contact" ? "text-blue-400" : item.source === "request" ? "text-brand-light" : item.source === "quote" ? "text-amber-400" : "text-green-400",
     })) || []),
     ...(blogPosts?.filter((p: any) => p.published).slice(0, 2).map((item: any) => ({
       type: "Blog Post",
@@ -177,7 +143,7 @@ export default function AdminDashboard() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-4xl font-display font-bold mb-2">Dashboard</h1>
+        <h1 className="text-2xl sm:text-4xl font-display font-bold mb-2">Dashboard</h1>
         <p className="text-gray-400">Welcome to your admin panel. Manage your content below.</p>
       </motion.div>
 
@@ -195,28 +161,16 @@ export default function AdminDashboard() {
               {totalPendingItems} items
             </span>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-            {unreadContacts > 0 && (
-              <Link href="/admin/contacts" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
-                <Mail className="w-4 h-4 text-blue-400" />
-                <span className="text-sm text-white">{unreadContacts} unread contacts</span>
-              </Link>
-            )}
-            {newLeads > 0 && (
-              <Link href="/admin/leads" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
-                <Target className="w-4 h-4 text-green-400" />
-                <span className="text-sm text-white">{newLeads} new leads</span>
-              </Link>
-            )}
-            {pendingRequests > 0 && (
-              <Link href="/admin/project-requests" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
-                <Briefcase className="w-4 h-4 text-cyan-400" />
-                <span className="text-sm text-white">{pendingRequests} project requests</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            {newInboxItems > 0 && (
+              <Link href="/admin/inbox" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                <Inbox className="w-4 h-4 text-blue-400" />
+                <span className="text-sm text-white">{newInboxItems} new inbox items</span>
               </Link>
             )}
             {pendingCommunity > 0 && (
               <Link href="/admin/community" className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
-                <UserPlus className="w-4 h-4 text-purple-400" />
+                <UserPlus className="w-4 h-4 text-brand-light" />
                 <span className="text-sm text-white">{pendingCommunity} invite requests</span>
               </Link>
             )}
@@ -273,12 +227,12 @@ export default function AdminDashboard() {
         transition={{ delay: 0.4 }}
         className="mt-10"
       >
-        <h2 className="text-2xl font-display font-bold mb-4">Quick Actions</h2>
+        <h2 className="text-xl sm:text-2xl font-display font-bold mb-4">Quick Actions</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Link href="/admin/blog?action=new" className="group">
             <div className="glass-elevated rounded-xl p-4 hover:border-white/20 transition-all duration-200 h-full">
               <PenLine className="w-8 h-8 text-amber-400 mb-2" />
-              <h3 className="text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors">
+              <h3 className="text-sm font-semibold text-white group-hover:text-brand-light transition-colors">
                 Write Blog Post
               </h3>
             </div>
@@ -287,7 +241,7 @@ export default function AdminDashboard() {
           <Link href="/admin/portfolio?action=new" className="group">
             <div className="glass-elevated rounded-xl p-4 hover:border-white/20 transition-all duration-200 h-full">
               <Plus className="w-8 h-8 text-pink-400 mb-2" />
-              <h3 className="text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors">
+              <h3 className="text-sm font-semibold text-white group-hover:text-brand-light transition-colors">
                 Add Project
               </h3>
             </div>
@@ -295,17 +249,17 @@ export default function AdminDashboard() {
 
           <Link href="/admin/newsletter" className="group">
             <div className="glass-elevated rounded-xl p-4 hover:border-white/20 transition-all duration-200 h-full">
-              <Send className="w-8 h-8 text-purple-400 mb-2" />
-              <h3 className="text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors">
+              <Send className="w-8 h-8 text-brand-light mb-2" />
+              <h3 className="text-sm font-semibold text-white group-hover:text-brand-light transition-colors">
                 Send Newsletter
               </h3>
             </div>
           </Link>
 
-          <Link href="/admin/leads" className="group">
+          <Link href="/admin/inbox" className="group">
             <div className="glass-elevated rounded-xl p-4 hover:border-white/20 transition-all duration-200 h-full">
               <UserPlus className="w-8 h-8 text-green-400 mb-2" />
-              <h3 className="text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors">
+              <h3 className="text-sm font-semibold text-white group-hover:text-brand-light transition-colors">
                 Add Lead
               </h3>
             </div>
@@ -320,7 +274,7 @@ export default function AdminDashboard() {
         transition={{ delay: 0.5 }}
         className="mt-10"
       >
-        <h2 className="text-2xl font-display font-bold mb-4">Recent Activity</h2>
+        <h2 className="text-xl sm:text-2xl font-display font-bold mb-4">Recent Activity</h2>
         <div className="glass-elevated rounded-2xl overflow-hidden">
           <div className="divide-y divide-white/10">
             {recentActivity.length > 0 ? (
@@ -366,7 +320,7 @@ export default function AdminDashboard() {
           <Lightbulb className="w-5 h-5 text-amber-400" /> Pro Tip
         </h3>
         <p className="text-gray-400 text-sm">
-          Check the &quot;Needs Attention&quot; banner above for items requiring your action. You can also use Settings → Integrations to test your email configuration.
+          Check the &quot;Needs Attention&quot; banner above for items requiring your action. You can also use Settings to test your email configuration.
         </p>
       </motion.div>
     </div>

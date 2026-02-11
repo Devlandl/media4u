@@ -95,10 +95,10 @@ export function IntakeForm({ project, onSubmitted }: IntakeFormProps) {
       transition={{ duration: 0.4 }}
     >
       <div className="mb-6">
-        <span className="inline-block mb-2 text-xs font-semibold tracking-[0.2em] uppercase text-cyan-400">
+        <span className="inline-block mb-2 text-xs font-semibold tracking-[0.2em] uppercase text-zinc-500">
           Project Intake
         </span>
-        <h2 className="text-2xl font-display font-bold text-white mb-1">
+        <h2 className="text-xl lg:text-2xl font-bold text-white mb-1">
           Tell us about your project
         </h2>
         <p className="text-gray-400 text-sm">
@@ -109,7 +109,7 @@ export function IntakeForm({ project, onSubmitted }: IntakeFormProps) {
       <form onSubmit={handleSubmit} className="space-y-6">
 
         {/* Business Info */}
-        <div className="glass-elevated rounded-2xl p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6">
           <h3 className="text-base font-semibold text-white mb-4">Business Info</h3>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
@@ -119,7 +119,7 @@ export function IntakeForm({ project, onSubmitted }: IntakeFormProps) {
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
                 placeholder="Acme Co."
-                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all"
+                className="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-zinc-600 transition-all"
               />
             </div>
             <div>
@@ -129,20 +129,20 @@ export function IntakeForm({ project, onSubmitted }: IntakeFormProps) {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="(555) 000-0000"
-                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all"
+                className="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-zinc-600 transition-all"
               />
             </div>
           </div>
         </div>
 
         {/* Logo Upload */}
-        <div className="glass-elevated rounded-2xl p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6">
           <h3 className="text-base font-semibold text-white mb-1">Logo</h3>
           <p className="text-xs text-gray-500 mb-4">PNG, JPG, or SVG. Max 5MB.</p>
 
           {logoPreview ? (
             <div className="flex items-center gap-4">
-              <div className="w-20 h-20 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+              <div className="w-20 h-20 rounded-xl bg-zinc-800/50 border border-zinc-800 flex items-center justify-center overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={logoPreview} alt="Logo preview" className="w-full h-full object-contain p-2" />
               </div>
@@ -161,7 +161,7 @@ export function IntakeForm({ project, onSubmitted }: IntakeFormProps) {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 border border-dashed border-white/20 hover:border-cyan-500/50 hover:bg-white/[0.08] transition-all text-gray-400 hover:text-white"
+              className="flex items-center gap-3 px-5 py-3 rounded-xl bg-zinc-800/50 border border-dashed border-zinc-700 hover:border-zinc-600 hover:bg-zinc-800 transition-all text-gray-400 hover:text-white w-full"
             >
               <FileImage className="w-5 h-5" />
               <span className="text-sm">Click to upload your logo</span>
@@ -179,7 +179,7 @@ export function IntakeForm({ project, onSubmitted }: IntakeFormProps) {
         </div>
 
         {/* Brand Colors */}
-        <div className="glass-elevated rounded-2xl p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6">
           <h3 className="text-base font-semibold text-white mb-1">Brand Colors</h3>
           <p className="text-xs text-gray-500 mb-4">Optional. Use hex codes like #FF5733 or color names like &ldquo;navy blue&rdquo;.</p>
           <div className="grid md:grid-cols-2 gap-4">
@@ -190,14 +190,14 @@ export function IntakeForm({ project, onSubmitted }: IntakeFormProps) {
                   type="color"
                   value={primaryColor.startsWith("#") ? primaryColor : "#6366f1"}
                   onChange={(e) => setPrimaryColor(e.target.value)}
-                  className="w-10 h-10 rounded-lg border border-white/10 bg-transparent cursor-pointer"
+                  className="w-10 h-10 rounded-lg border border-zinc-800 bg-transparent cursor-pointer"
                 />
                 <input
                   type="text"
                   value={primaryColor}
                   onChange={(e) => setPrimaryColor(e.target.value)}
                   placeholder="#6366f1 or indigo"
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-zinc-600 transition-all"
                 />
               </div>
             </div>
@@ -206,16 +206,16 @@ export function IntakeForm({ project, onSubmitted }: IntakeFormProps) {
               <div className="flex items-center gap-2">
                 <input
                   type="color"
-                  value={secondaryColor.startsWith("#") ? secondaryColor : "#8b5cf6"}
+                  value={secondaryColor.startsWith("#") ? secondaryColor : "#0077B6"}
                   onChange={(e) => setSecondaryColor(e.target.value)}
-                  className="w-10 h-10 rounded-lg border border-white/10 bg-transparent cursor-pointer"
+                  className="w-10 h-10 rounded-lg border border-zinc-800 bg-transparent cursor-pointer"
                 />
                 <input
                   type="text"
                   value={secondaryColor}
                   onChange={(e) => setSecondaryColor(e.target.value)}
-                  placeholder="#8b5cf6 or purple"
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all"
+                  placeholder="#0077B6 or purple"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-zinc-600 transition-all"
                 />
               </div>
             </div>
@@ -223,7 +223,7 @@ export function IntakeForm({ project, onSubmitted }: IntakeFormProps) {
         </div>
 
         {/* Goals */}
-        <div className="glass-elevated rounded-2xl p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6">
           <h3 className="text-base font-semibold text-white mb-1">Website Goals <span className="text-red-400">*</span></h3>
           <p className="text-xs text-gray-500 mb-4">What do you want your website to do for your business?</p>
           <textarea
@@ -232,12 +232,12 @@ export function IntakeForm({ project, onSubmitted }: IntakeFormProps) {
             onChange={(e) => setWebsiteGoals(e.target.value)}
             rows={4}
             placeholder="Example: I want a website that showcases my services, generates leads through a contact form, and builds trust with potential clients..."
-            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all resize-none"
+            className="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-zinc-600 transition-all resize-none"
           />
         </div>
 
         {/* Additional Notes */}
-        <div className="glass-elevated rounded-2xl p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6">
           <h3 className="text-base font-semibold text-white mb-1">Additional Notes</h3>
           <p className="text-xs text-gray-500 mb-4">Anything else we should know - inspirations, things you want to avoid, special requirements.</p>
           <textarea
@@ -245,21 +245,21 @@ export function IntakeForm({ project, onSubmitted }: IntakeFormProps) {
             onChange={(e) => setRequirements(e.target.value)}
             rows={3}
             placeholder="I love the clean look of Apple's website. I don't want anything flashy. We need a photo gallery section..."
-            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-all resize-none"
+            className="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-zinc-600 transition-all resize-none"
           />
         </div>
 
         {error && (
-          <div className="px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+          <div className="px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
             {error}
           </div>
         )}
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <button
             type="submit"
             disabled={submitting || uploading}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 text-black font-semibold hover:bg-cyan-400 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white text-zinc-950 font-semibold hover:bg-zinc-200 transition-colors disabled:opacity-60 disabled:cursor-not-allowed w-full sm:w-auto"
           >
             {submitting ? (
               <>

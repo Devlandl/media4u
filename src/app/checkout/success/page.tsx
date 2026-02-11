@@ -65,24 +65,24 @@ export default function CheckoutSuccessPage(): ReactElement {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-white/10 rounded-2xl p-6 mb-8 text-left"
+            className="bg-gradient-to-br from-brand-light/10 to-brand-dark/10 border border-white/10 rounded-2xl p-6 mb-8 text-left"
           >
             <h2 className="text-lg font-semibold text-white mb-4">What happens next?</h2>
             <ul className="space-y-3 text-gray-400">
               <li className="flex items-start gap-3">
-                <span className="text-cyan-400 mt-1">1.</span>
+                <span className="text-brand-light mt-1">1.</span>
                 <span>Check your email for project details and welcome information</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-cyan-400 mt-1">2.</span>
+                <span className="text-brand-light mt-1">2.</span>
                 <span>Access your portal to set up integration credentials</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-cyan-400 mt-1">3.</span>
+                <span className="text-brand-light mt-1">3.</span>
                 <span>Our team will begin working on your project</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-cyan-400 mt-1">4.</span>
+                <span className="text-brand-light mt-1">4.</span>
                 <span>You&apos;ll receive regular updates as we make progress</span>
               </li>
             </ul>

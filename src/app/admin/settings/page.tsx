@@ -41,7 +41,7 @@ export default function AdminSettingsPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-4xl font-display font-bold mb-2">
+        <h1 className="text-2xl sm:text-4xl font-display font-bold mb-2">
           Admin <span className="text-gradient-cyber">Settings</span>
         </h1>
         <p className="text-gray-400">
@@ -50,14 +50,14 @@ export default function AdminSettingsPage() {
       </motion.div>
 
       {/* Tabs */}
-      <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
+      <div className="flex gap-2 mb-8 overflow-x-auto scrollbar-hide">
         {TABS.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
               activeTab === tab.id
-                ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-lg"
+                ? "bg-gradient-to-r from-brand-light to-brand-dark text-white shadow-lg"
                 : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/10"
             }`}
           >
@@ -172,7 +172,7 @@ function UserManagementTab() {
       <div className="glass-elevated rounded-2xl p-6">
         <h2 className="text-xl font-semibold mb-4 text-white">Add User to System</h2>
         <p className="text-sm text-gray-400 mb-4">
-          Have the user sign up at <Link href="/login" className="underline text-cyan-400">/login</Link>, then get their User ID from their account settings page and enter it below
+          Have the user sign up at <Link href="/login" className="underline text-brand-light">/login</Link>, then get their User ID from their account settings page and enter it below
         </p>
 
         <form onSubmit={handleAddUser} className="space-y-4">
@@ -185,7 +185,7 @@ function UserManagementTab() {
                 value={newUserId}
                 onChange={(e) => setNewUserId(e.target.value)}
                 placeholder="User ID from their settings page"
-                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 font-mono text-sm"
+                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 font-mono text-sm"
               />
             </div>
             <div>
@@ -193,7 +193,7 @@ function UserManagementTab() {
               <select
                 value={newUserRole}
                 onChange={(e) => setNewUserRole(e.target.value as "admin" | "user")}
-                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
               >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
@@ -214,7 +214,7 @@ function UserManagementTab() {
           <button
             type="submit"
             disabled={isAdding}
-            className="px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium hover:shadow-lg hover:shadow-cyan-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-3 rounded-lg bg-gradient-to-r from-brand-light to-brand-dark text-white font-medium hover:shadow-lg hover:shadow-brand-light/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isAdding ? "Adding..." : "Add User"}
           </button>
@@ -247,7 +247,7 @@ function UserManagementTab() {
                             type="text"
                             value={editName}
                             onChange={(e) => setEditName(e.target.value)}
-                            className="px-2 py-1 rounded bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:border-cyan-500/50 w-40"
+                            className="px-2 py-1 rounded bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:border-brand-light/50 w-40"
                             autoFocus
                             onKeyDown={(e) => {
                               if (e.key === "Enter") handleSaveName(user._id);
@@ -273,7 +273,7 @@ function UserManagementTab() {
                           <span>{user.name}</span>
                           <button
                             onClick={() => handleStartEditName(user._id, user.name)}
-                            className="p-1 text-gray-500 hover:text-cyan-400 transition-colors"
+                            className="p-1 text-gray-500 hover:text-brand-light transition-colors"
                             title="Edit name"
                           >
                             <Pencil className="w-3 h-3" />
@@ -286,8 +286,8 @@ function UserManagementTab() {
                       <span
                         className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
                           currentRole === "admin"
-                            ? "bg-purple-500/20 text-purple-400 border border-purple-500/30"
-                            : "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
+                            ? "bg-brand-dark/20 text-brand-light border border-brand-dark/30"
+                            : "bg-brand-light/20 text-brand-light border border-brand-light/30"
                         }`}
                       >
                         {currentRole}
@@ -298,7 +298,7 @@ function UserManagementTab() {
                         value={currentRole}
                         onChange={(e) => handleRoleChange(user._id, e.target.value as "admin" | "user")}
                         disabled={updatingUserId === user._id}
-                        className="px-3 py-1 rounded bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed [&>option]:bg-gray-800 [&>option]:text-white"
+                        className="px-3 py-1 rounded bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-brand-light/50 disabled:opacity-50 disabled:cursor-not-allowed [&>option]:bg-gray-800 [&>option]:text-white"
                       >
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
@@ -388,7 +388,7 @@ function SiteSettingsTab() {
               type="text"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
             />
           </div>
           <div>
@@ -397,7 +397,7 @@ function SiteSettingsTab() {
               type="email"
               value={contactEmail}
               onChange={(e) => setContactEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
             />
           </div>
           <div>
@@ -407,7 +407,7 @@ function SiteSettingsTab() {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               placeholder="+1 (555) 123-4567"
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
             />
           </div>
         </div>
@@ -423,7 +423,7 @@ function SiteSettingsTab() {
               value={twitterUrl}
               onChange={(e) => setTwitterUrl(e.target.value)}
               placeholder="https://twitter.com/media4u"
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
             />
           </div>
           <div>
@@ -433,7 +433,7 @@ function SiteSettingsTab() {
               value={linkedinUrl}
               onChange={(e) => setLinkedinUrl(e.target.value)}
               placeholder="https://linkedin.com/company/media4u"
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
             />
           </div>
           <div>
@@ -443,7 +443,7 @@ function SiteSettingsTab() {
               value={instagramUrl}
               onChange={(e) => setInstagramUrl(e.target.value)}
               placeholder="https://instagram.com/media4u"
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
             />
           </div>
           <div>
@@ -453,7 +453,7 @@ function SiteSettingsTab() {
               value={facebookUrl}
               onChange={(e) => setFacebookUrl(e.target.value)}
               placeholder="https://facebook.com/media4u"
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
             />
           </div>
           <div>
@@ -463,7 +463,7 @@ function SiteSettingsTab() {
               value={tiktokUrl}
               onChange={(e) => setTiktokUrl(e.target.value)}
               placeholder="https://tiktok.com/@media4u"
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
             />
           </div>
           <div>
@@ -473,7 +473,7 @@ function SiteSettingsTab() {
               value={youtubeUrl}
               onChange={(e) => setYoutubeUrl(e.target.value)}
               placeholder="https://youtube.com/@media4u"
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
             />
           </div>
         </div>
@@ -492,7 +492,7 @@ function SiteSettingsTab() {
       <button
         onClick={handleSave}
         disabled={isSaving}
-        className="px-6 py-3 rounded-lg bg-cyan-500 text-white font-medium hover:bg-cyan-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+        className="px-6 py-3 rounded-lg bg-brand-light text-white font-medium hover:bg-brand transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
       >
         {isSaving ? (
           <>
@@ -617,7 +617,7 @@ function IntegrationsTab() {
       {/* Test Email */}
       <div className="glass-elevated rounded-2xl p-6">
         <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
-          <Mail className="w-5 h-5 text-cyan-400" />
+          <Mail className="w-5 h-5 text-brand-light" />
           Test Email
         </h2>
         <p className="text-sm text-gray-400 mb-4">
@@ -629,12 +629,12 @@ function IntegrationsTab() {
             value={testEmail}
             onChange={(e) => setTestEmail(e.target.value)}
             placeholder="your@email.com"
-            className="flex-1 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+            className="flex-1 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
           />
           <button
             onClick={handleSendTestEmail}
             disabled={isSendingTest || !testEmail}
-            className="px-6 py-3 rounded-lg bg-cyan-500 text-white font-medium hover:bg-cyan-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-6 py-3 rounded-lg bg-brand-light text-white font-medium hover:bg-brand transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             {isSendingTest ? (
               <>
@@ -757,7 +757,7 @@ function SystemSettingsTab() {
                 onChange={(e) => handleToggle("maintenanceMode", e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-500"></div>
+              <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-light"></div>
             </label>
           </div>
 
@@ -773,7 +773,7 @@ function SystemSettingsTab() {
                 onChange={(e) => handleToggle("emailNotifications", e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-500"></div>
+              <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-light"></div>
             </label>
           </div>
         </div>
@@ -782,8 +782,8 @@ function SystemSettingsTab() {
       <div className="glass-elevated rounded-2xl p-6">
         <h2 className="text-xl font-semibold mb-4 text-white">Database</h2>
         <div className="space-y-3">
-          <div className="p-4 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-            <p className="text-sm text-cyan-400 mb-2">Database Status: <span className="font-semibold">Connected</span></p>
+          <div className="p-4 rounded-lg bg-brand-light/10 border border-brand-light/30">
+            <p className="text-sm text-brand-light mb-2">Database Status: <span className="font-semibold">Connected</span></p>
             <p className="text-xs text-gray-400">Automatic backups handled by Convex</p>
           </div>
         </div>
@@ -794,11 +794,11 @@ function SystemSettingsTab() {
         <p className="text-sm text-gray-400 mb-4">
           Download your data as JSON for backup purposes.
         </p>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <select
             value={exportType}
             onChange={(e) => setExportType(e.target.value as typeof exportType)}
-            className="px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+            className="px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
           >
             <option value="contacts">Contact Submissions</option>
             <option value="newsletter">Newsletter Subscribers</option>

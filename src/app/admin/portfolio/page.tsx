@@ -6,7 +6,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Image as ImageIcon, Lightbulb } from "lucide-react";
+import { Image as ImageIcon, Lightbulb, ArrowLeft } from "lucide-react";
 
 interface ProjectFormData {
   title: string;
@@ -29,11 +29,11 @@ interface PortfolioProject extends ProjectFormData {
 }
 
 const gradients = [
-  "from-cyan-500 via-blue-600 to-purple-600",
-  "from-purple-500 via-pink-500 to-rose-500",
+  "from-brand-light via-brand to-brand-dark",
+  "from-brand via-brand-dark to-brand-dark",
   "from-emerald-500 via-teal-500 to-blue-500",
   "from-orange-500 via-amber-500 to-yellow-500",
-  "from-indigo-500 via-purple-500 to-pink-500",
+  "from-brand-light via-brand to-brand-dark",
 ];
 
 const categories = ["vr", "web", "integrated"];
@@ -215,15 +215,15 @@ export default function PortfolioAdminPage() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8 flex items-center justify-between"
+        className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
       >
         <div>
-          <h1 className="text-4xl font-display font-bold mb-2">Portfolio Projects</h1>
+          <h1 className="text-2xl sm:text-4xl font-display font-bold mb-2">Portfolio Projects</h1>
           <p className="text-gray-400">Create and manage your portfolio</p>
         </div>
         <button
           onClick={handleNewProject}
-          className="px-6 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium"
+          className="px-6 py-3 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-all border border-brand-light/50 font-medium"
         >
           + New Project
         </button>
@@ -237,7 +237,7 @@ export default function PortfolioAdminPage() {
             onClick={() => setFilterCategory(category)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all capitalize ${
               filterCategory === category
-                ? "bg-cyan-500/30 text-cyan-400 border border-cyan-500/50"
+                ? "bg-brand-light/30 text-brand-light border border-brand-light/50"
                 : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
             }`}
           >
@@ -251,7 +251,7 @@ export default function PortfolioAdminPage() {
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="lg:col-span-1"
+          className={`lg:col-span-1 ${selectedId || isCreating ? 'hidden lg:block' : ''}`}
         >
           <div className="glass-elevated rounded-2xl overflow-hidden h-full">
             <div className="p-4 border-b border-white/10 bg-white/5 sticky top-0">
@@ -265,7 +265,7 @@ export default function PortfolioAdminPage() {
                   whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
                   className={`w-full p-4 text-left transition-all border-l-4 ${
                     selectedId === project._id
-                      ? "border-cyan-500 bg-white/10"
+                      ? "border-brand-light bg-white/10"
                       : "border-transparent hover:border-white/20"
                   }`}
                 >
@@ -289,7 +289,7 @@ export default function PortfolioAdminPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="lg:col-span-3"
+          className={`lg:col-span-3 ${!selectedId && !isCreating ? 'hidden lg:block' : ''}`}
         >
           {!isCreating && !selectedId ? (
             <div className="glass-elevated rounded-2xl p-12 flex flex-col items-center justify-center min-h-96">
@@ -299,7 +299,7 @@ export default function PortfolioAdminPage() {
                 <p className="text-gray-400 mb-8">Choose a project from the list to edit it, or create a new one.</p>
                 <button
                   onClick={handleNewProject}
-                  className="px-8 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium"
+                  className="px-8 py-3 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-all border border-brand-light/50 font-medium"
                 >
                   + Create New Project
                 </button>
@@ -307,6 +307,13 @@ export default function PortfolioAdminPage() {
             </div>
           ) : (
             <div className="glass-elevated rounded-2xl p-8 space-y-8 overflow-y-auto max-h-[calc(100vh-200px)]">
+            <button
+              onClick={() => { setSelectedId(null); setIsCreating(false); }}
+              className="lg:hidden flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-4 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to list
+            </button>
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Title</label>
               <input
@@ -321,7 +328,7 @@ export default function PortfolioAdminPage() {
                     slug: generateSlug(newTitle)
                   });
                 }}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                 placeholder="Project title"
               />
             </div>
@@ -334,7 +341,7 @@ export default function PortfolioAdminPage() {
                 type="text"
                 value={formData.slug}
                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                 placeholder="project-slug"
               />
             </div>
@@ -345,7 +352,7 @@ export default function PortfolioAdminPage() {
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
                 >
                   {categories.map((cat) => (
                     <option key={cat} value={cat}>
@@ -360,7 +367,7 @@ export default function PortfolioAdminPage() {
                 <select
                   value={formData.gradient}
                   onChange={(e) => setFormData({ ...formData, gradient: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
                 >
                   {gradients.map((g) => (
                     <option key={g} value={g}>
@@ -376,7 +383,7 @@ export default function PortfolioAdminPage() {
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
                 rows={2}
                 placeholder="Short description"
               />
@@ -387,7 +394,7 @@ export default function PortfolioAdminPage() {
               <textarea
                 value={formData.fullDescription || ""}
                 onChange={(e) => setFormData({ ...formData, fullDescription: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
                 rows={2}
                 placeholder="Detailed description"
               />
@@ -397,13 +404,13 @@ export default function PortfolioAdminPage() {
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 Project Images {formData.images?.length ? `(${formData.images.length})` : ""}
               </label>
-              <div className="mb-4 p-4 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-                <p className="text-sm text-cyan-400 flex items-start gap-2">
+              <div className="mb-4 p-4 rounded-lg bg-brand-light/10 border border-brand-light/30">
+                <p className="text-sm text-brand-light flex items-start gap-2">
                   <Lightbulb className="w-4 h-4 inline-block mt-0.5 flex-shrink-0" />
                   <span><strong>Tip:</strong> Upload images in 16:9 aspect ratio (e.g., 1920x1080, 1600x900) for best display</span>
                 </p>
               </div>
-              <div className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:border-cyan-500/50 transition-colors">
+              <div className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:border-brand-light/50 transition-colors">
                 <input
                   type="file"
                   multiple
@@ -418,7 +425,7 @@ export default function PortfolioAdminPage() {
                 </label>
               </div>
               {uploadProgress && (
-                <p className="text-sm text-cyan-400 mt-2">{uploadProgress}</p>
+                <p className="text-sm text-brand-light mt-2">{uploadProgress}</p>
               )}
               {formData.images && formData.images.length > 0 && (
                 <div className="mt-4">
@@ -459,7 +466,7 @@ export default function PortfolioAdminPage() {
             <div className="flex gap-3 pt-4">
               <button
                 onClick={handleSave}
-                className="flex-1 px-6 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium"
+                className="flex-1 px-6 py-3 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-all border border-brand-light/50 font-medium"
               >
                 {isCreating ? "Create" : "Update"}
               </button>

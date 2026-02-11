@@ -62,7 +62,7 @@ export function VRHeadsetInteractive() {
             whileTap={{ scale: 0.95 }}
             className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
               view === v
-                ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white"
+                ? "bg-gradient-to-r from-brand-light to-brand-dark text-white"
                 : "bg-white/10 text-gray-400 hover:bg-white/20"
             }`}
           >
@@ -165,17 +165,17 @@ export function VRHeadsetInteractive() {
               >
                 <defs>
                   <linearGradient id="main-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#00d4ff" />
-                    <stop offset="50%" stopColor="#8b5cf6" />
-                    <stop offset="100%" stopColor="#ff2d92" />
+                    <stop offset="0%" stopColor="#00A5E0" />
+                    <stop offset="50%" stopColor="#0077B6" />
+                    <stop offset="100%" stopColor="#005A8C" />
                   </linearGradient>
                   <linearGradient id="lens-shine" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
-                    <stop offset="100%" stopColor="#00d4ff" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="#00A5E0" stopOpacity="0.4" />
                   </linearGradient>
                   <radialGradient id="lens-reflect">
                     <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
-                    <stop offset="50%" stopColor="#00d4ff" stopOpacity="0.3" />
+                    <stop offset="50%" stopColor="#00A5E0" stopOpacity="0.3" />
                     <stop offset="100%" stopColor="#1a1a2e" stopOpacity="0.9" />
                   </radialGradient>
                 </defs>
@@ -254,10 +254,10 @@ export function VRHeadsetInteractive() {
                 </g>
 
                 {/* Bridge */}
-                <rect x="110" y="63" width="20" height="14" rx="3" fill="#8b5cf6" opacity="0.8" />
+                <rect x="110" y="63" width="20" height="14" rx="3" fill="#0077B6" opacity="0.8" />
 
                 {/* IPD adjustment indicator */}
-                <circle cx="120" cy="70" r="2" fill="#00d4ff">
+                <circle cx="120" cy="70" r="2" fill="#00A5E0">
                   <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite" />
                 </circle>
 
@@ -266,8 +266,8 @@ export function VRHeadsetInteractive() {
                 <rect x="217" y="55" width="18" height="30" rx="4" fill="#6b46c1" opacity="0.7" />
 
                 {/* Detail lines and vents */}
-                <line x1="30" y1="35" x2="210" y2="35" stroke="#00d4ff" strokeWidth="2" opacity="0.5" />
-                <line x1="30" y1="105" x2="210" y2="105" stroke="#ff2d92" strokeWidth="2" opacity="0.5" />
+                <line x1="30" y1="35" x2="210" y2="35" stroke="#00A5E0" strokeWidth="2" opacity="0.5" />
+                <line x1="30" y1="105" x2="210" y2="105" stroke="#005A8C" strokeWidth="2" opacity="0.5" />
 
                 {/* Vent holes */}
                 {[...Array(8)].map((_, i) => (
@@ -276,7 +276,7 @@ export function VRHeadsetInteractive() {
                     cx={40 + i * 22}
                     cy="110"
                     r="2"
-                    fill="#00d4ff"
+                    fill="#00A5E0"
                     opacity="0.4"
                   />
                 ))}
@@ -323,9 +323,9 @@ export function VRHeadsetInteractive() {
                 style={{
                   left: `${15 + Math.random() * 70}%`,
                   top: `${15 + Math.random() * 70}%`,
-                  background: i % 3 === 0 ? "#00d4ff" : i % 3 === 1 ? "#8b5cf6" : "#ff2d92",
+                  background: i % 3 === 0 ? "#00A5E0" : i % 3 === 1 ? "#0077B6" : "#005A8C",
                   transform: `translateZ(${60 + Math.random() * 120}px)`,
-                  boxShadow: `0 0 10px ${i % 3 === 0 ? "#00d4ff" : i % 3 === 1 ? "#8b5cf6" : "#ff2d92"}`,
+                  boxShadow: `0 0 10px ${i % 3 === 0 ? "#00A5E0" : i % 3 === 1 ? "#0077B6" : "#005A8C"}`,
                 }}
                 animate={{
                   y: [-20, 20, -20],
@@ -345,7 +345,7 @@ export function VRHeadsetInteractive() {
 
           {/* Rotating tech rings */}
           <motion.div
-            className="absolute inset-0 border-2 border-cyan-500/40 rounded-full"
+            className="absolute inset-0 border-2 border-brand-light/40 rounded-full"
             style={{
               transform: "translateZ(10px)",
             }}
@@ -360,7 +360,7 @@ export function VRHeadsetInteractive() {
           />
 
           <motion.div
-            className="absolute inset-0 border-2 border-purple-500/40 rounded-full"
+            className="absolute inset-0 border-2 border-brand/40 rounded-full"
             style={{
               transform: "translateZ(5px)",
             }}

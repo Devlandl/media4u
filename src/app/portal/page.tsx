@@ -42,13 +42,13 @@ const PRODUCT_NAMES: Record<string, string> = {
 type ProjectStatus = "new" | "planning" | "design" | "development" | "review" | "completed" | "launched";
 
 const statusColors: Record<ProjectStatus, string> = {
-  new: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-  planning: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-  design: "bg-pink-500/20 text-pink-400 border-pink-500/30",
-  development: "bg-orange-500/20 text-orange-400 border-orange-500/30",
-  review: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-  completed: "bg-green-500/20 text-green-400 border-green-500/30",
-  launched: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
+  new: "bg-blue-500/10 text-blue-400 border border-blue-500/20",
+  planning: "bg-violet-500/10 text-violet-400 border border-violet-500/20",
+  design: "bg-brand-dark/10 text-pink-400 border border-brand-dark/20",
+  development: "bg-orange-500/10 text-orange-400 border border-orange-500/20",
+  review: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
+  completed: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
+  launched: "bg-sky-500/10 text-sky-400 border border-sky-500/20",
 };
 
 const statusLabels: Record<ProjectStatus, string> = {
@@ -122,7 +122,7 @@ export default function PortalPage(): ReactElement {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-4xl font-display font-bold mb-2">
+        <h1 className="text-xl lg:text-2xl font-semibold mb-2">
           Welcome back, <span className="text-white">{user?.name}</span>
         </h1>
         <p className="text-gray-400">
@@ -136,13 +136,13 @@ export default function PortalPage(): ReactElement {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mb-8 glass-elevated rounded-2xl p-8 border border-cyan-500/20"
+          className="mb-8 bg-zinc-900 border border-zinc-800 rounded-xl p-8"
         >
           <div className="mb-6">
-            <span className="inline-block mb-2 text-xs font-semibold tracking-[0.2em] uppercase text-cyan-400">
+            <span className="inline-block mb-2 text-xs font-semibold tracking-[0.2em] uppercase text-zinc-500">
               Welcome
             </span>
-            <h2 className="text-2xl font-display font-bold text-white mb-1">
+            <h2 className="text-lg font-medium text-white mb-1">
               Here is how it works
             </h2>
             <p className="text-gray-400 text-sm">
@@ -154,10 +154,10 @@ export default function PortalPage(): ReactElement {
             {GETTING_STARTED_STEPS.map((step, index) => (
               <div key={step.number} className="relative">
                 {index < GETTING_STARTED_STEPS.length - 1 && (
-                  <div className="hidden md:block absolute top-5 left-full w-full h-px bg-white/10 z-0" />
+                  <div className="hidden md:block absolute top-5 left-full w-full h-px bg-zinc-800 z-0" />
                 )}
-                <div className="relative z-10 p-4 rounded-xl bg-white/5 border border-white/10 h-full">
-                  <div className="text-3xl font-display font-bold text-white/10 mb-2">{step.number}</div>
+                <div className="relative z-10 p-4 rounded-xl bg-zinc-800/50 border border-zinc-800 h-full">
+                  <div className="text-3xl font-bold text-zinc-700 mb-2">{step.number}</div>
                   <h3 className="text-base font-semibold text-white mb-1">{step.title}</h3>
                   <p className="text-sm text-gray-400 leading-relaxed">{step.description}</p>
                 </div>
@@ -167,7 +167,7 @@ export default function PortalPage(): ReactElement {
 
           <Link
             href="/portal/projects"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500 text-black font-semibold hover:bg-cyan-400 transition-colors text-sm"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-zinc-950 font-semibold hover:bg-zinc-200 transition-colors text-sm"
           >
             Build Your First Project
             <ArrowRight className="w-4 h-4" />
@@ -176,18 +176,18 @@ export default function PortalPage(): ReactElement {
       )}
 
       {/* Quick Stats */}
-      <div className="grid md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-6"
         >
           <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
             <Briefcase className="w-4 h-4" />
             My Projects
           </div>
-          <div className="text-3xl font-display font-bold text-white">
+          <div className="text-2xl font-semibold text-white">
             {projects?.length ?? 0}
           </div>
           <div className="text-xs text-gray-500 mt-1">
@@ -199,10 +199,10 @@ export default function PortalPage(): ReactElement {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-6"
         >
           <div className="text-sm text-gray-400 mb-3">Orders</div>
-          <div className="text-3xl font-display font-bold text-white">
+          <div className="text-2xl font-semibold text-white">
             {allOrdersCount}
           </div>
           <div className="text-xs mt-1">
@@ -218,10 +218,10 @@ export default function PortalPage(): ReactElement {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="col-span-2 lg:col-span-1 bg-zinc-900 border border-zinc-800 rounded-xl p-6"
         >
           <div className="text-sm text-gray-400 mb-3">Web Care Plan</div>
-          <div className="text-2xl font-display font-bold">
+          <div className="text-2xl font-semibold">
             {subscription?.status === "active" ? (
               <span className="text-green-400">Active</span>
             ) : (
@@ -238,11 +238,11 @@ export default function PortalPage(): ReactElement {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="glass-elevated rounded-2xl p-6 mb-8 border border-green-500/30"
+          className="bg-zinc-900 border border-emerald-500/20 rounded-xl p-6 mb-8"
         >
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h2 className="text-xl font-display font-semibold mb-1">
+              <h2 className="text-lg font-medium mb-1">
                 Web Care Subscription
               </h2>
               <p className="text-gray-400 text-sm">
@@ -252,7 +252,7 @@ export default function PortalPage(): ReactElement {
             </div>
             <Link
               href="/portal/subscription"
-              className="text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors"
+              className="text-zinc-300 hover:text-white text-sm font-medium transition-colors"
             >
               Manage Subscription
             </Link>
@@ -268,11 +268,11 @@ export default function PortalPage(): ReactElement {
         className="mb-8"
       >
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-display font-semibold">My Projects</h2>
+          <h2 className="text-lg font-medium">My Projects</h2>
           {projects && projects.length > 3 && (
             <Link
               href="/portal/projects"
-              className="text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors"
+              className="text-zinc-300 hover:text-white text-sm font-medium transition-colors"
             >
               View All
             </Link>
@@ -280,10 +280,10 @@ export default function PortalPage(): ReactElement {
         </div>
 
         {recentProjects.length === 0 ? (
-          <div className="glass-elevated rounded-2xl p-8 border border-cyan-500/20">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
             <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center flex-shrink-0">
-                <Briefcase className="w-8 h-8 text-cyan-400" />
+              <div className="w-16 h-16 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center flex-shrink-0">
+                <Briefcase className="w-8 h-8 text-zinc-400" />
               </div>
               <div className="flex-1 text-center md:text-left">
                 <h3 className="text-lg font-semibold text-white mb-1">
@@ -293,16 +293,16 @@ export default function PortalPage(): ReactElement {
                   Start your first project - whether it is a professional website, branding, a VR experience, or all three. We will guide you through every step.
                 </p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+              <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-3 flex-shrink-0">
                 <Link
                   href="/portal/projects"
-                  className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500 text-black font-semibold hover:bg-cyan-400 transition-colors text-sm whitespace-nowrap"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-white text-zinc-950 font-semibold hover:bg-zinc-200 transition-colors text-sm whitespace-nowrap"
                 >
                   View Project Options
                 </Link>
                 <Link
                   href="/start-project"
-                  className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-all text-sm whitespace-nowrap"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border border-brand/40 text-zinc-300 hover:border-brand-light hover:text-white transition-colors text-sm font-medium whitespace-nowrap"
                 >
                   Start the Wizard
                 </Link>
@@ -312,7 +312,7 @@ export default function PortalPage(): ReactElement {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {recentProjects.map((project: Doc<"projects">) => (
-              <div key={project._id} className="glass-elevated rounded-2xl p-5 hover:scale-[1.02] transition-transform">
+              <div key={project._id} className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 transition-colors">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-white mb-1 truncate">
@@ -322,14 +322,14 @@ export default function PortalPage(): ReactElement {
                       <p className="text-sm text-gray-400 truncate">{project.company}</p>
                     )}
                   </div>
-                  <div className="flex gap-1 flex-shrink-0 ml-2">
+                  <div className="flex flex-wrap gap-1 flex-shrink-0 ml-2">
                     {project.paymentStatus === "unpaid" && (
                       <span className="text-xs font-medium px-2 py-1 rounded-full border bg-red-500/20 text-red-400 border-red-500/30">
                         Unpaid
                       </span>
                     )}
                     <span
-                      className={`text-xs font-medium px-2 py-1 rounded-full border ${
+                      className={`text-xs font-medium px-2 py-1 rounded-full ${
                         statusColors[project.status as ProjectStatus]
                       }`}
                     >
@@ -346,10 +346,10 @@ export default function PortalPage(): ReactElement {
                 {project.paymentStatus === "unpaid" && project.packageType && (
                   <button
                     onClick={() => handlePayNow(project.packageType!, project._id)}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:opacity-90 transition-opacity font-semibold mb-3"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-white text-zinc-950 hover:bg-zinc-200 transition-colors font-semibold mb-3"
                   >
-                    <CreditCard className="w-4 h-4" />
-                    Pay Now - {project.budget}
+                    <CreditCard className="w-4 h-4 flex-shrink-0" />
+                    <span className="whitespace-nowrap">Pay Now - {project.budget}</span>
                   </button>
                 )}
 
@@ -359,7 +359,7 @@ export default function PortalPage(): ReactElement {
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/50 transition-colors text-sm font-medium"
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700 transition-colors text-sm font-medium"
                     >
                       <ExternalLink className="w-4 h-4" />
                       Live Site
@@ -367,14 +367,14 @@ export default function PortalPage(): ReactElement {
                   )}
                   <Link
                     href={`/portal/projects/${project._id}/vault`}
-                    className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 border border-purple-500/50 transition-colors text-sm font-medium ${!project.liveUrl ? 'flex-1' : ''}`}
+                    className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700 transition-colors text-sm font-medium ${!project.liveUrl ? 'flex-1' : ''}`}
                   >
                     <Lock className="w-4 h-4" />
                     Vault
                   </Link>
                 </div>
 
-                <div className="mt-3 pt-3 border-t border-white/10 text-xs text-gray-500">
+                <div className="mt-3 pt-3 border-t border-zinc-800 text-xs text-gray-500">
                   Created {new Date(project.createdAt).toLocaleDateString()}
                 </div>
               </div>
@@ -391,11 +391,11 @@ export default function PortalPage(): ReactElement {
         transition={{ delay: 0.7 }}
       >
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-display font-semibold">Recent Orders</h2>
+          <h2 className="text-lg font-medium">Recent Orders</h2>
           {orders && orders.length > 3 && (
             <Link
               href="/portal/orders"
-              className="text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors"
+              className="text-zinc-300 hover:text-white text-sm font-medium transition-colors"
             >
               View All
             </Link>
@@ -403,11 +403,11 @@ export default function PortalPage(): ReactElement {
         </div>
 
         {recentOrders.length === 0 ? (
-          <div className="glass-elevated rounded-2xl p-12 text-center">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-12 text-center">
             <p className="text-gray-400 mb-4">No orders yet</p>
             <Link
               href="/start-project"
-              className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
+              className="text-zinc-300 hover:text-white font-medium transition-colors"
             >
               Browse our packages
             </Link>
@@ -415,7 +415,7 @@ export default function PortalPage(): ReactElement {
         ) : (
           <div className="space-y-4">
             {recentOrders.map((order: Doc<"orders">) => (
-              <div key={order._id} className="glass-elevated rounded-2xl p-6">
+              <div key={order._id} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                   <div>
                     <h3 className="font-medium text-white">

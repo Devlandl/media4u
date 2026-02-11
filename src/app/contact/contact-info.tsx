@@ -97,7 +97,7 @@ export function ContactInfo() {
             whileHover={{ x: 4 }}
             className="flex items-center gap-4 group"
           >
-            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-brand-light/10 flex items-center justify-center text-brand-light group-hover:bg-brand-light/20 transition-colors">
               {method.icon}
             </div>
             <div>
@@ -105,7 +105,7 @@ export function ContactInfo() {
               {method.href ? (
                 <a
                   href={method.href}
-                  className="text-white hover:text-cyan-400 transition-colors"
+                  className="text-white hover:text-brand-light transition-colors"
                   target={method.href.startsWith("http") ? "_blank" : undefined}
                   rel={method.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 >
@@ -131,7 +131,7 @@ export function ContactInfo() {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-500/50 hover:bg-cyan-500/10 transition-all"
+              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-brand-light hover:border-brand-light/50 hover:bg-brand-light/10 transition-all"
               aria-label={`Follow us on ${social.name}`}
             >
               {social.icon}

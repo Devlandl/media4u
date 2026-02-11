@@ -126,7 +126,7 @@ function VRHeadsetVisual() {
     <div className="relative w-full aspect-square max-w-lg mx-auto">
       {/* Outer glow ring */}
       <motion.div
-        className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 blur-3xl"
+        className="absolute inset-0 rounded-full bg-gradient-to-br from-brand-light/20 via-brand-dark/20 to-brand-dark/20 blur-3xl"
         animate={{
           scale: [1, 1.1, 1],
           opacity: [0.5, 0.8, 0.5],
@@ -140,7 +140,7 @@ function VRHeadsetVisual() {
 
       {/* Morphing gradient shape */}
       <motion.div
-        className="absolute inset-8 animate-morph bg-gradient-to-br from-cyan-500 via-purple-600 to-pink-500"
+        className="absolute inset-8 animate-morph bg-gradient-to-br from-brand-light via-brand to-brand-dark"
         style={{
           filter: "blur(1px)",
         }}
@@ -198,7 +198,7 @@ function VRHeadsetVisual() {
       {particles && particles.map((particle, i) => (
         <motion.div
           key={i}
-          className="absolute w-2 h-2 rounded-full bg-cyan-400/60"
+          className="absolute w-2 h-2 rounded-full bg-brand-light/60"
           style={{
             top: particle.top,
             left: particle.left,
@@ -343,9 +343,9 @@ export default function VRPageClient() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
-              <span className="text-sm font-medium text-cyan-400">Invite-Only Community</span>
+            <span className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-brand-light/10 border border-brand-light/30">
+              <Sparkles className="w-4 h-4 text-brand-light" />
+              <span className="text-sm font-medium text-brand-light">Invite-Only Community</span>
             </span>
             <h1 className="text-4xl md:text-5xl font-display font-bold mb-6 text-white">
               Join the VR Multiverse Community
@@ -362,13 +362,13 @@ export default function VRPageClient() {
                 <span>Personally reviewed</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-cyan-500"></div>
+                <div className="w-2 h-2 rounded-full bg-brand-light"></div>
                 <span>Free to join</span>
               </div>
             </div>
             <div className="p-4 rounded-lg bg-white/5 border border-white/10">
               <p className="text-sm text-gray-400">
-                <span className="text-cyan-400 font-medium">What you&apos;ll need:</span> A screenshot of your world, your world link, and a brief description. Optional: a video tour link.
+                <span className="text-brand-light font-medium">What you&apos;ll need:</span> A screenshot of your world, your world link, and a brief description. Optional: a video tour link.
               </p>
             </div>
           </motion.div>
@@ -395,14 +395,14 @@ export default function VRPageClient() {
           >
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 mb-1">
-                <MapPin className="w-5 h-5 text-cyan-400" />
+                <MapPin className="w-5 h-5 text-brand-light" />
                 <span className="text-3xl font-display font-bold text-white">{communityStats.totalWorlds}</span>
               </div>
               <p className="text-sm text-gray-400">Virtual Worlds</p>
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 mb-1">
-                <Users className="w-5 h-5 text-purple-400" />
+                <Users className="w-5 h-5 text-brand-light" />
                 <span className="text-3xl font-display font-bold text-white">{communityStats.totalCreators}</span>
               </div>
               <p className="text-sm text-gray-400">Creators</p>
@@ -467,7 +467,7 @@ export default function VRPageClient() {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                      <div className="w-full h-full bg-gradient-to-br from-brand-light/20 to-brand-dark/20 flex items-center justify-center">
                         <Globe className="w-16 h-16 text-white/20" />
                       </div>
                     )}
@@ -479,7 +479,7 @@ export default function VRPageClient() {
                     <div className="flex items-start justify-between mb-1">
                       <div className="min-w-0 flex-1">
                         <h3 className="text-xl font-semibold text-white">{member.worldName}</h3>
-                        <p className="text-sm text-cyan-400 mb-3">by {member.name}</p>
+                        <p className="text-sm text-brand-light mb-3">by {member.name}</p>
                       </div>
                       <div className="ml-3 shrink-0" onClick={(e) => e.stopPropagation()}>
                         <LikeButton memberId={member._id} likes={member.likes || 0} />
@@ -494,7 +494,7 @@ export default function VRPageClient() {
                           href={member.videoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-500/20 text-purple-400 text-sm font-medium hover:bg-purple-500/30 transition-colors border border-purple-500/30"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-dark/20 text-brand-light text-sm font-medium hover:bg-brand-dark/30 transition-colors border border-brand-dark/30"
                         >
                           <Play className="w-4 h-4" />
                           Video Tour
@@ -505,7 +505,7 @@ export default function VRPageClient() {
                           href={member.multiverseUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 text-sm font-medium hover:bg-cyan-500/20 transition-colors border border-cyan-500/30"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-light/10 text-brand-light text-sm font-medium hover:bg-brand-light/20 transition-colors border border-brand-light/30"
                         >
                           <Globe className="w-4 h-4" />
                           Explore
@@ -532,7 +532,7 @@ export default function VRPageClient() {
                             href={member.socialLinks.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-pink-400 hover:bg-pink-500/10 transition-colors"
+                            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-pink-400 hover:bg-brand-dark/10 transition-colors"
                           >
                             <Instagram className="w-4 h-4" />
                           </a>
@@ -589,8 +589,8 @@ export default function VRPageClient() {
                 whileTap={{ scale: 0.95 }}
                 className={`px-6 py-3 rounded-full font-medium transition-all border ${
                   filterType === type
-                    ? "bg-cyan-500/20 text-cyan-400 border-cyan-500/50"
-                    : "bg-white/5 text-gray-400 border-white/10 hover:border-cyan-500/30"
+                    ? "bg-brand-light/20 text-brand-light border-brand-light/50"
+                    : "bg-white/5 text-gray-400 border-white/10 hover:border-brand-light/30"
                 }`}
               >
                 {type === "all" ? "All" : type === "property" ? "Properties" : "Destinations"}
@@ -632,7 +632,7 @@ export default function VRPageClient() {
                           {experience.categories.slice(0, 2).map((cat: any) => (
                             <span
                               key={cat}
-                              className="text-xs px-2 py-1 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
+                              className="text-xs px-2 py-1 rounded-full bg-brand-light/20 text-brand-light border border-brand-light/30"
                             >
                               {cat}
                             </span>
@@ -671,7 +671,7 @@ export default function VRPageClient() {
                         {/* Price */}
                         {experience.price !== undefined && experience.price > 0 && (
                           <div className="mb-3">
-                            <span className="text-sm font-semibold text-cyan-400 flex items-center gap-1">
+                            <span className="text-sm font-semibold text-brand-light flex items-center gap-1">
                               <Coins className="w-4 h-4" /> {experience.price.toLocaleString()} Meta Coins
                             </span>
                           </div>
@@ -725,9 +725,9 @@ export default function VRPageClient() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-center gap-3 px-5 py-3 rounded-full glass border border-white/10 hover:border-cyan-400/30 transition-colors"
+                  className="flex items-center gap-3 px-5 py-3 rounded-full glass border border-white/10 hover:border-brand-light/30 transition-colors"
                 >
-                  <span className="text-cyan-400">
+                  <span className="text-brand-light">
                     <FeatureIcon type={feature.icon} />
                   </span>
                   <span className="text-sm font-medium text-white">{feature.label}</span>
@@ -792,7 +792,7 @@ export default function VRPageClient() {
           className="relative overflow-hidden rounded-3xl p-8 md:p-12 lg:p-16"
         >
           {/* Background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-light/10 via-brand-dark/10 to-brand-dark/10" />
           <div className="absolute inset-0 glass" />
 
           {/* Animated border */}
@@ -887,7 +887,7 @@ export default function VRPageClient() {
                               setCurrentImageIndex(idx);
                             }}
                             className={`w-2 h-2 rounded-full transition-colors ${
-                              idx === currentImageIndex ? "bg-cyan-400" : "bg-white/50 hover:bg-white/70"
+                              idx === currentImageIndex ? "bg-brand-light" : "bg-white/50 hover:bg-white/70"
                             }`}
                           />
                         ))}
@@ -896,7 +896,7 @@ export default function VRPageClient() {
                   )}
                 </>
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                <div className="w-full h-full bg-gradient-to-br from-brand-light/20 to-brand-dark/20 flex items-center justify-center">
                   <Globe className="w-24 h-24 text-white/20" />
                 </div>
               )}
@@ -911,7 +911,7 @@ export default function VRPageClient() {
                   <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-1">
                     {selectedMember.worldName}
                   </h2>
-                  <p className="text-cyan-400">by {selectedMember.name}</p>
+                  <p className="text-brand-light">by {selectedMember.name}</p>
                 </div>
                 {selectedMember.featured && (
                   <div className="px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-sm font-medium flex items-center gap-1 border border-yellow-500/30">
@@ -932,7 +932,7 @@ export default function VRPageClient() {
                     href={selectedMember.videoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 font-medium hover:bg-purple-500/30 transition-colors border border-purple-500/30"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-dark/20 text-brand-light font-medium hover:bg-brand-dark/30 transition-colors border border-brand-dark/30"
                   >
                     <Play className="w-5 h-5" />
                     Video Tour
@@ -943,7 +943,7 @@ export default function VRPageClient() {
                     href={selectedMember.multiverseUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 font-medium hover:bg-cyan-500/30 transition-colors border border-cyan-500/30"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-light/20 text-brand-light font-medium hover:bg-brand-light/30 transition-colors border border-brand-light/30"
                   >
                     <Globe className="w-5 h-5" />
                     Explore World
@@ -971,7 +971,7 @@ export default function VRPageClient() {
                       href={selectedMember.socialLinks.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-pink-400 hover:bg-pink-500/10 transition-colors"
+                      className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-pink-400 hover:bg-brand-dark/10 transition-colors"
                     >
                       <Instagram className="w-5 h-5" />
                     </a>
@@ -1090,7 +1090,7 @@ function InviteRequestForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Your name"
-            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
             required
           />
         </div>
@@ -1100,7 +1100,7 @@ function InviteRequestForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Your email"
-            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
             required
           />
         </div>
@@ -1110,7 +1110,7 @@ function InviteRequestForm() {
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Tell me about your VR world or project..."
             rows={3}
-            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
           />
         </div>
         {error && (
@@ -1119,7 +1119,7 @@ function InviteRequestForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3 rounded-lg bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+          className="w-full py-3 rounded-lg bg-brand-light text-white font-semibold hover:bg-brand transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {isSubmitting ? (
             <>
