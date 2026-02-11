@@ -34,6 +34,7 @@ export default function AdminDashboard() {
   const leads = useQuery(api.leads.getAllLeads);
   const communityMembers = useQuery(api.community.getAllMembers);
   const communityRequests = useQuery(api.community.getInviteRequests);
+  const clientProjects = useQuery(api.projects.getAllProjects);
 
   // Calculate trends (comparing recent activity)
   function calculateTrend(items: any[] | undefined) {
@@ -130,6 +131,14 @@ export default function AdminDashboard() {
       icon: Globe,
       color: "from-teal-500 to-cyan-500",
       trend: { trend: 0, isUp: false },
+    },
+    {
+      label: "Client Projects",
+      value: clientProjects?.length || 0,
+      href: "/admin/projects",
+      icon: Briefcase,
+      color: "from-orange-500 to-yellow-500",
+      trend: calculateTrend(clientProjects),
     },
   ];
 
