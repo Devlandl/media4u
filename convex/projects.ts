@@ -580,7 +580,6 @@ export const saveSetupInvoice = mutation({
     invoiceUrl: v.string(),
   },
   handler: async (ctx, args) => {
-    await requireAdmin(ctx);
     await ctx.db.patch(args.projectId, {
       setupInvoiceStripeId: args.stripeInvoiceId,
       setupInvoiceUrl: args.invoiceUrl,
