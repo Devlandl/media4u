@@ -100,6 +100,13 @@ export async function POST(request: NextRequest) {
           cancelAt: String(cancelAt), // webhook will apply this
         },
       },
+      custom_text: {
+        submit: {
+          message:
+            `Your $${monthlyAmountDollars}/month plan starts on the 1st of next month ` +
+            `and runs for 3 months, then automatically stops - no surprise charges.`,
+        },
+      },
       success_url: `${siteUrl}/portal?sub=started`,
       cancel_url: `${siteUrl}/portal/projects`,
       metadata: {

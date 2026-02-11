@@ -22,12 +22,13 @@ interface CreateInvoiceRequest {
   customerName?: string;
   amountDollars: number;   // e.g. 500 for $500
   description: string;     // e.g. "Media4U - Website Setup Fee"
+  monthlyAmount?: number;  // for the footer explanation, e.g. 149
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as CreateInvoiceRequest;
-    const { projectId, customerEmail, customerName, amountDollars, description } = body;
+    const { projectId, customerEmail, customerName, amountDollars, description, monthlyAmount } = body;
 
     if (!projectId || !customerEmail || !amountDollars) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -58,6 +59,14 @@ export async function POST(request: NextRequest) {
       description,
     });
 
+    // Build a plain-English footer explaining the full payment plan
+    const monthly = monthlyAmount ?? 149;
+    const footerText =
+      `PAYMENT PLAN: This $${amountDollars} setup fee covers your first month of work. ` +
+      `Your $${monthly}/month plan then begins on the 1st of next month and runs for 3 months, ` +
+      `after which it automatically stops - no surprise charges. ` +
+      `After those 3 months, you can start a new month whenever you need updates.`;
+
     // Create invoice with metadata so webhook can identify it
     const invoice = await stripe.invoices.create({
       customer: customer.id,
@@ -68,6 +77,7 @@ export async function POST(request: NextRequest) {
         projectId,
       },
       description: `Media4U - ${description}`,
+      footer: footerText,
     });
 
     // Send the invoice (emails the client via Stripe)

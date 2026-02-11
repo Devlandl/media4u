@@ -775,6 +775,7 @@ export default function ProjectsAdminPage() {
                                       customerName: selected.name,
                                       amountDollars: amount,
                                       description: `Website Setup Fee - ${selected.projectType}`,
+                                      monthlyAmount: selected.monthlyAmount ?? 149,
                                     }),
                                   });
                                   const data = await res.json() as { success?: boolean; error?: string };
