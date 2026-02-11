@@ -6,6 +6,7 @@ import { api } from "../../../../convex/_generated/api";
 import { Doc } from "../../../../convex/_generated/dataModel";
 import { useAuth } from "@/components/AuthContext";
 import { motion } from "motion/react";
+import { format } from "date-fns";
 import {
   Receipt,
   CheckCircle,
@@ -15,6 +16,7 @@ import {
   Loader2,
   RotateCcw,
   ExternalLink,
+  CalendarClock,
 } from "lucide-react";
 
 interface CustomDealPanelProps {
@@ -25,6 +27,7 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
   const { user } = useAuth();
   const markInvoicePaid = useMutation(api.projects.markSetupInvoicePaid);
   const [markingPaid, setMarkingPaid] = useState(false);
+  const [startingSubscription, setStartingSubscription] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const subscription = useQuery(
@@ -44,8 +47,45 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
     }
   }
 
+  async function handleStartSubscription() {
+    if (!user?.email) return;
+    setStartingSubscription(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/stripe/create-custom-subscription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          customerEmail: user.email,
+          customerName: user.name,
+          projectId: project._id,
+          monthlyAmountDollars: project.monthlyAmount ?? 149,
+        }),
+      });
+      const data = await res.json() as { url?: string; error?: string };
+      if (!res.ok) throw new Error(data.error ?? "Failed to start subscription");
+      if (data.url) window.location.href = data.url;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+      setStartingSubscription(false);
+    }
+  }
+
   const invoiceStatus = project.setupInvoiceStatus ?? "pending";
   const hasActiveSub = subscription?.status === "active";
+  const monthlyAmount = project.monthlyAmount ?? 149;
+
+  // Calculate what the 3-month plan looks like (start of next month)
+  const now = new Date();
+  const firstOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const threeMonthsLater = new Date(firstOfNextMonth);
+  threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+
+  // Get subscription cancel date if active
+  const subCancelAt = subscription?.cancelAtPeriodEnd
+    ? new Date(subscription.currentPeriodEnd)
+    : null;
 
   return (
     <motion.div
@@ -65,10 +105,9 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
               Setup Fee - ${project.setupFeeAmount ?? 500}
             </h3>
             <p className="text-sm text-gray-400 mb-4">
-              A Stripe invoice for the one-time setup fee will be sent to <span className="text-white">{project.email}</span>. Pay it directly from that email or use the Pay Invoice button below.
+              One-time setup fee. You will receive a Stripe invoice by email - pay directly from that email.
             </p>
 
-            {/* Status indicator */}
             {invoiceStatus === "pending" && (
               <div className="flex items-center gap-2 text-sm text-yellow-400">
                 <Clock className="w-4 h-4" />
@@ -135,34 +174,88 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
           </div>
           <div className="flex-1">
             <h3 className="font-semibold text-white mb-0.5">
-              Monthly Subscription - ${project.monthlyAmount ?? 149}/month
+              Monthly Plan - ${monthlyAmount}/month
             </h3>
-            <p className="text-sm text-gray-400 mb-4">
-              Your ongoing service plan. Start it anytime - you can begin even before the setup invoice is confirmed.
-            </p>
 
             {hasActiveSub ? (
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                <div className="flex items-center gap-2 text-sm text-green-400">
+              <>
+                <div className="flex items-center gap-2 text-sm text-green-400 mb-3">
                   <CheckCircle className="w-4 h-4" />
-                  Subscription active
+                  Plan active
+                </div>
+                {/* Show billing dates */}
+                <div className="p-3 rounded-xl bg-white/5 border border-white/10 mb-3 text-sm">
+                  <div className="flex items-center gap-2 text-gray-300 mb-1">
+                    <CalendarClock className="w-4 h-4 text-cyan-400" />
+                    <span className="font-medium">3-month plan</span>
+                  </div>
+                  <p className="text-gray-400 text-xs">
+                    Billed monthly. Your plan automatically ends after 3 months - no surprises.
+                  </p>
+                  {subscription?.currentPeriodEnd && (
+                    <p className="text-gray-400 text-xs mt-1">
+                      Next billing: {format(new Date(subscription.currentPeriodEnd), "MMMM d, yyyy")}
+                    </p>
+                  )}
+                  {subCancelAt && (
+                    <p className="text-xs text-yellow-400 mt-1">
+                      Plan ends: {format(subCancelAt, "MMMM d, yyyy")}
+                    </p>
+                  )}
                 </div>
                 <a
                   href="/portal/subscription"
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/20 text-gray-300 hover:text-white hover:border-white/30 hover:bg-white/10 transition-all text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/20 text-gray-300 hover:text-white hover:border-white/30 hover:bg-white/10 transition-all text-sm font-medium w-fit"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Manage Billing
                 </a>
-              </div>
+              </>
             ) : (
-              <a
-                href="/portal/subscription"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity text-sm"
-              >
-                <CreditCard className="w-4 h-4" />
-                Start $149/month Subscription
-              </a>
+              <>
+                {/* Show what they're signing up for */}
+                <div className="p-3 rounded-xl bg-white/5 border border-white/10 mb-4">
+                  <div className="flex items-center gap-2 text-gray-300 text-sm mb-2">
+                    <CalendarClock className="w-4 h-4 text-cyan-400" />
+                    <span className="font-medium">How this works</span>
+                  </div>
+                  <ul className="space-y-1 text-xs text-gray-400">
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-400 mt-0.5">-</span>
+                      Setup fee this month covers your first month of work
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-cyan-400 mt-0.5">-</span>
+                      First ${monthlyAmount} charge: {format(firstOfNextMonth, "MMMM d, yyyy")}
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-cyan-400 mt-0.5">-</span>
+                      Then ${monthlyAmount}/month for 2 more months
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-400 mt-0.5">-</span>
+                      Auto-cancels {format(threeMonthsLater, "MMMM d, yyyy")} - no surprise charges
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-gray-500 mt-0.5">-</span>
+                      After that, pay ${monthlyAmount} for any month you need updates
+                    </li>
+                  </ul>
+                </div>
+
+                <button
+                  onClick={handleStartSubscription}
+                  disabled={startingSubscription}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity text-sm disabled:opacity-60"
+                >
+                  {startingSubscription ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <CreditCard className="w-4 h-4" />
+                  )}
+                  {startingSubscription ? "Redirecting..." : `Start ${monthlyAmount}/month Plan`}
+                </button>
+              </>
             )}
           </div>
         </div>
