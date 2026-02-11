@@ -15,10 +15,10 @@ const PRODUCT_NAMES: Record<string, string> = {
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  paid: "bg-green-500/20 text-green-400 border-green-500/30",
-  pending: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-  failed: "bg-red-500/20 text-red-400 border-red-500/30",
-  refunded: "bg-gray-500/20 text-gray-400 border-gray-500/30",
+  paid: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
+  pending: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
+  failed: "bg-red-500/10 text-red-400 border border-red-500/20",
+  refunded: "bg-zinc-500/10 text-zinc-400 border border-zinc-500/20",
 };
 
 export default function OrderDetailPage() {
@@ -40,7 +40,7 @@ export default function OrderDetailPage() {
         <p className="text-gray-400 mb-4">Order not found</p>
         <Link
           href="/portal/orders"
-          className="text-cyan-400 hover:text-cyan-300 transition-colors"
+          className="text-zinc-300 hover:text-white transition-colors"
         >
           Back to Orders
         </Link>
@@ -111,12 +111,12 @@ export default function OrderDetailPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.back()}
-            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+            className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-3xl font-display font-bold">Order Details</h1>
+            <h1 className="text-xl lg:text-2xl font-semibold">Order Details</h1>
             <p className="text-gray-400 text-sm">
               Order placed on {format(new Date(order.createdAt), "MMMM d, yyyy")}
             </p>
@@ -124,7 +124,7 @@ export default function OrderDetailPage() {
         </div>
         <button
           onClick={handlePrint}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 print:hidden"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition-all border border-zinc-700 print:hidden"
         >
           <Download className="w-4 h-4" />
           Print Invoice
@@ -135,16 +135,16 @@ export default function OrderDetailPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass-elevated rounded-2xl p-6 mb-6"
+        className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6 mb-6"
       >
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h2 className="text-2xl font-display font-bold mb-2">
+            <h2 className="text-lg font-medium mb-2">
               {PRODUCT_NAMES[order.productType] || order.productType}
             </h2>
             <div className="flex items-center gap-2">
               <span
-                className={`px-3 py-1 rounded-lg text-sm font-medium border ${
+                className={`px-3 py-1 rounded-lg text-sm font-medium ${
                   STATUS_COLORS[order.status] || STATUS_COLORS.pending
                 }`}
               >
@@ -154,7 +154,7 @@ export default function OrderDetailPage() {
           </div>
           <div className="text-right">
             <div className="text-sm text-gray-400 mb-1">Total Amount</div>
-            <div className="text-4xl font-display font-bold text-white">
+            <div className="text-2xl lg:text-3xl font-semibold text-white">
               ${(order.amount / 100).toFixed(2)}
             </div>
           </div>
@@ -167,10 +167,10 @@ export default function OrderDetailPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-cyan-400" />
+          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+            <Calendar className="w-5 h-5 text-zinc-400" />
             Order Information
           </h3>
           <div className="space-y-4">
@@ -202,10 +202,10 @@ export default function OrderDetailPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <User className="w-5 h-5 text-cyan-400" />
+          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+            <User className="w-5 h-5 text-zinc-400" />
             Customer Information
           </h3>
           <div className="space-y-4">
@@ -230,10 +230,10 @@ export default function OrderDetailPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="glass-elevated rounded-2xl p-6 lg:col-span-2"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6 lg:col-span-2"
         >
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <CreditCard className="w-5 h-5 text-cyan-400" />
+          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+            <CreditCard className="w-5 h-5 text-zinc-400" />
             Payment Information
           </h3>
           <div className="grid md:grid-cols-2 gap-6">
@@ -271,7 +271,7 @@ export default function OrderDetailPage() {
             href={`https://dashboard.stripe.com/payments/${order.stripePaymentIntentId}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-cyan-400 transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
           >
             View in Stripe Dashboard →
           </a>

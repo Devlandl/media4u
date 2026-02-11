@@ -26,7 +26,7 @@ export default function NewsletterEditor({ content, onChange }: NewsletterEditor
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: "text-cyan-400 hover:text-cyan-300 underline",
+          class: "text-brand-light hover:text-brand-light underline",
         },
       }),
     ],
@@ -102,7 +102,7 @@ export default function NewsletterEditor({ content, onChange }: NewsletterEditor
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
             editor.isActive("bold")
-              ? "bg-cyan-500/20 text-cyan-400"
+              ? "bg-brand-light/20 text-brand-light"
               : "hover:bg-white/5 text-gray-300"
           }`}
           type="button"
@@ -114,7 +114,7 @@ export default function NewsletterEditor({ content, onChange }: NewsletterEditor
           onClick={() => editor.chain().focus().toggleItalic().run()}
           className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
             editor.isActive("italic")
-              ? "bg-cyan-500/20 text-cyan-400"
+              ? "bg-brand-light/20 text-brand-light"
               : "hover:bg-white/5 text-gray-300"
           }`}
           type="button"
@@ -128,7 +128,7 @@ export default function NewsletterEditor({ content, onChange }: NewsletterEditor
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
             editor.isActive("heading", { level: 1 })
-              ? "bg-cyan-500/20 text-cyan-400"
+              ? "bg-brand-light/20 text-brand-light"
               : "hover:bg-white/5 text-gray-300"
           }`}
           type="button"
@@ -140,7 +140,7 @@ export default function NewsletterEditor({ content, onChange }: NewsletterEditor
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
           className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
             editor.isActive("heading", { level: 2 })
-              ? "bg-cyan-500/20 text-cyan-400"
+              ? "bg-brand-light/20 text-brand-light"
               : "hover:bg-white/5 text-gray-300"
           }`}
           type="button"
@@ -152,7 +152,7 @@ export default function NewsletterEditor({ content, onChange }: NewsletterEditor
           onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
           className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
             editor.isActive("heading", { level: 3 })
-              ? "bg-cyan-500/20 text-cyan-400"
+              ? "bg-brand-light/20 text-brand-light"
               : "hover:bg-white/5 text-gray-300"
           }`}
           type="button"
@@ -166,7 +166,7 @@ export default function NewsletterEditor({ content, onChange }: NewsletterEditor
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
             editor.isActive("bulletList")
-              ? "bg-cyan-500/20 text-cyan-400"
+              ? "bg-brand-light/20 text-brand-light"
               : "hover:bg-white/5 text-gray-300"
           }`}
           type="button"
@@ -178,7 +178,7 @@ export default function NewsletterEditor({ content, onChange }: NewsletterEditor
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
             editor.isActive("orderedList")
-              ? "bg-cyan-500/20 text-cyan-400"
+              ? "bg-brand-light/20 text-brand-light"
               : "hover:bg-white/5 text-gray-300"
           }`}
           type="button"
@@ -208,7 +208,7 @@ export default function NewsletterEditor({ content, onChange }: NewsletterEditor
         {editor.isActive("link") ? (
           <button
             onClick={removeLink}
-            className="px-3 py-1.5 rounded text-sm font-medium bg-cyan-500/20 text-cyan-400 transition-colors"
+            className="px-3 py-1.5 rounded text-sm font-medium bg-brand-light/20 text-brand-light transition-colors"
             type="button"
           >
             Remove Link

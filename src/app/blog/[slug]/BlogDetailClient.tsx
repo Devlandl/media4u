@@ -50,7 +50,7 @@ export function BlogDetailClient({ post, relatedPosts, previousPost, nextPost }:
       <div className="fixed inset-0 pointer-events-none">
         {/* Gradient orbs */}
         <div className={`absolute top-0 right-0 w-[1000px] h-[1000px] bg-gradient-to-bl ${post.gradient} opacity-[0.08] blur-[150px]`} />
-        <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-gradient-to-tr from-cyan-500/10 to-transparent blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-gradient-to-tr from-brand-light/10 to-transparent blur-[120px]" />
 
         {/* Noise texture overlay */}
         <div
@@ -91,7 +91,7 @@ export function BlogDetailClient({ post, relatedPosts, previousPost, nextPost }:
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={() => setShowShareMenu(!showShareMenu)}
-          className="group flex items-center gap-3 px-6 py-3 rounded-full bg-black/40 backdrop-blur-2xl border border-white/10 hover:border-cyan-500/50 transition-all text-white"
+          className="group flex items-center gap-3 px-6 py-3 rounded-full bg-black/40 backdrop-blur-2xl border border-white/10 hover:border-brand-light/50 transition-all text-white"
         >
           <Share2 className="w-4 h-4" />
           <span className="text-sm font-medium">Share</span>
@@ -158,11 +158,11 @@ export function BlogDetailClient({ post, relatedPosts, previousPost, nextPost }:
               {/* Meta info cards */}
               <div className="space-y-4">
                 <div className="flex items-center gap-4 text-gray-400">
-                  <Calendar className="w-5 h-5 text-cyan-400" />
+                  <Calendar className="w-5 h-5 text-brand-light" />
                   <span className="text-base">{post.date}</span>
                 </div>
                 <div className="flex items-center gap-4 text-gray-400">
-                  <Clock className="w-5 h-5 text-purple-400" />
+                  <Clock className="w-5 h-5 text-brand-light" />
                   <span className="text-base">{post.readTime}</span>
                 </div>
               </div>
@@ -197,47 +197,47 @@ export function BlogDetailClient({ post, relatedPosts, previousPost, nextPost }:
                   prose-headings:font-black prose-headings:tracking-tight prose-headings:text-white
                   prose-h1:text-6xl prose-h1:mb-12 prose-h1:mt-20
                   prose-h2:text-5xl prose-h2:mb-8 prose-h2:mt-16
-                  prose-h2:border-l-4 prose-h2:border-cyan-500 prose-h2:pl-8
+                  prose-h2:border-l-4 prose-h2:border-brand-light prose-h2:pl-8
                   prose-h3:text-3xl prose-h3:mb-6 prose-h3:mt-12
 
                   /* Paragraphs with generous spacing */
                   prose-p:text-gray-300 prose-p:leading-[1.8] prose-p:mb-8 prose-p:text-xl
 
                   /* Links with underline animation */
-                  prose-a:text-cyan-400 prose-a:no-underline prose-a:font-semibold
-                  prose-a:border-b-2 prose-a:border-cyan-400/30
-                  hover:prose-a:border-cyan-400 prose-a:transition-all
+                  prose-a:text-brand-light prose-a:no-underline prose-a:font-semibold
+                  prose-a:border-b-2 prose-a:border-brand-light/30
+                  hover:prose-a:border-brand-light prose-a:transition-all
 
                   /* Lists with custom bullets */
                   prose-ul:text-gray-300 prose-ul:mb-8 prose-ul:space-y-3
                   prose-ol:text-gray-300 prose-ol:mb-8 prose-ol:space-y-3
                   prose-li:text-gray-300 prose-li:leading-[1.8] prose-li:text-xl
-                  prose-li:marker:text-cyan-400 prose-li:marker:font-bold
+                  prose-li:marker:text-brand-light prose-li:marker:font-bold
 
                   /* Strong and emphasis */
                   prose-strong:text-white prose-strong:font-bold
                   prose-em:text-gray-200 prose-em:not-italic prose-em:font-light
 
                   /* Inline code */
-                  prose-code:text-cyan-300 prose-code:bg-cyan-500/10
+                  prose-code:text-brand-light prose-code:bg-brand-light/10
                   prose-code:px-3 prose-code:py-1 prose-code:rounded-lg
                   prose-code:text-base prose-code:font-mono prose-code:border
-                  prose-code:border-cyan-500/20 prose-code:font-normal
+                  prose-code:border-brand-light/20 prose-code:font-normal
                   prose-code:before:content-[''] prose-code:after:content-['']
 
                   /* Code blocks with dramatic styling */
                   prose-pre:bg-gradient-to-br prose-pre:from-[#0a0a12] prose-pre:to-[#0f0f1a]
-                  prose-pre:border-2 prose-pre:border-cyan-500/20
+                  prose-pre:border-2 prose-pre:border-brand-light/20
                   prose-pre:rounded-2xl prose-pre:p-8 prose-pre:overflow-x-auto
                   prose-pre:shadow-[0_0_80px_rgba(0,212,255,0.1)]
                   prose-pre:my-12 prose-pre:text-base
 
                   /* Blockquotes with editorial styling */
-                  prose-blockquote:border-l-8 prose-blockquote:border-cyan-500
+                  prose-blockquote:border-l-8 prose-blockquote:border-brand-light
                   prose-blockquote:pl-12 prose-blockquote:pr-8 prose-blockquote:py-8
                   prose-blockquote:italic prose-blockquote:text-2xl
                   prose-blockquote:text-gray-300 prose-blockquote:my-16
-                  prose-blockquote:bg-gradient-to-r prose-blockquote:from-cyan-500/5
+                  prose-blockquote:bg-gradient-to-r prose-blockquote:from-brand-light/5
                   prose-blockquote:to-transparent
                   prose-blockquote:rounded-r-2xl
                   prose-blockquote:font-light
@@ -255,7 +255,7 @@ export function BlogDetailClient({ post, relatedPosts, previousPost, nextPost }:
                   /* Tables */
                   prose-table:border-2 prose-table:border-white/10 prose-table:rounded-xl
                   prose-table:overflow-hidden prose-table:my-12
-                  prose-thead:bg-gradient-to-r prose-thead:from-cyan-500/10 prose-thead:to-purple-500/10
+                  prose-thead:bg-gradient-to-r prose-thead:from-brand-light/10 prose-thead:to-brand-dark/10
                   prose-th:text-white prose-th:font-black prose-th:p-6 prose-th:text-left
                   prose-td:border-white/5 prose-td:p-6
                   prose-tr:border-b prose-tr:border-white/5
@@ -294,13 +294,13 @@ export function BlogDetailClient({ post, relatedPosts, previousPost, nextPost }:
                     In This Article
                   </h3>
                   <div className="space-y-3 text-sm">
-                    <div className="text-gray-400 hover:text-cyan-400 cursor-pointer transition-colors">
+                    <div className="text-gray-400 hover:text-brand-light cursor-pointer transition-colors">
                       Introduction
                     </div>
-                    <div className="text-gray-400 hover:text-cyan-400 cursor-pointer transition-colors">
+                    <div className="text-gray-400 hover:text-brand-light cursor-pointer transition-colors">
                       Main Concepts
                     </div>
-                    <div className="text-gray-400 hover:text-cyan-400 cursor-pointer transition-colors">
+                    <div className="text-gray-400 hover:text-brand-light cursor-pointer transition-colors">
                       Conclusion
                     </div>
                   </div>
@@ -308,8 +308,8 @@ export function BlogDetailClient({ post, relatedPosts, previousPost, nextPost }:
 
                 {/* Decorative stats */}
                 <div className="space-y-6">
-                  <div className="p-6 rounded-2xl bg-cyan-500/5 border border-cyan-500/20">
-                    <div className="text-5xl font-black text-cyan-400 mb-2">
+                  <div className="p-6 rounded-2xl bg-brand-light/5 border border-brand-light/20">
+                    <div className="text-5xl font-black text-brand-light mb-2">
                       {post.readTime.split(' ')[0]}
                     </div>
                     <div className="text-sm text-gray-400 uppercase tracking-wider">
@@ -364,7 +364,7 @@ export function BlogDetailClient({ post, relatedPosts, previousPost, nextPost }:
                           {related.category}
                         </span>
 
-                        <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors leading-tight">
+                        <h3 className="text-2xl font-bold text-white group-hover:text-brand-light transition-colors leading-tight">
                           {related.title}
                         </h3>
 
@@ -400,12 +400,12 @@ export function BlogDetailClient({ post, relatedPosts, previousPost, nextPost }:
                   className="group"
                 >
                   <Link href={`/blog/${previousPost.slug}`}>
-                    <div className="p-10 rounded-2xl border-2 border-white/10 hover:border-cyan-500/50 transition-all bg-gradient-to-br from-white/[0.02] to-transparent hover:from-cyan-500/5">
+                    <div className="p-10 rounded-2xl border-2 border-white/10 hover:border-brand-light/50 transition-all bg-gradient-to-br from-white/[0.02] to-transparent hover:from-brand-light/5">
                       <div className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-gray-500 mb-6">
                         <ArrowLeft className="w-4 h-4" />
                         Previous
                       </div>
-                      <h3 className="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors leading-tight mb-4">
+                      <h3 className="text-3xl font-bold text-white group-hover:text-brand-light transition-colors leading-tight mb-4">
                         {previousPost.title}
                       </h3>
                       <p className="text-gray-500 text-sm">{previousPost.date}</p>
@@ -422,12 +422,12 @@ export function BlogDetailClient({ post, relatedPosts, previousPost, nextPost }:
                   className="group"
                 >
                   <Link href={`/blog/${nextPost.slug}`}>
-                    <div className="p-10 rounded-2xl border-2 border-white/10 hover:border-purple-500/50 transition-all bg-gradient-to-bl from-white/[0.02] to-transparent hover:from-purple-500/5 text-right">
+                    <div className="p-10 rounded-2xl border-2 border-white/10 hover:border-brand-dark/50 transition-all bg-gradient-to-bl from-white/[0.02] to-transparent hover:from-brand-dark/5 text-right">
                       <div className="flex items-center justify-end gap-3 text-xs font-black uppercase tracking-[0.2em] text-gray-500 mb-6">
                         Next
                         <ArrowRight className="w-4 h-4" />
                       </div>
-                      <h3 className="text-3xl font-bold text-white group-hover:text-purple-400 transition-colors leading-tight mb-4">
+                      <h3 className="text-3xl font-bold text-white group-hover:text-brand-light transition-colors leading-tight mb-4">
                         {nextPost.title}
                       </h3>
                       <p className="text-gray-500 text-sm">{nextPost.date}</p>
@@ -443,7 +443,7 @@ export function BlogDetailClient({ post, relatedPosts, previousPost, nextPost }:
       {/* Newsletter CTA - immersive */}
       <Section className="py-32 border-t border-white/5 relative overflow-hidden">
         {/* Dramatic background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-cyan-500/5" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-dark/5 to-brand-light/5" />
         <div className={`absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.15),transparent_70%)]`} />
 
         <motion.div

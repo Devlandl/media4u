@@ -43,7 +43,7 @@ export function PortfolioDetailClient({ project }: { project: PortfolioProject }
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="inline-block px-4 py-2 rounded-full bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 text-sm font-semibold mb-6 uppercase tracking-wider">
+              <span className="inline-block px-4 py-2 rounded-full bg-brand-light/20 border border-brand-light/50 text-brand-light text-sm font-semibold mb-6 uppercase tracking-wider">
                 {project.category}
               </span>
 
@@ -65,7 +65,7 @@ export function PortfolioDetailClient({ project }: { project: PortfolioProject }
                   {project.technologies.map((tech, idx) => (
                     <span
                       key={idx}
-                      className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 text-sm font-medium hover:border-cyan-500/30 hover:text-cyan-400 transition-all"
+                      className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 text-sm font-medium hover:border-brand-light/30 hover:text-brand-light transition-all"
                     >
                       {tech}
                     </span>
@@ -140,7 +140,7 @@ export function PortfolioDetailClient({ project }: { project: PortfolioProject }
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   viewport={{ once: true }}
-                  className="p-6 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-white/[0.06] hover:border-cyan-500/30 transition-all"
+                  className="p-6 rounded-2xl bg-gradient-to-br from-brand-light/10 to-brand-dark/10 border border-white/[0.06] hover:border-brand-light/30 transition-all"
                 >
                   <p className="text-gray-300 text-lg">{result}</p>
                 </motion.div>
@@ -199,7 +199,7 @@ export function PortfolioDetailClient({ project }: { project: PortfolioProject }
               <p className="text-2xl text-gray-300 italic mb-6 leading-relaxed">
                 &quot;{project.testimonial}&quot;
               </p>
-              <div className="inline-block px-4 py-2 rounded-full bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 text-sm font-semibold">
+              <div className="inline-block px-4 py-2 rounded-full bg-brand-light/20 border border-brand-light/50 text-brand-light text-sm font-semibold">
                 Client Testimonial
               </div>
             </div>
@@ -233,7 +233,7 @@ export function PortfolioDetailClient({ project }: { project: PortfolioProject }
       {/* Navigation */}
       <div className="border-t border-white/[0.06] py-8">
         <div className="max-w-7xl mx-auto px-6 flex justify-between">
-          <Link href="/portfolio" className="text-cyan-400 hover:text-cyan-300 transition-colors">
+          <Link href="/portfolio" className="text-brand-light hover:text-brand-light transition-colors">
             ← Back to Portfolio
           </Link>
           <div className="text-gray-500 text-sm">

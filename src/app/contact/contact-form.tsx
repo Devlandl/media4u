@@ -137,7 +137,7 @@ export function ContactForm() {
           animate={{ opacity: 1, scale: 1 }}
           className="text-center py-12"
         >
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-light to-brand-dark flex items-center justify-center mx-auto mb-6">
             <svg
               className="w-8 h-8 text-white"
               fill="none"
@@ -194,8 +194,8 @@ export function ContactForm() {
               className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${
                 errors.name
                   ? "border-red-500/50 focus:border-red-500"
-                  : "border-white/10 focus:border-cyan-500/50"
-              } text-white placeholder-gray-500 outline-none transition-all focus:ring-2 focus:ring-cyan-500/20`}
+                  : "border-white/10 focus:border-brand-light/50"
+              } text-white placeholder-gray-500 outline-none transition-all focus:ring-2 focus:ring-brand-light/20`}
               placeholder="Your name"
             />
             {errors.name && (
@@ -220,8 +220,8 @@ export function ContactForm() {
               className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${
                 errors.email
                   ? "border-red-500/50 focus:border-red-500"
-                  : "border-white/10 focus:border-cyan-500/50"
-              } text-white placeholder-gray-500 outline-none transition-all focus:ring-2 focus:ring-cyan-500/20`}
+                  : "border-white/10 focus:border-brand-light/50"
+              } text-white placeholder-gray-500 outline-none transition-all focus:ring-2 focus:ring-brand-light/20`}
               placeholder="your@email.com"
             />
             {errors.email && (
@@ -245,8 +245,8 @@ export function ContactForm() {
               className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${
                 errors.service
                   ? "border-red-500/50 focus:border-red-500"
-                  : "border-white/10 focus:border-cyan-500/50"
-              } text-white outline-none transition-all focus:ring-2 focus:ring-cyan-500/20 appearance-none cursor-pointer`}
+                  : "border-white/10 focus:border-brand-light/50"
+              } text-white outline-none transition-all focus:ring-2 focus:ring-brand-light/20 appearance-none cursor-pointer`}
               style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
                 backgroundRepeat: "no-repeat",
@@ -285,8 +285,8 @@ export function ContactForm() {
               className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${
                 errors.message
                   ? "border-red-500/50 focus:border-red-500"
-                  : "border-white/10 focus:border-cyan-500/50"
-              } text-white placeholder-gray-500 outline-none transition-all focus:ring-2 focus:ring-cyan-500/20 resize-none`}
+                  : "border-white/10 focus:border-brand-light/50"
+              } text-white placeholder-gray-500 outline-none transition-all focus:ring-2 focus:ring-brand-light/20 resize-none`}
               placeholder="Tell us about your project..."
             />
             {errors.message && (

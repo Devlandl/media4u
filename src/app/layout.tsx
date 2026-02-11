@@ -193,7 +193,6 @@ export default function RootLayout({
         <ConvexClientProvider>
           <AuthProvider>
             <ToastProvider />
-            <AnimatedMesh />
             <LayoutWrapper>{children}</LayoutWrapper>
             <QuickQuoteWidget />
           </AuthProvider>

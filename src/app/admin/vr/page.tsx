@@ -11,6 +11,7 @@ import {
   Sparkles,
   Pencil,
   Lightbulb,
+  ArrowLeft,
 } from "lucide-react";
 
 interface VRExperienceFormData {
@@ -39,11 +40,11 @@ interface VRExperience extends VRExperienceFormData {
 }
 
 const gradients = [
-  "from-cyan-500 via-blue-600 to-purple-600",
-  "from-purple-500 via-pink-500 to-rose-500",
+  "from-brand-light via-brand to-brand-dark",
+  "from-brand via-brand-dark to-brand-dark",
   "from-emerald-500 via-teal-500 to-blue-500",
   "from-orange-500 via-amber-500 to-yellow-500",
-  "from-indigo-500 via-purple-500 to-pink-500",
+  "from-brand-light via-brand to-brand-dark",
 ];
 
 const types = ["property", "destination"] as const;
@@ -309,15 +310,15 @@ export default function VRAdminPage() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8 flex items-center justify-between"
+        className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
       >
         <div>
-          <h1 className="text-4xl font-display font-bold mb-2">VR Experiences</h1>
+          <h1 className="text-2xl sm:text-4xl font-display font-bold mb-2">VR Experiences</h1>
           <p className="text-gray-400">Create and manage VR properties and destinations</p>
         </div>
         <button
           onClick={handleNewExperience}
-          className="px-6 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium"
+          className="px-6 py-3 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-all border border-brand-light/50 font-medium"
         >
           + New Experience
         </button>
@@ -328,7 +329,7 @@ export default function VRAdminPage() {
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="lg:col-span-1"
+          className={`lg:col-span-1 ${selectedId || isCreating ? 'hidden lg:block' : ''}`}
         >
           <div className="glass-elevated rounded-2xl overflow-hidden h-full">
             <div className="p-4 border-b border-white/10 bg-white/5 sticky top-0">
@@ -343,7 +344,7 @@ export default function VRAdminPage() {
                     whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
                     className={`w-full p-4 text-left transition-all border-l-4 ${
                       selectedId === experience._id
-                        ? "border-cyan-500 bg-white/10"
+                        ? "border-brand-light bg-white/10"
                         : "border-transparent hover:border-white/20"
                     }`}
                   >
@@ -373,7 +374,7 @@ export default function VRAdminPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="lg:col-span-3"
+          className={`lg:col-span-3 ${!selectedId && !isCreating ? 'hidden lg:block' : ''}`}
         >
           {!isCreating && !selectedId ? (
             <div className="glass-elevated rounded-2xl p-12 flex flex-col items-center justify-center min-h-96">
@@ -383,7 +384,7 @@ export default function VRAdminPage() {
                 <p className="text-gray-400 mb-8">Choose an experience from the list to edit it, or create a new one.</p>
                 <button
                   onClick={handleNewExperience}
-                  className="px-8 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium"
+                  className="px-8 py-3 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-all border border-brand-light/50 font-medium"
                 >
                   + Create New Experience
                 </button>
@@ -391,6 +392,13 @@ export default function VRAdminPage() {
             </div>
           ) : (
             <div className="glass-elevated rounded-2xl p-8 space-y-8 overflow-y-auto max-h-[calc(100vh-200px)]">
+              <button
+                onClick={() => { setSelectedId(null); setIsCreating(false); }}
+                className="lg:hidden flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-4 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to list
+              </button>
               {/* Form Header */}
               <div className="pb-4 border-b border-white/10">
                 <h2 className="text-2xl font-display font-bold text-white flex items-center gap-2">
@@ -415,7 +423,7 @@ export default function VRAdminPage() {
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   placeholder="Experience title"
                 />
             </div>
@@ -426,7 +434,7 @@ export default function VRAdminPage() {
                 type="text"
                 value={formData.slug}
                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                 placeholder="experience-slug"
               />
             </div>
@@ -437,7 +445,7 @@ export default function VRAdminPage() {
                 <select
                   value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value as "property" | "destination" })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
                 >
                   {types.map((t) => (
                     <option key={t} value={t}>
@@ -452,7 +460,7 @@ export default function VRAdminPage() {
                 <select
                   value={formData.gradient}
                   onChange={(e) => setFormData({ ...formData, gradient: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
                 >
                   {gradients.map((g) => (
                     <option key={g} value={g}>
@@ -469,7 +477,7 @@ export default function VRAdminPage() {
                 <select
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
-                  className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                  className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
                 >
                   <option value="">Select a category</option>
                   {availableCategories.map((cat) => (
@@ -481,7 +489,7 @@ export default function VRAdminPage() {
                 <button
                   type="button"
                   onClick={addCategory}
-                  className="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/50"
+                  className="px-4 py-2 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 border border-brand-light/50"
                 >
                   Add
                 </button>
@@ -491,7 +499,7 @@ export default function VRAdminPage() {
                   {formData.categories.map((cat) => (
                     <div
                       key={cat}
-                      className="px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 text-sm flex items-center gap-2"
+                      className="px-3 py-1 rounded-full bg-brand-light/20 border border-brand-light/50 text-brand-light text-sm flex items-center gap-2"
                     >
                       {cat}
                       <button
@@ -512,7 +520,7 @@ export default function VRAdminPage() {
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
                 rows={2}
                 placeholder="Short description"
               />
@@ -523,7 +531,7 @@ export default function VRAdminPage() {
               <textarea
                 value={formData.fullDescription || ""}
                 onChange={(e) => setFormData({ ...formData, fullDescription: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
                 rows={3}
                 placeholder="Detailed description"
               />
@@ -534,13 +542,13 @@ export default function VRAdminPage() {
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 Images (Thumbnail + Gallery)
               </label>
-              <div className="mb-4 p-4 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-                <p className="text-sm text-cyan-400 flex items-start gap-2">
+              <div className="mb-4 p-4 rounded-lg bg-brand-light/10 border border-brand-light/30">
+                <p className="text-sm text-brand-light flex items-start gap-2">
                   <Lightbulb className="w-4 h-4 inline-block mt-0.5 flex-shrink-0" />
                   <span><strong>Tip:</strong> First image uploaded becomes the thumbnail. Additional images go to gallery.</span>
                 </p>
               </div>
-              <div className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:border-cyan-500/50 transition-colors">
+              <div className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:border-brand-light/50 transition-colors">
                 <input
                   type="file"
                   multiple
@@ -555,7 +563,7 @@ export default function VRAdminPage() {
                 </label>
               </div>
               {uploadProgress && (
-                <p className="text-sm text-cyan-400 mt-2">{uploadProgress}</p>
+                <p className="text-sm text-brand-light mt-2">{uploadProgress}</p>
               )}
 
               {/* Thumbnail Image */}
@@ -615,20 +623,20 @@ export default function VRAdminPage() {
                   type="text"
                   value={newFeature.name}
                   onChange={(e) => setNewFeature({ ...newFeature, name: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   placeholder="Feature name"
                 />
                 <textarea
                   value={newFeature.description}
                   onChange={(e) => setNewFeature({ ...newFeature, description: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
                   rows={2}
                   placeholder="Feature description"
                 />
                 <button
                   type="button"
                   onClick={addFeature}
-                  className="w-full px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/50"
+                  className="w-full px-4 py-2 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 border border-brand-light/50"
                 >
                   Add Feature
                 </button>
@@ -663,7 +671,7 @@ export default function VRAdminPage() {
                   type="url"
                   value={formData.multiverseUrl || ""}
                   onChange={(e) => setFormData({ ...formData, multiverseUrl: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   placeholder="https://..."
                 />
               </div>
@@ -674,7 +682,7 @@ export default function VRAdminPage() {
                   type="url"
                   value={formData.websiteUrl || ""}
                   onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   placeholder="https://..."
                 />
               </div>
@@ -685,7 +693,7 @@ export default function VRAdminPage() {
                   type="email"
                   value={formData.contactEmail || ""}
                   onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   placeholder="contact@example.com"
                 />
               </div>
@@ -698,7 +706,7 @@ export default function VRAdminPage() {
                   step="0.01"
                   value={formData.price || ""}
                   onChange={(e) => setFormData({ ...formData, price: e.target.value ? parseFloat(e.target.value) : undefined })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   placeholder="0.00"
                 />
               </div>
@@ -709,7 +717,7 @@ export default function VRAdminPage() {
               <textarea
                 value={formData.testimonial || ""}
                 onChange={(e) => setFormData({ ...formData, testimonial: e.target.value })}
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
                 rows={2}
                 placeholder="Optional testimonial or quote"
               />
@@ -728,7 +736,7 @@ export default function VRAdminPage() {
             <div className="flex gap-3 pt-4 border-t border-white/10">
               <button
                 onClick={handleSave}
-                className="flex-1 px-6 py-3 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/50 font-medium"
+                className="flex-1 px-6 py-3 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-all border border-brand-light/50 font-medium"
               >
                 {isCreating ? "Create" : "Update"}
               </button>

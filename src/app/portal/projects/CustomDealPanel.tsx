@@ -95,9 +95,9 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
       className="space-y-4"
     >
       {/* Setup Fee Card */}
-      <div className="glass-elevated rounded-2xl p-6">
-        <div className="flex items-start gap-4">
-          <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6">
+        <div className="flex items-start gap-3 lg:gap-4">
+          <div className="w-10 h-10 rounded-xl bg-zinc-800/50 flex items-center justify-center flex-shrink-0">
             <Receipt className="w-5 h-5 text-yellow-400" />
           </div>
           <div className="flex-1">
@@ -126,7 +126,7 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
                     href={project.setupInvoiceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 hover:bg-yellow-500/20 transition-all text-sm font-medium"
+                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-yellow-400 hover:bg-amber-500/20 transition-all text-sm font-medium w-full sm:w-auto"
                   >
                     <ExternalLink className="w-4 h-4" />
                     Pay Invoice
@@ -135,7 +135,7 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
                 <button
                   onClick={handleMarkPaid}
                   disabled={markingPaid}
-                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white text-xs transition-all disabled:opacity-60"
+                  className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-zinc-800/50 border border-zinc-800 text-gray-400 hover:text-white text-xs transition-all disabled:opacity-60 w-full sm:w-auto"
                 >
                   {markingPaid ? <Loader2 className="w-3 h-3 animate-spin" /> : null}
                   Paid another way?
@@ -167,10 +167,10 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
       </div>
 
       {/* Subscription Card */}
-      <div className="glass-elevated rounded-2xl p-6">
-        <div className="flex items-start gap-4">
-          <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
-            <CreditCard className="w-5 h-5 text-cyan-400" />
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6">
+        <div className="flex items-start gap-3 lg:gap-4">
+          <div className="w-10 h-10 rounded-xl bg-zinc-800/50 flex items-center justify-center flex-shrink-0">
+            <CreditCard className="w-5 h-5 text-zinc-400" />
           </div>
           <div className="flex-1">
             <h3 className="font-semibold text-white mb-0.5">
@@ -184,9 +184,9 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
                   Plan active
                 </div>
                 {/* Show billing dates */}
-                <div className="p-3 rounded-xl bg-white/5 border border-white/10 mb-3 text-sm">
+                <div className="p-3 rounded-xl bg-zinc-800/50 border border-zinc-800 mb-3 text-sm">
                   <div className="flex items-center gap-2 text-gray-300 mb-1">
-                    <CalendarClock className="w-4 h-4 text-cyan-400" />
+                    <CalendarClock className="w-4 h-4 text-zinc-400" />
                     <span className="font-medium">3-month plan</span>
                   </div>
                   <p className="text-gray-400 text-xs">
@@ -205,7 +205,7 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
                 </div>
                 <a
                   href="/portal/subscription"
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/20 text-gray-300 hover:text-white hover:border-white/30 hover:bg-white/10 transition-all text-sm font-medium w-fit"
+                  className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700 transition-all text-sm font-medium w-full sm:w-fit"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Manage Billing
@@ -214,9 +214,9 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
             ) : (
               <>
                 {/* Show what they're signing up for */}
-                <div className="p-3 rounded-xl bg-white/5 border border-white/10 mb-4">
+                <div className="p-3 rounded-xl bg-zinc-800/50 border border-zinc-800 mb-4">
                   <div className="flex items-center gap-2 text-gray-300 text-sm mb-2">
-                    <CalendarClock className="w-4 h-4 text-cyan-400" />
+                    <CalendarClock className="w-4 h-4 text-zinc-400" />
                     <span className="font-medium">How this works</span>
                   </div>
                   <ul className="space-y-1 text-xs text-gray-400">
@@ -225,15 +225,15 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
                       Setup fee this month covers your first month of work
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="text-cyan-400 mt-0.5">-</span>
+                      <span className="text-zinc-400 mt-0.5">-</span>
                       First ${monthlyAmount} charge: {format(firstOfNextMonth, "MMMM d, yyyy")}
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="text-cyan-400 mt-0.5">-</span>
+                      <span className="text-zinc-400 mt-0.5">-</span>
                       Then ${monthlyAmount}/month for 2 more months
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="text-purple-400 mt-0.5">-</span>
+                      <span className="text-brand-light mt-0.5">-</span>
                       Auto-cancels {format(threeMonthsLater, "MMMM d, yyyy")} - no surprise charges
                     </li>
                     <li className="flex items-start gap-2">
@@ -246,7 +246,7 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
                 <button
                   onClick={handleStartSubscription}
                   disabled={startingSubscription}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity text-sm disabled:opacity-60"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white text-zinc-950 font-semibold hover:bg-zinc-200 transition-colors text-sm disabled:opacity-60 w-full sm:w-auto"
                 >
                   {startingSubscription ? (
                     <Loader2 className="w-4 h-4 animate-spin" />

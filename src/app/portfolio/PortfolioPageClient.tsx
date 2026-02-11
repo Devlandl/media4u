@@ -49,7 +49,7 @@ const FALLBACK_PROJECTS: Project[] = [
     title: "Virtual Conference Hall",
     category: "vr",
     description: "Immersive 3D conference space with real-time collaboration tools for remote teams.",
-    gradient: "from-cyan-500 via-blue-600 to-purple-600",
+    gradient: "from-brand-light via-brand to-brand-dark",
   },
   {
     id: "tech-startup-landing",
@@ -57,7 +57,7 @@ const FALLBACK_PROJECTS: Project[] = [
     title: "Tech Startup Landing Page",
     category: "web",
     description: "High-converting landing page with dynamic animations and seamless user experience.",
-    gradient: "from-purple-500 via-pink-500 to-rose-500",
+    gradient: "from-brand via-brand-dark to-brand-dark",
   },
   {
     id: "connected-brand",
@@ -73,7 +73,7 @@ const FALLBACK_PROJECTS: Project[] = [
     title: "Virtual Art Gallery",
     category: "vr",
     description: "Museum-quality virtual space showcasing digital and traditional artwork collections.",
-    gradient: "from-emerald-500 via-teal-500 to-cyan-500",
+    gradient: "from-emerald-500 via-teal-500 to-teal-400",
   },
   {
     id: "ecommerce-platform",
@@ -81,7 +81,7 @@ const FALLBACK_PROJECTS: Project[] = [
     title: "E-Commerce Platform",
     category: "web",
     description: "Full-featured online store with 3D product previews and AR try-on capabilities.",
-    gradient: "from-violet-500 via-purple-500 to-fuchsia-500",
+    gradient: "from-brand-light via-brand to-brand-dark",
   },
   {
     id: "educational-vr-campus",
@@ -107,9 +107,9 @@ const CATEGORY_LABELS: Record<Exclude<ProjectCategory, "all">, string> = {
 };
 
 const CATEGORY_COLORS: Record<Exclude<ProjectCategory, "all">, string> = {
-  vr: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
+  vr: "bg-brand-light/20 text-brand-light border-brand-light/30",
   web: "bg-magenta-500/20 text-magenta-400 border-magenta-500/30",
-  integrated: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+  integrated: "bg-brand-dark/20 text-brand-light border-brand-dark/30",
 };
 
 export default function PortfolioPageClient() {
@@ -186,7 +186,7 @@ function FilterTabs({ tabs, activeFilter, onFilterChange }: FilterTabsProps) {
           {activeFilter === tab.value && (
             <motion.div
               layoutId="activeTab"
-              className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-full"
+              className="absolute inset-0 bg-gradient-to-r from-brand-light via-brand to-brand-dark rounded-full"
               transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
             />
           )}
@@ -340,7 +340,7 @@ function ProjectCard({ project, index: _index }: ProjectCardProps) {
       </div>
 
       <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-        <div className="absolute inset-0 rounded-2xl border border-cyan-500/20" />
+        <div className="absolute inset-0 rounded-2xl border border-brand-light/20" />
       </div>
     </motion.article>
     </Link>

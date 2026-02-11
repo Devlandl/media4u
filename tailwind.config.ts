@@ -17,11 +17,10 @@ const config: Config = {
           700: "#161624",
           600: "#1e1e2f",
         },
-        cyber: {
-          cyan: "#00d4ff",
-          magenta: "#ff2d92",
-          purple: "#8b5cf6",
-          blue: "#3b82f6",
+        brand: {
+          light: "#00A5E0",
+          DEFAULT: "#0077B6",
+          dark: "#005A8C",
         },
         surface: {
           primary: "rgba(255, 255, 255, 0.03)",
@@ -37,11 +36,11 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "cyber-mesh": `
-          radial-gradient(at 40% 20%, rgba(0, 212, 255, 0.15) 0px, transparent 50%),
-          radial-gradient(at 80% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
-          radial-gradient(at 0% 50%, rgba(255, 45, 146, 0.08) 0px, transparent 50%),
-          radial-gradient(at 80% 100%, rgba(0, 212, 255, 0.1) 0px, transparent 50%),
-          radial-gradient(at 0% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%)
+          radial-gradient(at 40% 20%, rgba(0, 165, 224, 0.15) 0px, transparent 50%),
+          radial-gradient(at 80% 0%, rgba(0, 119, 182, 0.1) 0px, transparent 50%),
+          radial-gradient(at 0% 50%, rgba(0, 90, 140, 0.08) 0px, transparent 50%),
+          radial-gradient(at 80% 100%, rgba(0, 165, 224, 0.1) 0px, transparent 50%),
+          radial-gradient(at 0% 100%, rgba(0, 119, 182, 0.08) 0px, transparent 50%)
         `,
       },
       animation: {
@@ -89,10 +88,10 @@ const config: Config = {
         },
       },
       boxShadow: {
-        "glow-cyan": "0 0 40px rgba(0, 212, 255, 0.3)",
-        "glow-magenta": "0 0 40px rgba(255, 45, 146, 0.3)",
-        "glow-purple": "0 0 40px rgba(139, 92, 246, 0.3)",
-        "inner-glow": "inset 0 0 60px rgba(0, 212, 255, 0.05)",
+        "glow-brand-light": "0 0 40px rgba(0, 165, 224, 0.3)",
+        "glow-brand": "0 0 40px rgba(0, 119, 182, 0.3)",
+        "glow-brand-dark": "0 0 40px rgba(0, 90, 140, 0.3)",
+        "inner-glow": "inset 0 0 60px rgba(0, 119, 182, 0.05)",
       },
     },
   },

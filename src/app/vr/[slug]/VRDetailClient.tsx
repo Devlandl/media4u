@@ -54,7 +54,7 @@ export function VRDetailClient({ experience }: { experience: VRExperience }) {
                 {experience.categories.map((cat) => (
                   <span
                     key={cat}
-                    className="inline-block px-4 py-2 rounded-full bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 text-xs font-semibold uppercase tracking-wider"
+                    className="inline-block px-4 py-2 rounded-full bg-brand-light/20 border border-brand-light/50 text-brand-light text-xs font-semibold uppercase tracking-wider"
                   >
                     {cat}
                   </span>
@@ -72,9 +72,9 @@ export function VRDetailClient({ experience }: { experience: VRExperience }) {
               {/* Price Display */}
               {experience.price !== undefined && experience.price > 0 && (
                 <div className="mb-8 inline-block">
-                  <div className="px-6 py-3 rounded-lg bg-cyan-500/10 border border-cyan-500/50">
-                    <p className="text-sm text-cyan-400 mb-1">Price</p>
-                    <p className="text-2xl font-display font-bold text-cyan-400 flex items-center gap-2">
+                  <div className="px-6 py-3 rounded-lg bg-brand-light/10 border border-brand-light/50">
+                    <p className="text-sm text-brand-light mb-1">Price</p>
+                    <p className="text-2xl font-display font-bold text-brand-light flex items-center gap-2">
                       <Coins className="w-6 h-6" /> {experience.price.toLocaleString()} Meta Coins
                     </p>
                   </div>
@@ -168,7 +168,7 @@ export function VRDetailClient({ experience }: { experience: VRExperience }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   viewport={{ once: true }}
-                  className="p-6 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-white/[0.06] hover:border-cyan-500/30 transition-all"
+                  className="p-6 rounded-2xl bg-gradient-to-br from-brand-light/10 to-brand-dark/10 border border-white/[0.06] hover:border-brand-light/30 transition-all"
                 >
                   <h3 className="font-semibold text-white mb-2">{feature.name}</h3>
                   <p className="text-gray-400">{feature.description}</p>
@@ -228,7 +228,7 @@ export function VRDetailClient({ experience }: { experience: VRExperience }) {
               <p className="text-2xl text-gray-300 italic mb-6 leading-relaxed">
                 &quot;{experience.testimonial}&quot;
               </p>
-              <div className="inline-block px-4 py-2 rounded-full bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 text-sm font-semibold">
+              <div className="inline-block px-4 py-2 rounded-full bg-brand-light/20 border border-brand-light/50 text-brand-light text-sm font-semibold">
                 Experience Testimonial
               </div>
             </div>
@@ -277,7 +277,7 @@ export function VRDetailClient({ experience }: { experience: VRExperience }) {
       {/* Navigation */}
       <div className="border-t border-white/[0.06] py-8">
         <div className="max-w-7xl mx-auto px-6 flex justify-between">
-          <Link href="/vr" className="text-cyan-400 hover:text-cyan-300 transition-colors">
+          <Link href="/vr" className="text-brand-light hover:text-brand-light transition-colors">
             ← Back to VR Experiences
           </Link>
           <div className="text-gray-500 text-sm">

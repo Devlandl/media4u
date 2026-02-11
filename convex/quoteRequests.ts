@@ -223,7 +223,7 @@ export const sendQuoteNotification = action({
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin: 32px 0 0 0;">
                 <tr>
                   <td align="center" style="border-radius: 8px; background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);">
-                    <a href="https://media4u.fun/admin/quotes" style="display: inline-block; padding: 14px 32px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none;">
+                    <a href="https://media4u.fun/admin/inbox" style="display: inline-block; padding: 14px 32px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none;">
                       View in Admin Panel
                     </a>
                   </td>

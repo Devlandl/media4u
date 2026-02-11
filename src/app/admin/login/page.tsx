@@ -14,7 +14,7 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center mesh-bg">
       <div className="text-center">
-        <div className="w-12 h-12 rounded-full border-4 border-white/20 border-t-cyan-500 animate-spin mx-auto mb-4" />
+        <div className="w-12 h-12 rounded-full border-4 border-white/20 border-t-brand-light animate-spin mx-auto mb-4" />
         <p className="text-gray-400">Redirecting to login...</p>
       </div>
     </div>

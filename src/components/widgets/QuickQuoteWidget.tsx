@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { useMutation, useAction } from "convex/react";
 import { api } from "@convex/_generated/api";
@@ -28,12 +29,12 @@ const BUSINESS_TYPES = [
 ];
 
 export function QuickQuoteWidget() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const createQuoteRequest = useMutation(api.quoteRequests.createQuoteRequest);
   const sendNotification = useAction(api.quoteRequests.sendQuoteNotification);
-
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -43,6 +44,10 @@ export function QuickQuoteWidget() {
     budget: "",
     description: "",
   });
+
+  if (pathname.startsWith("/portal") || pathname.startsWith("/admin")) {
+    return null;
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -105,7 +110,7 @@ export function QuickQuoteWidget() {
       {/* Floating Button */}
       <motion.button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-lg shadow-cyan-500/30 flex items-center justify-center hover:scale-110 transition-transform"
+        className="fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full bg-gradient-to-r from-brand-light to-brand-dark text-white shadow-lg shadow-brand-light/30 flex items-center justify-center hover:scale-110 transition-transform"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         initial={{ scale: 0 }}
@@ -147,7 +152,7 @@ export function QuickQuoteWidget() {
               className="fixed bottom-24 right-6 z-50 w-[90vw] max-w-md bg-gray-900 rounded-2xl shadow-2xl border border-white/10 overflow-hidden"
             >
               {/* Header */}
-              <div className="bg-gradient-to-r from-cyan-500 to-purple-600 p-4 flex items-center justify-between">
+              <div className="bg-gradient-to-r from-brand-light to-brand-dark p-4 flex items-center justify-between">
                 <div>
                   <h3 className="text-white font-bold text-lg">Get a Free Quote</h3>
                   <p className="text-white/80 text-sm">We respond within 24 hours!</p>
@@ -168,8 +173,8 @@ export function QuickQuoteWidget() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-8"
                   >
-                    <div className="w-16 h-16 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <CheckCircle className="w-8 h-8 text-cyan-400" />
+                    <div className="w-16 h-16 bg-brand-light/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle className="w-8 h-8 text-brand-light" />
                     </div>
                     <h4 className="text-xl font-bold text-white mb-2">Thank You!</h4>
                     <p className="text-gray-400">
@@ -187,7 +192,7 @@ export function QuickQuoteWidget() {
                         type="text"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                         placeholder="John Smith"
                         required
                       />
@@ -202,7 +207,7 @@ export function QuickQuoteWidget() {
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                         placeholder="john@email.com"
                         required
                       />
@@ -217,7 +222,7 @@ export function QuickQuoteWidget() {
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                         placeholder="(555) 123-4567"
                       />
                     </div>
@@ -230,7 +235,7 @@ export function QuickQuoteWidget() {
                       <select
                         value={formData.serviceType}
                         onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
                         required
                       >
                         <option value="">Select service...</option>
@@ -250,7 +255,7 @@ export function QuickQuoteWidget() {
                       <select
                         value={formData.businessType}
                         onChange={(e) => setFormData({ ...formData, businessType: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
                         required
                       >
                         <option value="">Select business type...</option>
@@ -270,7 +275,7 @@ export function QuickQuoteWidget() {
                       <select
                         value={formData.budget}
                         onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
                       >
                         <option value="">Select budget...</option>
                         <option value="Under $500">Under $500</option>
@@ -290,7 +295,7 @@ export function QuickQuoteWidget() {
                       <textarea
                         value={formData.description}
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
                         rows={2}
                         placeholder="What's your vision? Any specific features you need?"
                       />
@@ -300,7 +305,7 @@ export function QuickQuoteWidget() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      className="w-full py-3 rounded-full bg-white text-zinc-950 font-semibold hover:bg-zinc-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {isSubmitting ? (
                         "Sending..."

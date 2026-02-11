@@ -93,7 +93,7 @@ function ResetPasswordContent() {
           animate={{ opacity: 1 }}
           className="text-center"
         >
-          <div className="w-16 h-16 mx-auto mb-4 border-4 border-cyan-500/30 border-t-cyan-500 rounded-full animate-spin" />
+          <div className="w-16 h-16 mx-auto mb-4 border-4 border-brand-light/30 border-t-brand-light rounded-full animate-spin" />
           <p className="text-gray-400">Verifying reset link...</p>
         </motion.div>
       </div>
@@ -166,7 +166,7 @@ function ResetPasswordContent() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center"
+              className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-brand-light to-brand-dark flex items-center justify-center"
             >
               <svg
                 className="w-8 h-8 text-white"
@@ -236,7 +236,7 @@ function ResetPasswordContent() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
                 placeholder="••••••••"
                 autoFocus
                 required
@@ -259,7 +259,7 @@ function ResetPasswordContent() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 disabled={isLoading}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
                 placeholder="••••••••"
                 required
                 minLength={8}
@@ -294,7 +294,7 @@ function ResetPasswordContent() {
             className="mt-6 text-center text-gray-400 text-sm"
           >
             Remember your password?{" "}
-            <Link href="/login" className="text-cyan-400 hover:text-cyan-300 font-medium">
+            <Link href="/login" className="text-brand-light hover:text-brand-light font-medium">
               Login
             </Link>
           </motion.div>
@@ -308,7 +308,7 @@ export default function ResetPasswordPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center mesh-bg">
-        <div className="w-16 h-16 border-4 border-cyan-500/30 border-t-cyan-500 rounded-full animate-spin" />
+        <div className="w-16 h-16 border-4 border-brand-light/30 border-t-brand-light rounded-full animate-spin" />
       </div>
     }>
       <ResetPasswordContent />

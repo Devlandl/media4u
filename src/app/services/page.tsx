@@ -17,7 +17,7 @@ const services = [
       "Fast & accessible performance",
       "Easy to maintain & update",
     ],
-    gradient: "from-cyber-magenta to-cyber-cyan",
+    gradient: "from-brand to-brand-light",
     glowColor: "magenta",
     icon: (
       <svg
@@ -28,8 +28,8 @@ const services = [
       >
         <defs>
           <linearGradient id="web-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#ff2d92" />
-            <stop offset="100%" stopColor="#00d4ff" />
+            <stop offset="0%" stopColor="#005A8C" />
+            <stop offset="100%" stopColor="#00A5E0" />
           </linearGradient>
         </defs>
         <rect
@@ -50,9 +50,9 @@ const services = [
           stroke="url(#web-grad)"
           strokeWidth="2"
         />
-        <circle cx="22" cy="26" r="2" fill="#ff2d92" />
-        <circle cx="29" cy="26" r="2" fill="#00d4ff" />
-        <circle cx="36" cy="26" r="2" fill="#8b5cf6" />
+        <circle cx="22" cy="26" r="2" fill="#005A8C" />
+        <circle cx="29" cy="26" r="2" fill="#00A5E0" />
+        <circle cx="36" cy="26" r="2" fill="#0077B6" />
         <rect x="20" y="38" width="25" height="4" rx="1" fill="url(#web-grad)" opacity="0.6" />
         <rect x="20" y="46" width="40" height="3" rx="1" fill="url(#web-grad)" opacity="0.4" />
         <rect x="20" y="52" width="35" height="3" rx="1" fill="url(#web-grad)" opacity="0.4" />
@@ -79,7 +79,7 @@ const services = [
       "Video & podcast promo assets",
       "Print-ready & digital-optimized",
     ],
-    gradient: "from-cyber-purple to-cyber-magenta",
+    gradient: "from-brand to-brand-dark",
     glowColor: "purple",
     icon: (
       <svg
@@ -90,8 +90,8 @@ const services = [
       >
         <defs>
           <linearGradient id="branding-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8b5cf6" />
-            <stop offset="100%" stopColor="#ff2d92" />
+            <stop offset="0%" stopColor="#0077B6" />
+            <stop offset="100%" stopColor="#005A8C" />
           </linearGradient>
         </defs>
         <rect
@@ -138,7 +138,7 @@ const services = [
       "Connect to web with hotlinks",
       "Multi-platform deployment",
     ],
-    gradient: "from-cyber-cyan to-cyber-purple",
+    gradient: "from-brand-light to-brand-dark",
     glowColor: "cyan",
     icon: (
       <svg
@@ -149,8 +149,8 @@ const services = [
       >
         <defs>
           <linearGradient id="brand-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8b5cf6" />
-            <stop offset="100%" stopColor="#ff2d92" />
+            <stop offset="0%" stopColor="#0077B6" />
+            <stop offset="100%" stopColor="#005A8C" />
           </linearGradient>
         </defs>
         <circle cx="50" cy="40" r="20" stroke="url(#brand-grad)" strokeWidth="2" fill="none" />
@@ -180,7 +180,7 @@ const services = [
       "Interactive hotlinks & navigation",
       "Unified brand experience",
     ],
-    gradient: "from-cyber-magenta to-cyber-cyan",
+    gradient: "from-brand to-brand-light",
     glowColor: "magenta",
     icon: (
       <svg
@@ -191,8 +191,8 @@ const services = [
       >
         <defs>
           <linearGradient id="multi-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8b5cf6" />
-            <stop offset="100%" stopColor="#ff2d92" />
+            <stop offset="0%" stopColor="#0077B6" />
+            <stop offset="100%" stopColor="#005A8C" />
           </linearGradient>
         </defs>
         <circle cx="50" cy="50" r="30" stroke="url(#multi-grad)" strokeWidth="2" fill="none" />
@@ -214,10 +214,10 @@ const services = [
           strokeWidth="2"
           fill="none"
         />
-        <circle cx="50" cy="20" r="4" fill="#8b5cf6" />
-        <circle cx="50" cy="80" r="4" fill="#ff2d92" />
-        <circle cx="20" cy="50" r="4" fill="#00d4ff" />
-        <circle cx="80" cy="50" r="4" fill="#8b5cf6" />
+        <circle cx="50" cy="20" r="4" fill="#0077B6" />
+        <circle cx="50" cy="80" r="4" fill="#005A8C" />
+        <circle cx="20" cy="50" r="4" fill="#00A5E0" />
+        <circle cx="80" cy="50" r="4" fill="#0077B6" />
       </svg>
     ),
   },
@@ -347,7 +347,7 @@ export default function ServicesPage(): React.ReactNode {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="relative rounded-3xl p-[1px] bg-gradient-to-r from-cyber-cyan via-cyber-purple to-cyber-magenta"
+          className="relative rounded-3xl p-[1px] bg-gradient-to-r from-brand-light via-brand to-brand-dark"
         >
           <div className="rounded-3xl bg-void-900 px-8 py-16 md:px-16 md:py-20 text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.08),transparent_70%)]" />

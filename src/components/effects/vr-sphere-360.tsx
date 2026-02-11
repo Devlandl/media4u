@@ -19,7 +19,7 @@ function generateDataPoints() {
       duration,
       left: 50 + Math.cos((angle * Math.PI) / 180) * radius,
       top: 50 + Math.sin((angle * Math.PI) / 180) * radius,
-      color: i % 3 === 0 ? "#00d4ff" : i % 3 === 1 ? "#8b5cf6" : "#ff2d92",
+      color: i % 3 === 0 ? "#00A5E0" : i % 3 === 1 ? "#0077B6" : "#005A8C",
     };
   });
 }
@@ -172,8 +172,8 @@ export function VRSphere360() {
           <svg className="absolute inset-0 w-full h-full" style={{ transform: "translateZ(1px)" }}>
             <defs>
               <linearGradient id="grid-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#00d4ff" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.3" />
+                <stop offset="0%" stopColor="#00A5E0" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#0077B6" stopOpacity="0.3" />
               </linearGradient>
             </defs>
 
@@ -321,7 +321,7 @@ export function VRSphere360() {
 
         {/* Environment labels floating around sphere */}
         <motion.div
-          className="absolute top-[10%] left-[15%] px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-cyan-400 text-xs font-semibold backdrop-blur-sm"
+          className="absolute top-[10%] left-[15%] px-3 py-1 rounded-full bg-brand-light/20 border border-brand-light/40 text-brand-light text-xs font-semibold backdrop-blur-sm"
           style={{ transform: "translateZ(60px)" }}
           animate={{
             y: [-5, 5, -5],
@@ -335,7 +335,7 @@ export function VRSphere360() {
         </motion.div>
 
         <motion.div
-          className="absolute top-[20%] right-[10%] px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-400 text-xs font-semibold backdrop-blur-sm"
+          className="absolute top-[20%] right-[10%] px-3 py-1 rounded-full bg-brand-dark/20 border border-brand/40 text-brand-light text-xs font-semibold backdrop-blur-sm"
           style={{ transform: "translateZ(70px)" }}
           animate={{
             y: [5, -5, 5],
@@ -377,7 +377,7 @@ export function VRSphere360() {
             e.preventDefault();
             handleEnterVR();
           }}
-          className="relative z-50 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-magenta-500 text-white font-semibold text-lg shadow-2xl cursor-pointer flex items-center justify-center pointer-events-auto"
+          className="relative z-50 px-8 py-4 rounded-full bg-gradient-to-r from-brand-light via-brand to-brand-dark text-white font-semibold text-lg shadow-2xl cursor-pointer flex items-center justify-center pointer-events-auto"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           animate={{

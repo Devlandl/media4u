@@ -13,12 +13,12 @@ type ProjectStatus = "new" | "planning" | "design" | "development" | "review" | 
 
 const statusColors: Record<ProjectStatus, string> = {
   new: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-  planning: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-  design: "bg-pink-500/20 text-pink-400 border-pink-500/30",
+  planning: "bg-brand-dark/20 text-brand-light border-brand-dark/30",
+  design: "bg-brand-dark/20 text-pink-400 border-pink-500/30",
   development: "bg-orange-500/20 text-orange-400 border-orange-500/30",
   review: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
   completed: "bg-green-500/20 text-green-400 border-green-500/30",
-  launched: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
+  launched: "bg-brand-light/20 text-brand-light border-brand-light/30",
 };
 
 const statusLabels: Record<ProjectStatus, string> = {
@@ -527,7 +527,7 @@ export default function ProjectsAdminPage() {
         </div>
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="px-4 py-2 rounded-lg bg-cyan-500 text-white hover:bg-cyan-600 transition-colors flex items-center gap-2 font-medium"
+          className="px-4 py-2 rounded-lg bg-brand-light text-white hover:bg-brand transition-colors flex items-center gap-2 font-medium"
         >
           <Plus className="w-5 h-5" />
           Add Project
@@ -543,20 +543,20 @@ export default function ProjectsAdminPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by name, email, company, or project type..."
-            className="w-full pl-12 pr-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all"
+            className="w-full pl-12 pr-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 focus:bg-white/[0.08] transition-all"
           />
         </div>
       </div>
 
       {/* Filters */}
-      <div className="flex gap-3 mb-6 overflow-x-auto pb-2">
+      <div className="flex gap-3 mb-6 overflow-x-auto scrollbar-hide">
         {(["all", "new", "planning", "design", "development", "review", "completed", "launched"] as const).map((status) => (
           <button
             key={status}
             onClick={() => setFilterStatus(status)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
               filterStatus === status
-                ? "bg-cyan-500/30 text-cyan-400 border border-cyan-500/50"
+                ? "bg-brand-light/30 text-brand-light border border-brand-light/50"
                 : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
             }`}
           >
@@ -586,7 +586,7 @@ export default function ProjectsAdminPage() {
                   whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
                   className={`w-full p-4 text-left transition-all border-l-4 ${
                     selectedId === project._id
-                      ? "border-cyan-500 bg-white/10"
+                      ? "border-brand-light bg-white/10"
                       : "border-transparent hover:border-white/20"
                   }`}
                 >
@@ -639,7 +639,7 @@ export default function ProjectsAdminPage() {
                   </button>
                   <button
                     onClick={() => setIsEmailModalOpen(true)}
-                    className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:opacity-90 transition-opacity flex items-center gap-2 font-medium text-sm"
+                    className="px-4 py-2 rounded-lg bg-gradient-to-r from-brand-light to-brand-dark text-white hover:opacity-90 transition-opacity flex items-center gap-2 font-medium text-sm"
                   >
                     <Mail className="w-4 h-4" />
                     Email Client
@@ -668,7 +668,7 @@ export default function ProjectsAdminPage() {
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
-                  <a href={`mailto:${selected.email}`} className="text-cyan-400 hover:text-cyan-300">
+                  <a href={`mailto:${selected.email}`} className="text-brand-light hover:text-brand-light">
                     {selected.email}
                   </a>
                 </div>
@@ -676,7 +676,7 @@ export default function ProjectsAdminPage() {
                 {selected.phone && (
                   <div>
                     <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Phone</p>
-                    <a href={`tel:${selected.phone}`} className="text-cyan-400 hover:text-cyan-300">
+                    <a href={`tel:${selected.phone}`} className="text-brand-light hover:text-brand-light">
                       {selected.phone}
                     </a>
                   </div>
@@ -734,7 +734,7 @@ export default function ProjectsAdminPage() {
                     <select
                       value={selected.backendComplexity || "none"}
                       onChange={(e) => handleUpdateField("backendComplexity", e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                      className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
                     >
                       <option value="none">None - Static/Frontend Only</option>
                       <option value="simple">Simple - Forms & Email Only</option>
@@ -759,7 +759,7 @@ export default function ProjectsAdminPage() {
                                 : current.filter((f: string) => f !== feature);
                               handleUpdateField("technicalFeatures", updated);
                             }}
-                            className="w-4 h-4 rounded border-white/10 bg-white/5 text-cyan-500 focus:ring-cyan-500/50"
+                            className="w-4 h-4 rounded border-white/10 bg-white/5 text-brand-light focus:ring-brand-light/50"
                           />
                           <span className="text-sm text-gray-300">{feature}</span>
                         </label>
@@ -778,14 +778,14 @@ export default function ProjectsAdminPage() {
                     value={selected.liveUrl || ""}
                     onChange={(e) => handleUpdateField("liveUrl", e.target.value)}
                     placeholder="https://client-site.com"
-                    className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                    className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   />
                   {selected.liveUrl && (
                     <a
                       href={selected.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/50 flex items-center gap-2"
+                      className="px-4 py-2 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 border border-brand-light/50 flex items-center gap-2"
                     >
                       <ExternalLink className="w-4 h-4" />
                       Visit
@@ -815,7 +815,7 @@ export default function ProjectsAdminPage() {
                       className="flex items-center gap-1 text-sm"
                     >
                       {selected.isCustomDeal ? (
-                        <ToggleRight className="w-8 h-8 text-cyan-400" />
+                        <ToggleRight className="w-8 h-8 text-brand-light" />
                       ) : (
                         <ToggleLeft className="w-8 h-8 text-gray-500" />
                       )}
@@ -839,7 +839,7 @@ export default function ProjectsAdminPage() {
                                 await updateCustomDealAmounts({ projectId: selected._id, setupFeeAmount: val });
                               }
                             }}
-                            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50"
+                            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-brand-light/50"
                           />
                         </div>
                         <div>
@@ -853,7 +853,7 @@ export default function ProjectsAdminPage() {
                                 await updateCustomDealAmounts({ projectId: selected._id, monthlyAmount: val });
                               }
                             }}
-                            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50"
+                            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-brand-light/50"
                           />
                         </div>
                       </div>
@@ -877,7 +877,7 @@ export default function ProjectsAdminPage() {
                             )}
                             {selected.setupInvoiceUrl && (
                               <a href={selected.setupInvoiceUrl} target="_blank" rel="noopener noreferrer"
-                                className="text-xs text-cyan-400 hover:text-cyan-300 underline">
+                                className="text-xs text-brand-light hover:text-brand-light underline">
                                 View invoice
                               </a>
                             )}
@@ -949,7 +949,7 @@ export default function ProjectsAdminPage() {
               {/* Client Info & Branding */}
               <div className="pt-4 border-t border-white/10">
                 <div className="flex items-center gap-2 mb-4">
-                  <Palette className="w-5 h-5 text-cyan-400" />
+                  <Palette className="w-5 h-5 text-brand-light" />
                   <p className="text-sm font-semibold text-white">Client Branding</p>
                 </div>
 
@@ -962,7 +962,7 @@ export default function ProjectsAdminPage() {
                       <div className="flex gap-2">
                         <input
                           type="color"
-                          value={selected.brandColors?.primary || "#00d4ff"}
+                          value={selected.brandColors?.primary || "#00A5E0"}
                           onChange={(e) => handleUpdateBrandColor("primary", e.target.value)}
                           className="w-12 h-10 rounded cursor-pointer border border-white/10"
                         />
@@ -970,8 +970,8 @@ export default function ProjectsAdminPage() {
                           type="text"
                           value={selected.brandColors?.primary || ""}
                           onChange={(e) => handleUpdateBrandColor("primary", e.target.value)}
-                          placeholder="#00d4ff"
-                          className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                          placeholder="#00A5E0"
+                          className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                         />
                       </div>
                     </div>
@@ -980,7 +980,7 @@ export default function ProjectsAdminPage() {
                       <div className="flex gap-2">
                         <input
                           type="color"
-                          value={selected.brandColors?.secondary || "#8b5cf6"}
+                          value={selected.brandColors?.secondary || "#0077B6"}
                           onChange={(e) => handleUpdateBrandColor("secondary", e.target.value)}
                           className="w-12 h-10 rounded cursor-pointer border border-white/10"
                         />
@@ -988,8 +988,8 @@ export default function ProjectsAdminPage() {
                           type="text"
                           value={selected.brandColors?.secondary || ""}
                           onChange={(e) => handleUpdateBrandColor("secondary", e.target.value)}
-                          placeholder="#8b5cf6"
-                          className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                          placeholder="#0077B6"
+                          className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                         />
                       </div>
                     </div>
@@ -998,7 +998,7 @@ export default function ProjectsAdminPage() {
                       <div className="flex gap-2">
                         <input
                           type="color"
-                          value={selected.brandColors?.accent || "#ff2d92"}
+                          value={selected.brandColors?.accent || "#005A8C"}
                           onChange={(e) => handleUpdateBrandColor("accent", e.target.value)}
                           className="w-12 h-10 rounded cursor-pointer border border-white/10"
                         />
@@ -1006,8 +1006,8 @@ export default function ProjectsAdminPage() {
                           type="text"
                           value={selected.brandColors?.accent || ""}
                           onChange={(e) => handleUpdateBrandColor("accent", e.target.value)}
-                          placeholder="#ff2d92"
-                          className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                          placeholder="#005A8C"
+                          className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                         />
                       </div>
                     </div>
@@ -1017,7 +1017,7 @@ export default function ProjectsAdminPage() {
                 {/* Social Links */}
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <Share2 className="w-4 h-4 text-cyan-400" />
+                    <Share2 className="w-4 h-4 text-brand-light" />
                     <p className="text-xs uppercase tracking-wider text-gray-500">Social Media</p>
                   </div>
                   <div className="grid md:grid-cols-2 gap-3">
@@ -1028,7 +1028,7 @@ export default function ProjectsAdminPage() {
                         value={selected.socialLinks?.website || ""}
                         onChange={(e) => handleUpdateSocialLink("website", e.target.value)}
                         placeholder="https://client-website.com"
-                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                       />
                     </div>
                     <div>
@@ -1038,7 +1038,7 @@ export default function ProjectsAdminPage() {
                         value={selected.socialLinks?.instagram || ""}
                         onChange={(e) => handleUpdateSocialLink("instagram", e.target.value)}
                         placeholder="@username"
-                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                       />
                     </div>
                     <div>
@@ -1048,7 +1048,7 @@ export default function ProjectsAdminPage() {
                         value={selected.socialLinks?.facebook || ""}
                         onChange={(e) => handleUpdateSocialLink("facebook", e.target.value)}
                         placeholder="facebook.com/page"
-                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                       />
                     </div>
                     <div>
@@ -1058,7 +1058,7 @@ export default function ProjectsAdminPage() {
                         value={selected.socialLinks?.twitter || ""}
                         onChange={(e) => handleUpdateSocialLink("twitter", e.target.value)}
                         placeholder="@username"
-                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                       />
                     </div>
                     <div>
@@ -1068,7 +1068,7 @@ export default function ProjectsAdminPage() {
                         value={selected.socialLinks?.linkedin || ""}
                         onChange={(e) => handleUpdateSocialLink("linkedin", e.target.value)}
                         placeholder="linkedin.com/company/name"
-                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                       />
                     </div>
                     <div>
@@ -1078,7 +1078,7 @@ export default function ProjectsAdminPage() {
                         value={selected.socialLinks?.youtube || ""}
                         onChange={(e) => handleUpdateSocialLink("youtube", e.target.value)}
                         placeholder="@channel"
-                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                       />
                     </div>
                     <div>
@@ -1088,7 +1088,7 @@ export default function ProjectsAdminPage() {
                         value={selected.socialLinks?.tiktok || ""}
                         onChange={(e) => handleUpdateSocialLink("tiktok", e.target.value)}
                         placeholder="@username"
-                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                       />
                     </div>
                   </div>
@@ -1099,13 +1099,13 @@ export default function ProjectsAdminPage() {
               <div className="pt-4 border-t border-white/10">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <Lock className="w-5 h-5 text-purple-400" />
+                    <Lock className="w-5 h-5 text-brand-light" />
                     <p className="text-sm font-semibold text-white">Integration Vault</p>
                   </div>
                   <button
                     onClick={exportVaultForClaude}
                     disabled={!selected.integrationVault}
-                    className="px-3 py-1.5 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 border border-purple-500/50 text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="px-3 py-1.5 rounded-lg bg-brand-dark/20 text-brand-light hover:bg-brand-dark/30 border border-brand-dark/50 text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     <FileDown className="w-4 h-4" />
                     Export for Claude
@@ -1136,7 +1136,7 @@ export default function ProjectsAdminPage() {
                           {selected.integrationVault.emailFromAddress && (
                             <div>
                               <span className="text-gray-500">From Address:</span>{" "}
-                              <span className="text-cyan-400">{selected.integrationVault.emailFromAddress}</span>
+                              <span className="text-brand-light">{selected.integrationVault.emailFromAddress}</span>
                             </div>
                           )}
                         </div>
@@ -1182,7 +1182,7 @@ export default function ProjectsAdminPage() {
                           {selected.integrationVault.webhookUrl && (
                             <div>
                               <span className="text-gray-500">URL:</span>{" "}
-                              <span className="text-cyan-400 break-all">{selected.integrationVault.webhookUrl}</span>
+                              <span className="text-brand-light break-all">{selected.integrationVault.webhookUrl}</span>
                             </div>
                           )}
                           {selected.integrationVault.webhookSecret && (
@@ -1270,10 +1270,10 @@ export default function ProjectsAdminPage() {
               <div className="pt-4 border-t border-white/10">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <ImageIcon className="w-5 h-5 text-cyan-400" />
+                    <ImageIcon className="w-5 h-5 text-brand-light" />
                     <p className="text-sm font-semibold text-white">Project Files</p>
                   </div>
-                  <label className="px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/50 text-sm font-medium flex items-center gap-2 cursor-pointer transition-all">
+                  <label className="px-3 py-1.5 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 border border-brand-light/50 text-sm font-medium flex items-center gap-2 cursor-pointer transition-all">
                     <Upload className="w-4 h-4" />
                     {isUploading ? "Uploading..." : "Upload File"}
                     <input
@@ -1294,7 +1294,7 @@ export default function ProjectsAdminPage() {
                       const fileSize = (file.fileSize / 1024).toFixed(1); // KB
 
                       return (
-                        <div key={file._id} className="group relative p-3 rounded-lg bg-white/5 border border-white/10 hover:border-cyan-500/50 transition-all">
+                        <div key={file._id} className="group relative p-3 rounded-lg bg-white/5 border border-white/10 hover:border-brand-light/50 transition-all">
                           {/* Preview */}
                           <div className="relative aspect-square rounded-lg overflow-hidden bg-white/5 mb-2">
                             {isImage ? (
@@ -1328,7 +1328,7 @@ export default function ProjectsAdminPage() {
                               <a
                                 href={file.url}
                                 download={file.fileName}
-                                className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
+                                className="text-brand-light hover:text-brand-light flex items-center gap-1"
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 <FileDown className="w-3 h-3" />
@@ -1359,7 +1359,7 @@ export default function ProjectsAdminPage() {
                   <button
                     onClick={exportNotes}
                     disabled={!projectNotes || projectNotes.length === 0}
-                    className="px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/50 text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="px-3 py-1.5 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 border border-brand-light/50 text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     <FileDown className="w-4 h-4" />
                     Export Notes
@@ -1372,13 +1372,13 @@ export default function ProjectsAdminPage() {
                     value={newNote}
                     onChange={(e) => setNewNote(e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none mb-3"
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none mb-3"
                     placeholder="Type a new note..."
                   />
                   <button
                     onClick={handleAddNote}
                     disabled={!newNote.trim()}
-                    className="px-4 py-2 rounded-lg bg-cyan-500 text-white hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm font-medium flex items-center gap-2"
+                    className="px-4 py-2 rounded-lg bg-brand-light text-white hover:bg-brand disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm font-medium flex items-center gap-2"
                   >
                     <MessageSquarePlus className="w-4 h-4" />
                     Add Note
@@ -1504,7 +1504,7 @@ export default function ProjectsAdminPage() {
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
                     required
                   />
                 </div>
@@ -1517,7 +1517,7 @@ export default function ProjectsAdminPage() {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
                     required
                   />
                 </div>
@@ -1528,7 +1528,7 @@ export default function ProjectsAdminPage() {
                     type="text"
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
                   />
                 </div>
 
@@ -1538,7 +1538,7 @@ export default function ProjectsAdminPage() {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
                   />
                 </div>
               </div>
@@ -1550,7 +1550,7 @@ export default function ProjectsAdminPage() {
                 <select
                   value={formData.projectType}
                   onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
                   required
                 >
                   <option value="">Select project type...</option>
@@ -1572,7 +1572,7 @@ export default function ProjectsAdminPage() {
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={3}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 resize-none"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 resize-none"
                   placeholder="Brief description of the project..."
                   required
                 />
@@ -1584,7 +1584,7 @@ export default function ProjectsAdminPage() {
                   value={formData.requirements}
                   onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
                   rows={3}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 resize-none"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 resize-none"
                   placeholder="Specific features, pages, functionality needed..."
                 />
               </div>
@@ -1596,7 +1596,7 @@ export default function ProjectsAdminPage() {
                     type="text"
                     value={formData.budget}
                     onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
                     placeholder="e.g., $5,000 - $10,000"
                   />
                 </div>
@@ -1607,7 +1607,7 @@ export default function ProjectsAdminPage() {
                     type="text"
                     value={formData.timeline}
                     onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50"
                     placeholder="e.g., 4-6 weeks"
                   />
                 </div>
@@ -1619,7 +1619,7 @@ export default function ProjectsAdminPage() {
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   rows={3}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-cyan-500/50 resize-none"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 resize-none"
                   placeholder="Any additional notes..."
                 />
               </div>
@@ -1634,7 +1634,7 @@ export default function ProjectsAdminPage() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-3 rounded-lg bg-cyan-500 text-white hover:bg-cyan-600 transition-all font-medium"
+                  className="flex-1 px-4 py-3 rounded-lg bg-brand-light text-white hover:bg-brand transition-all font-medium"
                 >
                   Create Project
                 </button>
@@ -1654,8 +1654,8 @@ export default function ProjectsAdminPage() {
           >
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-purple-500/20 border border-purple-500/50">
-                  <Lock className="w-6 h-6 text-purple-400" />
+                <div className="p-2 rounded-lg bg-brand-dark/20 border border-brand-dark/50">
+                  <Lock className="w-6 h-6 text-brand-light" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-white">Export for Claude</h2>
@@ -1679,7 +1679,7 @@ export default function ProjectsAdminPage() {
             <div className="flex gap-3">
               <button
                 onClick={copyExportToClipboard}
-                className="flex-1 px-4 py-3 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-all font-medium flex items-center justify-center gap-2"
+                className="flex-1 px-4 py-3 rounded-lg bg-brand text-white hover:bg-brand-dark transition-all font-medium flex items-center justify-center gap-2"
               >
                 {copiedExport ? (
                   <>
@@ -1701,9 +1701,9 @@ export default function ProjectsAdminPage() {
               </button>
             </div>
 
-            <div className="mt-4 p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-sm text-cyan-400">
+            <div className="mt-4 p-3 rounded-lg bg-brand-light/10 border border-brand-light/30 text-sm text-brand-light">
               <p className="font-medium mb-1">💡 Pro Tip</p>
-              <p className="text-cyan-400/80">
+              <p className="text-brand-light/80">
                 Paste this entire export into Claude to give full project context including all API keys and credentials. Claude will use this to build integrations correctly.
               </p>
             </div>
@@ -1744,7 +1744,7 @@ function ClientPortalPreview({ project }: { project: any }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2 p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-xs text-cyan-400 mb-2">
+      <div className="flex items-center gap-2 p-3 rounded-xl bg-brand-light/10 border border-brand-light/30 text-xs text-brand-light mb-2">
         <Monitor className="w-4 h-4 flex-shrink-0" />
         <span>This is what <strong>{project.name}</strong> sees when they log into their portal.</span>
       </div>
@@ -1818,7 +1818,7 @@ function ClientPortalPreview({ project }: { project: any }) {
       {/* Subscription Card */}
       <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
         <div className="flex items-center gap-3 mb-3">
-          <CreditCard className="w-5 h-5 text-cyan-400" />
+          <CreditCard className="w-5 h-5 text-brand-light" />
           <div>
             <p className="text-sm font-semibold text-white">Monthly Plan - ${monthlyAmount}/month</p>
             <p className="text-xs text-gray-400">3-month plan, starts 1st of next month</p>

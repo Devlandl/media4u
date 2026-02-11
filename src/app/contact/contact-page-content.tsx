@@ -36,7 +36,7 @@ export function ContactPageContent() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16 md:mb-20"
         >
-          <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-cyan-400">
+          <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-brand-light">
             Contact Us
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white">

@@ -112,13 +112,13 @@ export function VRHeadset3D() {
             >
               <defs>
                 <linearGradient id="headset-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#00d4ff" />
-                  <stop offset="50%" stopColor="#8b5cf6" />
-                  <stop offset="100%" stopColor="#ff2d92" />
+                  <stop offset="0%" stopColor="#00A5E0" />
+                  <stop offset="50%" stopColor="#0077B6" />
+                  <stop offset="100%" stopColor="#005A8C" />
                 </linearGradient>
                 <linearGradient id="lens-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="#00d4ff" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#00A5E0" stopOpacity="0.6" />
                 </linearGradient>
               </defs>
 
@@ -144,28 +144,28 @@ export function VRHeadset3D() {
               <circle cx="130" cy="60" r="15" fill="url(#lens-grad)" opacity="0.3" />
 
               {/* Bridge */}
-              <rect x="95" y="55" width="10" height="10" rx="2" fill="#8b5cf6" opacity="0.7" />
+              <rect x="95" y="55" width="10" height="10" rx="2" fill="#0077B6" opacity="0.7" />
 
               {/* Strap attachment left */}
-              <rect x="5" y="50" width="15" height="20" rx="3" fill="#8b5cf6" opacity="0.6" />
+              <rect x="5" y="50" width="15" height="20" rx="3" fill="#0077B6" opacity="0.6" />
 
               {/* Strap attachment right */}
-              <rect x="180" y="50" width="15" height="20" rx="3" fill="#8b5cf6" opacity="0.6" />
+              <rect x="180" y="50" width="15" height="20" rx="3" fill="#0077B6" opacity="0.6" />
 
               {/* Detail lines */}
-              <line x1="40" y1="35" x2="160" y2="35" stroke="#00d4ff" strokeWidth="1" opacity="0.4" />
-              <line x1="40" y1="85" x2="160" y2="85" stroke="#ff2d92" strokeWidth="1" opacity="0.4" />
+              <line x1="40" y1="35" x2="160" y2="35" stroke="#00A5E0" strokeWidth="1" opacity="0.4" />
+              <line x1="40" y1="85" x2="160" y2="85" stroke="#005A8C" strokeWidth="1" opacity="0.4" />
             </svg>
 
             {/* Side depth panels */}
             <div
-              className="absolute top-1/2 left-0 w-6 h-20 md:w-8 md:h-24 bg-gradient-to-r from-purple-600/60 to-transparent rounded-l-lg"
+              className="absolute top-1/2 left-0 w-6 h-20 md:w-8 md:h-24 bg-gradient-to-r from-brand-dark/60 to-transparent rounded-l-lg"
               style={{
                 transform: "translateZ(20px) translateY(-50%) rotateY(90deg) translateX(-30px)",
               }}
             />
             <div
-              className="absolute top-1/2 right-0 w-6 h-20 md:w-8 md:h-24 bg-gradient-to-l from-cyan-600/60 to-transparent rounded-r-lg"
+              className="absolute top-1/2 right-0 w-6 h-20 md:w-8 md:h-24 bg-gradient-to-l from-brand-light/60 to-transparent rounded-r-lg"
               style={{
                 transform: "translateZ(20px) translateY(-50%) rotateY(-90deg) translateX(30px)",
               }}
@@ -176,7 +176,7 @@ export function VRHeadset3D() {
           {[...Array(6)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-1 h-1 rounded-full bg-cyan-400"
+              className="absolute w-1 h-1 rounded-full bg-brand-light"
               style={{
                 left: `${20 + Math.random() * 60}%`,
                 top: `${20 + Math.random() * 60}%`,
@@ -197,7 +197,7 @@ export function VRHeadset3D() {
 
         {/* Rotating ring */}
         <motion.div
-          className="absolute inset-0 border-2 border-cyan-500/30 rounded-full"
+          className="absolute inset-0 border-2 border-brand-light/30 rounded-full"
           style={{
             transform: "translateZ(0)",
           }}

@@ -19,6 +19,7 @@ import type * as devHelpers from "../devHelpers.js";
 import type * as emailReplies from "../emailReplies.js";
 import type * as emails from "../emails.js";
 import type * as http from "../http.js";
+import type * as inbox from "../inbox.js";
 import type * as leads from "../leads.js";
 import type * as lib_emailTemplates from "../lib/emailTemplates.js";
 import type * as newsletter from "../newsletter.js";
@@ -56,6 +57,7 @@ declare const fullApi: ApiFromModules<{
   emailReplies: typeof emailReplies;
   emails: typeof emails;
   http: typeof http;
+  inbox: typeof inbox;
   leads: typeof leads;
   "lib/emailTemplates": typeof lib_emailTemplates;
   newsletter: typeof newsletter;

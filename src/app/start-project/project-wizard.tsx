@@ -238,11 +238,11 @@ export function ProjectWizard(): ReactElement {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-gray-400">Step {currentStep} of {TOTAL_STEPS}</span>
-          <span className="text-sm font-medium text-cyan-400">{Math.round(progressPercentage)}% Complete</span>
+          <span className="text-sm font-medium text-brand-light">{Math.round(progressPercentage)}% Complete</span>
         </div>
         <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-gradient-to-r from-cyan-500 to-purple-500"
+            className="h-full bg-gradient-to-r from-brand-light to-brand-dark"
             initial={{ width: 0 }}
             animate={{ width: `${progressPercentage}%` }}
             transition={{ duration: 0.5 }}
@@ -275,7 +275,7 @@ export function ProjectWizard(): ReactElement {
                     value={formData.name}
                     onChange={(e) => updateField("name", e.target.value)}
                     placeholder="Your full name"
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   />
                 </div>
 
@@ -286,7 +286,7 @@ export function ProjectWizard(): ReactElement {
                     value={formData.email}
                     onChange={(e) => updateField("email", e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   />
                 </div>
 
@@ -297,7 +297,7 @@ export function ProjectWizard(): ReactElement {
                     value={formData.businessName}
                     onChange={(e) => updateField("businessName", e.target.value)}
                     placeholder="Leave blank for personal projects"
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
                   />
                 </div>
               </div>
@@ -318,14 +318,14 @@ export function ProjectWizard(): ReactElement {
                       onClick={() => updateField("vision", option.value)}
                       className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
                         formData.vision === option.value
-                          ? "border-cyan-500 bg-cyan-500/10"
+                          ? "border-brand-light bg-brand-light/10"
                           : "border-white/10 hover:border-white/30"
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <span className="font-medium text-white">{option.label}</span>
                         {formData.vision === option.value && (
-                          <Check className="w-5 h-5 text-cyan-400" />
+                          <Check className="w-5 h-5 text-brand-light" />
                         )}
                       </div>
                     </button>
@@ -349,14 +349,14 @@ export function ProjectWizard(): ReactElement {
                       onClick={() => updateField("primaryGoal", option.value)}
                       className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
                         formData.primaryGoal === option.value
-                          ? "border-cyan-500 bg-cyan-500/10"
+                          ? "border-brand-light bg-brand-light/10"
                           : "border-white/10 hover:border-white/30"
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-medium text-white">{option.label}</span>
                         {formData.primaryGoal === option.value && (
-                          <Check className="w-5 h-5 text-cyan-400" />
+                          <Check className="w-5 h-5 text-brand-light" />
                         )}
                       </div>
                       {formData.primaryGoal === option.value && (
@@ -383,14 +383,14 @@ export function ProjectWizard(): ReactElement {
                       onClick={() => toggleArrayItem("features", feature)}
                       className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
                         formData.features.includes(feature)
-                          ? "border-cyan-500 bg-cyan-500/10"
+                          ? "border-brand-light bg-brand-light/10"
                           : "border-white/10 hover:border-white/30"
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <span className="font-medium text-white">{feature}</span>
                         {formData.features.includes(feature) && (
-                          <Check className="w-5 h-5 text-cyan-400" />
+                          <Check className="w-5 h-5 text-brand-light" />
                         )}
                       </div>
                     </button>
@@ -416,14 +416,14 @@ export function ProjectWizard(): ReactElement {
                         onClick={() => updateField("lookAndFeel", option.value)}
                         className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
                           formData.lookAndFeel === option.value
-                            ? "border-cyan-500 bg-cyan-500/10"
+                            ? "border-brand-light bg-brand-light/10"
                             : "border-white/10 hover:border-white/30"
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-medium text-white">{option.label}</span>
                           {formData.lookAndFeel === option.value && (
-                            <Check className="w-5 h-5 text-cyan-400" />
+                            <Check className="w-5 h-5 text-brand-light" />
                           )}
                         </div>
                       </button>
@@ -440,14 +440,14 @@ export function ProjectWizard(): ReactElement {
                         onClick={() => updateField("growthStage", option.value)}
                         className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
                           formData.growthStage === option.value
-                            ? "border-cyan-500 bg-cyan-500/10"
+                            ? "border-brand-light bg-brand-light/10"
                             : "border-white/10 hover:border-white/30"
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-medium text-white">{option.label}</span>
                           {formData.growthStage === option.value && (
-                            <Check className="w-5 h-5 text-cyan-400" />
+                            <Check className="w-5 h-5 text-brand-light" />
                           )}
                         </div>
                       </button>
@@ -475,14 +475,14 @@ export function ProjectWizard(): ReactElement {
                         onClick={() => toggleArrayItem("optionalEnhancements", enhancement)}
                         className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
                           formData.optionalEnhancements.includes(enhancement)
-                            ? "border-purple-500 bg-purple-500/10"
+                            ? "border-brand bg-brand-dark/10"
                             : "border-white/10 hover:border-white/30"
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-medium text-white">{enhancement}</span>
                           {formData.optionalEnhancements.includes(enhancement) && (
-                            <Check className="w-5 h-5 text-purple-400" />
+                            <Check className="w-5 h-5 text-brand-light" />
                           )}
                         </div>
                       </button>
@@ -499,14 +499,14 @@ export function ProjectWizard(): ReactElement {
                         onClick={() => updateField("timeline", option)}
                         className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
                           formData.timeline === option
-                            ? "border-cyan-500 bg-cyan-500/10"
+                            ? "border-brand-light bg-brand-light/10"
                             : "border-white/10 hover:border-white/30"
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-medium text-white">{option}</span>
                           {formData.timeline === option && (
-                            <Check className="w-5 h-5 text-cyan-400" />
+                            <Check className="w-5 h-5 text-brand-light" />
                           )}
                         </div>
                       </button>
@@ -523,14 +523,14 @@ export function ProjectWizard(): ReactElement {
                         onClick={() => updateField("budget", option)}
                         className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
                           formData.budget === option
-                            ? "border-cyan-500 bg-cyan-500/10"
+                            ? "border-brand-light bg-brand-light/10"
                             : "border-white/10 hover:border-white/30"
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-medium text-white">{option}</span>
                           {formData.budget === option && (
-                            <Check className="w-5 h-5 text-cyan-400" />
+                            <Check className="w-5 h-5 text-brand-light" />
                           )}
                         </div>
                       </button>
@@ -545,7 +545,7 @@ export function ProjectWizard(): ReactElement {
                     onChange={(e) => updateField("description", e.target.value)}
                     placeholder="Describe your project, goals, or any ideas you have. Even a rough outline helps."
                     rows={4}
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
                   />
                 </div>
               </div>
@@ -583,7 +583,7 @@ export function ProjectWizard(): ReactElement {
                     <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Features</p>
                     <div className="flex flex-wrap gap-2 mt-2">
                       {formData.features.map(feature => (
-                        <span key={feature} className="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-400 text-sm">
+                        <span key={feature} className="px-3 py-1 rounded-full bg-brand-light/20 text-brand-light text-sm">
                           {feature}
                         </span>
                       ))}
@@ -607,7 +607,7 @@ export function ProjectWizard(): ReactElement {
                       <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Optional Enhancements</p>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {formData.optionalEnhancements.map(enhancement => (
-                          <span key={enhancement} className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 text-sm">
+                          <span key={enhancement} className="px-3 py-1 rounded-full bg-brand-dark/20 text-brand-light text-sm">
                             {enhancement}
                           </span>
                         ))}
@@ -642,7 +642,7 @@ export function ProjectWizard(): ReactElement {
             {/* Success State */}
             {submitSuccess && currentStep === 7 && (
               <div className="text-center py-8">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-r from-green-500 to-cyan-500 flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-r from-green-500 to-brand-light flex items-center justify-center mx-auto mb-4">
                   <PartyPopper className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl font-display font-bold mb-4">Blueprint Complete!</h2>

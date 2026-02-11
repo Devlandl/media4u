@@ -109,14 +109,14 @@ const TEAM_MEMBERS = [
     realName: "Devland Lister",
     role: "Founder & Visionary",
     bio: "Devland brings years of IT and tech experience into every project, but his real gift is seeing possibilities others miss. He's a builder at heart-whether it's a VR apartment complex, a digital community space, or a website that feels alive. He believes technology should foster harmony and connection, and that belief shapes everything Media4U creates. Devland leads with vision, purpose, and a deep commitment to doing work that matters.",
-    gradient: "from-cyan-500 to-blue-600",
+    gradient: "from-brand-light to-brand",
   },
   {
     name: "Mike",
     realName: "Iceman",
     role: "Visual Media Specialist",
     bio: "Mike turns ideas into visuals you can feel. From websites and branding to VR assets and promotional content, he brings the creative precision that makes every project polished and professional. He's the bridge between concept and execution-taking vision and turning it into something people can see, touch, and experience. His work supports both the technical and creative sides of every project we take on.",
-    gradient: "from-purple-500 to-pink-600",
+    gradient: "from-brand to-brand-dark",
   },
 ];
 
@@ -153,7 +153,7 @@ export function AboutContent(): ReactElement {
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center max-w-4xl mx-auto"
         >
-          <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-cyan-400">
+          <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-brand-light">
             About Us
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold mb-6 text-white">
@@ -175,7 +175,7 @@ export function AboutContent(): ReactElement {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-purple-400">
+            <span className="inline-block mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-brand-light">
               Our Mission
             </span>
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-6 text-white">
@@ -193,8 +193,8 @@ export function AboutContent(): ReactElement {
             </div>
             {/* Decorative Element */}
             <div className="mt-8 flex items-center gap-4">
-              <div className="h-px flex-1 bg-gradient-to-r from-cyan-500/50 via-purple-500/50 to-transparent" />
-              <div className="w-2 h-2 rounded-full bg-purple-500" />
+              <div className="h-px flex-1 bg-gradient-to-r from-brand-light/50 via-brand-dark/50 to-transparent" />
+              <div className="w-2 h-2 rounded-full bg-brand" />
             </div>
           </motion.div>
 
@@ -228,8 +228,8 @@ export function AboutContent(): ReactElement {
       {/* What We Do */}
       <Section className="relative overflow-hidden">
         {/* Background Decorations */}
-        <div className="absolute top-1/2 left-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl -translate-y-1/2" />
-        <div className="absolute top-1/2 right-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl -translate-y-1/2" />
+        <div className="absolute top-1/2 left-0 w-96 h-96 bg-brand-light/5 rounded-full blur-3xl -translate-y-1/2" />
+        <div className="absolute top-1/2 right-0 w-96 h-96 bg-brand-dark/5 rounded-full blur-3xl -translate-y-1/2" />
 
         <SectionHeader
           tag="What We Do"
@@ -273,7 +273,7 @@ export function AboutContent(): ReactElement {
                 </div>
 
                 {/* Hover Glow Effect */}
-                <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-b from-cyan-500/0 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-b from-brand-light/0 to-brand-light/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             </motion.div>
           ))}
@@ -313,7 +313,7 @@ export function AboutContent(): ReactElement {
                       {member.name}
                     </h3>
                     <p className="text-sm text-gray-500">({member.realName})</p>
-                    <p className="text-cyan-400 font-semibold mt-2">{member.role}</p>
+                    <p className="text-brand-light font-semibold mt-2">{member.role}</p>
                   </div>
                   <p className="text-gray-400 text-sm leading-relaxed">
                     {member.bio}
@@ -335,13 +335,13 @@ export function AboutContent(): ReactElement {
           className="relative rounded-3xl overflow-hidden"
         >
           {/* Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-magenta-500/10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-light/10 via-brand-dark/10 to-brand-dark/10" />
           <div className="absolute inset-0 glass" />
 
           {/* Animated Orbs */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl animate-float" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-brand-light/20 rounded-full blur-3xl animate-float" />
           <div
-            className="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/20 rounded-full blur-3xl animate-float"
+            className="absolute bottom-0 left-0 w-48 h-48 bg-brand-dark/20 rounded-full blur-3xl animate-float"
             style={{ animationDelay: "2s" }}
           />
 

@@ -10,10 +10,10 @@ import { format } from "date-fns";
 import { RefreshCw, AlertTriangle } from "lucide-react";
 
 const STATUS_STYLES: Record<string, { bg: string; text: string; label: string }> = {
-  active: { bg: "bg-green-500/20", text: "text-green-400", label: "Active" },
-  past_due: { bg: "bg-yellow-500/20", text: "text-yellow-400", label: "Past Due" },
-  canceled: { bg: "bg-red-500/20", text: "text-red-400", label: "Canceled" },
-  unpaid: { bg: "bg-orange-500/20", text: "text-orange-400", label: "Unpaid" },
+  active: { bg: "bg-emerald-500/10", text: "text-emerald-400", label: "Active" },
+  past_due: { bg: "bg-amber-500/10", text: "text-amber-400", label: "Past Due" },
+  canceled: { bg: "bg-red-500/10", text: "text-red-400", label: "Canceled" },
+  unpaid: { bg: "bg-orange-500/10", text: "text-orange-400", label: "Unpaid" },
 };
 
 export default function PortalSubscriptionPage(): ReactElement {
@@ -69,8 +69,8 @@ export default function PortalSubscriptionPage(): ReactElement {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-4xl font-display font-bold mb-2">
-          <span className="text-gradient-cyber">Subscription</span> Management
+        <h1 className="text-xl lg:text-2xl font-semibold mb-2">
+          <span className="text-white">Subscription</span> Management
         </h1>
         <p className="text-gray-400">
           View and manage your Web Care subscription.
@@ -86,12 +86,12 @@ export default function PortalSubscriptionPage(): ReactElement {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-elevated rounded-2xl p-12 text-center"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-8 lg:p-12 text-center"
         >
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/5 flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-zinc-800 flex items-center justify-center">
             <RefreshCw className="w-8 h-8 text-gray-400" />
           </div>
-          <h3 className="text-xl font-display font-semibold mb-2">
+          <h3 className="text-xl font-medium mb-2">
             No active subscription
           </h3>
           <p className="text-gray-400 mb-6 max-w-md mx-auto">
@@ -100,7 +100,7 @@ export default function PortalSubscriptionPage(): ReactElement {
           </p>
           <Link
             href="/start-project#packages"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold transition-all hover:shadow-lg hover:shadow-cyan-500/25"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-zinc-950 hover:bg-zinc-200 font-medium transition-all"
           >
             Subscribe to Web Care - $149/mo
           </Link>
@@ -111,14 +111,14 @@ export default function PortalSubscriptionPage(): ReactElement {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`glass-elevated rounded-2xl p-6 ${
-              subscription.status === "active" ? "border border-green-500/30" : ""
+            className={`bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6 ${
+              subscription.status === "active" ? "border border-emerald-500/20" : ""
             }`}
           >
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <h2 className="text-2xl font-display font-bold text-white">
+                  <h2 className="text-lg font-medium text-white">
                     Web Care Monthly
                   </h2>
                   {statusStyle && (
@@ -134,7 +134,7 @@ export default function PortalSubscriptionPage(): ReactElement {
                 </p>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-display font-bold text-white">
+                <div className="text-xl lg:text-2xl font-semibold text-white">
                   $149
                   <span className="text-lg text-gray-400">/mo</span>
                 </div>
@@ -147,15 +147,15 @@ export default function PortalSubscriptionPage(): ReactElement {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="glass-elevated rounded-2xl p-6"
+            className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
           >
-            <h3 className="text-lg font-display font-semibold mb-4">
+            <h3 className="text-lg font-medium mb-4">
               Billing Details
             </h3>
             <div className="space-y-4">
-              <div className="flex justify-between py-2 border-b border-white/10">
+              <div className="flex justify-between py-2 border-b border-zinc-800">
                 <span className="text-gray-400">Current Period</span>
-                <span className="text-white">
+                <span className="text-white text-sm text-right">
                   {format(
                     new Date(subscription.currentPeriodStart),
                     "MMM d, yyyy"
@@ -167,9 +167,9 @@ export default function PortalSubscriptionPage(): ReactElement {
                   )}
                 </span>
               </div>
-              <div className="flex justify-between py-2 border-b border-white/10">
+              <div className="flex justify-between py-2 border-b border-zinc-800">
                 <span className="text-gray-400">Next Billing Date</span>
-                <span className="text-white">
+                <span className="text-white text-sm text-right">
                   {subscription.cancelAtPeriodEnd
                     ? "Cancels at period end"
                     : format(
@@ -180,7 +180,7 @@ export default function PortalSubscriptionPage(): ReactElement {
               </div>
               <div className="flex justify-between py-2">
                 <span className="text-gray-400">Email</span>
-                <span className="text-white">{subscription.customerEmail}</span>
+                <span className="text-white text-sm text-right">{subscription.customerEmail}</span>
               </div>
             </div>
           </motion.div>
@@ -191,12 +191,12 @@ export default function PortalSubscriptionPage(): ReactElement {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="glass-elevated rounded-2xl p-6 border border-yellow-500/30 bg-yellow-500/5"
+              className="bg-zinc-900 rounded-xl p-4 lg:p-6 border border-amber-500/20 bg-amber-500/5"
             >
               <div className="flex items-start gap-3">
-                <AlertTriangle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-0.5" />
+                <AlertTriangle className="w-6 h-6 text-amber-400 flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-semibold text-yellow-400">
+                  <h4 className="font-semibold text-amber-400">
                     Subscription Ending
                   </h4>
                   <p className="text-sm text-gray-400 mt-1">
@@ -222,7 +222,7 @@ export default function PortalSubscriptionPage(): ReactElement {
             <button
               onClick={handleManageSubscription}
               disabled={portalLoading}
-              className="px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold transition-all hover:shadow-lg hover:shadow-cyan-500/25 disabled:opacity-50"
+              className="w-full sm:w-auto px-6 py-3 rounded-lg bg-white text-zinc-950 hover:bg-zinc-200 font-medium transition-all disabled:opacity-50"
             >
               {portalLoading ? "Loading..." : "Manage Subscription"}
             </button>

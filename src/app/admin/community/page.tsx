@@ -49,17 +49,17 @@ export default function CommunityAdminPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-4xl font-display font-bold mb-2">VR Multiverse Community</h1>
+        <h1 className="text-2xl sm:text-4xl font-display font-bold mb-2">VR Multiverse Community</h1>
         <p className="text-gray-400">Manage invites and community members</p>
       </motion.div>
 
       {/* Tabs */}
-      <div className="flex gap-3 mb-6 border-b border-white/10 pb-4">
+      <div className="flex gap-3 mb-6 overflow-x-auto scrollbar-hide border-b border-white/10 pb-4">
         <button
           onClick={() => setActiveTab("requests")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 whitespace-nowrap ${
             activeTab === "requests"
-              ? "bg-cyan-500/30 text-cyan-400 border border-cyan-500/50"
+              ? "bg-brand-light/30 text-brand-light border border-brand-light/50"
               : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
           }`}
         >
@@ -73,9 +73,9 @@ export default function CommunityAdminPage() {
         </button>
         <button
           onClick={() => setActiveTab("invites")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 whitespace-nowrap ${
             activeTab === "invites"
-              ? "bg-cyan-500/30 text-cyan-400 border border-cyan-500/50"
+              ? "bg-brand-light/30 text-brand-light border border-brand-light/50"
               : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
           }`}
         >
@@ -84,9 +84,9 @@ export default function CommunityAdminPage() {
         </button>
         <button
           onClick={() => setActiveTab("pending")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 whitespace-nowrap ${
             activeTab === "pending"
-              ? "bg-cyan-500/30 text-cyan-400 border border-cyan-500/50"
+              ? "bg-brand-light/30 text-brand-light border border-brand-light/50"
               : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
           }`}
         >
@@ -95,9 +95,9 @@ export default function CommunityAdminPage() {
         </button>
         <button
           onClick={() => setActiveTab("members")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 whitespace-nowrap ${
             activeTab === "members"
-              ? "bg-cyan-500/30 text-cyan-400 border border-cyan-500/50"
+              ? "bg-brand-light/30 text-brand-light border border-brand-light/50"
               : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
           }`}
         >
@@ -172,7 +172,7 @@ function RequestsTab() {
       {/* Pending Requests */}
       <div>
         <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <UserPlus className="w-5 h-5 text-cyan-400" />
+          <UserPlus className="w-5 h-5 text-brand-light" />
           Pending Requests ({pendingRequests.length})
         </h3>
 
@@ -189,7 +189,7 @@ function RequestsTab() {
                 animate={{ opacity: 1, y: 0 }}
                 className="glass rounded-xl p-4"
               >
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex flex-col sm:flex-row items-start sm:justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-1">
                       <h4 className="font-semibold text-white">{request.name}</h4>
@@ -197,18 +197,18 @@ function RequestsTab() {
                         {new Date(request.createdAt).toLocaleDateString()}
                       </span>
                     </div>
-                    <p className="text-sm text-cyan-400 mb-2">{request.email}</p>
+                    <p className="text-sm text-brand-light mb-2">{request.email}</p>
                     {request.message && (
                       <p className="text-sm text-gray-400 bg-white/5 rounded-lg p-3 italic">
                         &quot;{request.message}&quot;
                       </p>
                     )}
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 w-full sm:w-auto">
                     <button
                       onClick={() => handleApproveAndInvite(request)}
                       disabled={processing === request._id}
-                      className="px-4 py-2 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30 transition-colors text-sm font-medium flex items-center gap-2 disabled:opacity-50"
+                      className="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30 transition-colors text-sm font-medium flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       {processing === request._id ? (
                         <>Sending...</>
@@ -221,7 +221,7 @@ function RequestsTab() {
                     </button>
                     <button
                       onClick={() => handleDecline(request)}
-                      className="px-4 py-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors text-sm font-medium flex items-center gap-2"
+                      className="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors text-sm font-medium flex items-center justify-center gap-2"
                     >
                       <X className="w-4 h-4" />
                       Decline
@@ -304,7 +304,7 @@ function InvitesTab({ onOpenInviteModal }: { onOpenInviteModal: () => void }) {
       <div className="flex justify-center mb-8">
         <button
           onClick={onOpenInviteModal}
-          className="px-8 py-4 rounded-xl bg-cyan-500 text-white hover:bg-cyan-600 transition-all flex items-center gap-3 font-semibold text-lg shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
+          className="px-8 py-4 rounded-xl bg-brand-light text-white hover:bg-brand transition-all flex items-center gap-3 font-semibold text-lg shadow-lg shadow-brand-light/25 hover:shadow-brand-light/40 hover:scale-105"
         >
           <Send className="w-6 h-6" />
           Send Invite
@@ -347,7 +347,7 @@ function InvitesTab({ onOpenInviteModal }: { onOpenInviteModal: () => void }) {
                       <button
                         onClick={() => handleResend(invite._id)}
                         disabled={resending === invite._id}
-                        className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-all"
+                        className="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-brand-light hover:bg-brand-light/10 transition-all"
                         title="Resend invite"
                       >
                         <RefreshCw className={`w-4 h-4 ${resending === invite._id ? "animate-spin" : ""}`} />
@@ -404,24 +404,24 @@ function PendingTab() {
         <div className="grid gap-6">
           {pending?.map((member: any) => (
             <div key={member._id} className="glass-elevated rounded-2xl p-6">
-              <div className="flex justify-between items-start mb-4">
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
                 <div>
                   <h3 className="text-xl font-semibold text-white">{member.worldName}</h3>
                   <p className="text-sm text-gray-400">
                     by {member.name} ({member.inviteEmail})
                   </p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 w-full sm:w-auto">
                   <button
                     onClick={() => handleApprove(member._id)}
-                    className="px-4 py-2 rounded-lg bg-green-500/10 text-green-400 hover:bg-green-500/20 transition-all border border-green-500/30 font-medium flex items-center gap-2"
+                    className="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-green-500/10 text-green-400 hover:bg-green-500/20 transition-all border border-green-500/30 font-medium flex items-center justify-center gap-2"
                   >
                     <CheckCircle className="w-4 h-4" />
                     Approve
                   </button>
                   <button
                     onClick={() => handleReject(member._id)}
-                    className="px-4 py-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all border border-red-500/30 font-medium flex items-center gap-2"
+                    className="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all border border-red-500/30 font-medium flex items-center justify-center gap-2"
                   >
                     <XCircle className="w-4 h-4" />
                     Reject
@@ -433,7 +433,7 @@ function PendingTab() {
 
               {/* Images */}
               {member.images && member.images.length > 0 && (
-                <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+                <div className="flex gap-2 mb-4 overflow-x-auto scrollbar-hide">
                   {member.images.map((img: string, idx: number) => (
                     <img
                       key={idx}
@@ -452,7 +452,7 @@ function PendingTab() {
                     href={member.multiverseUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
+                    className="text-brand-light hover:text-brand-light flex items-center gap-1"
                   >
                     <Globe className="w-4 h-4" /> Multiverse
                   </a>
@@ -462,7 +462,7 @@ function PendingTab() {
                     href={member.websiteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
+                    className="text-brand-light hover:text-brand-light flex items-center gap-1"
                   >
                     <ExternalLink className="w-4 h-4" /> Website
                   </a>
@@ -530,7 +530,7 @@ function MembersTab() {
           <button
             onClick={handleAddAllToNewsletter}
             disabled={isAddingAll}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all border border-cyan-500/30 disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-all border border-brand-light/30 disabled:opacity-50"
           >
             <Newspaper className="w-4 h-4" />
             {isAddingAll ? "Adding..." : "Add All to Newsletter"}
@@ -582,14 +582,14 @@ function MembersTab() {
                   </button>
                   <button
                     onClick={() => setEditingMember(member)}
-                    className="px-3 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 transition-all border border-purple-500/30"
+                    className="px-3 py-2 rounded-lg bg-brand-dark/10 text-brand-light hover:bg-brand-dark/20 transition-all border border-brand-dark/30"
                     title="Edit Member"
                   >
                     <Pencil className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleAddToNewsletter(member._id)}
-                    className="px-3 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 transition-all border border-cyan-500/30"
+                    className="px-3 py-2 rounded-lg bg-brand-light/10 text-brand-light hover:bg-brand-light/20 transition-all border border-brand-light/30"
                     title="Add to Newsletter"
                   >
                     <Newspaper className="w-4 h-4" />
@@ -683,7 +683,7 @@ function InviteModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="John Smith"
-              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
             />
           </div>
 
@@ -694,7 +694,7 @@ function InviteModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="john@example.com"
-              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
             />
           </div>
 
@@ -707,7 +707,7 @@ function InviteModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
               onChange={(e) => setMessage(e.target.value)}
               placeholder="We loved seeing your VR city and would love to feature it..."
               rows={3}
-              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
             />
           </div>
         </div>
@@ -722,7 +722,7 @@ function InviteModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
           <button
             onClick={handleSend}
             disabled={isSending}
-            className="flex-1 px-4 py-2.5 rounded-lg bg-cyan-500 text-white hover:bg-cyan-600 font-medium disabled:opacity-50 flex items-center justify-center gap-2"
+            className="flex-1 px-4 py-2.5 rounded-lg bg-brand-light text-white hover:bg-brand font-medium disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {isSending ? (
               "Sending..."
@@ -807,14 +807,14 @@ function EditMemberModal({ member, onClose }: { member: any; onClose: () => void
 
         <div className="space-y-4">
           {/* Basic Info */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Creator Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
               />
             </div>
             <div>
@@ -823,7 +823,7 @@ function EditMemberModal({ member, onClose }: { member: any; onClose: () => void
                 type="text"
                 value={worldName}
                 onChange={(e) => setWorldName(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+                className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
               />
             </div>
           </div>
@@ -835,7 +835,7 @@ function EditMemberModal({ member, onClose }: { member: any; onClose: () => void
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={4}
-              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+              className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
             />
           </div>
 
@@ -850,7 +850,7 @@ function EditMemberModal({ member, onClose }: { member: any; onClose: () => void
                   value={multiverseUrl}
                   onChange={(e) => setMultiverseUrl(e.target.value)}
                   placeholder="https://..."
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 text-sm"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 text-sm"
                 />
               </div>
               <div>
@@ -860,7 +860,7 @@ function EditMemberModal({ member, onClose }: { member: any; onClose: () => void
                   value={videoUrl}
                   onChange={(e) => setVideoUrl(e.target.value)}
                   placeholder="https://youtube.com/..."
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 text-sm"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 text-sm"
                 />
               </div>
               <div>
@@ -870,7 +870,7 @@ function EditMemberModal({ member, onClose }: { member: any; onClose: () => void
                   value={websiteUrl}
                   onChange={(e) => setWebsiteUrl(e.target.value)}
                   placeholder="https://..."
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 text-sm"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 text-sm"
                 />
               </div>
             </div>
@@ -879,7 +879,7 @@ function EditMemberModal({ member, onClose }: { member: any; onClose: () => void
           {/* Social Links */}
           <div className="border-t border-white/10 pt-4">
             <h3 className="text-sm font-medium text-gray-300 mb-3">Social Links</h3>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label className="block text-xs text-gray-500 mb-1">Instagram</label>
                 <input
@@ -887,7 +887,7 @@ function EditMemberModal({ member, onClose }: { member: any; onClose: () => void
                   value={instagram}
                   onChange={(e) => setInstagram(e.target.value)}
                   placeholder="https://instagram.com/..."
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 text-sm"
+                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 text-sm"
                 />
               </div>
               <div>
@@ -897,7 +897,7 @@ function EditMemberModal({ member, onClose }: { member: any; onClose: () => void
                   value={youtube}
                   onChange={(e) => setYoutube(e.target.value)}
                   placeholder="https://youtube.com/..."
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 text-sm"
+                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 text-sm"
                 />
               </div>
               <div>
@@ -907,7 +907,7 @@ function EditMemberModal({ member, onClose }: { member: any; onClose: () => void
                   value={tiktok}
                   onChange={(e) => setTiktok(e.target.value)}
                   placeholder="https://tiktok.com/..."
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 text-sm"
+                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 text-sm"
                 />
               </div>
             </div>
@@ -924,7 +924,7 @@ function EditMemberModal({ member, onClose }: { member: any; onClose: () => void
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="flex-1 px-4 py-2.5 rounded-lg bg-purple-500 text-white hover:bg-purple-600 font-medium disabled:opacity-50 flex items-center justify-center gap-2"
+            className="flex-1 px-4 py-2.5 rounded-lg bg-brand text-white hover:bg-brand-dark font-medium disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {isSaving ? (
               "Saving..."

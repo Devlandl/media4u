@@ -11,20 +11,13 @@ interface CardProps {
   glow?: "cyan" | "magenta" | "purple";
 }
 
-const glowColors = {
-  cyan: "hover:shadow-[0_0_60px_rgba(0,212,255,0.15)]",
-  magenta: "hover:shadow-[0_0_60px_rgba(255,45,146,0.15)]",
-  purple: "hover:shadow-[0_0_60px_rgba(139,92,246,0.15)]",
-};
-
-export function Card({ children, className, hover = true, glow = "cyan" }: CardProps) {
+export function Card({ children, className, hover = true }: CardProps) {
   return (
     <motion.div
-      whileHover={hover ? { y: -8 } : undefined}
+      whileHover={hover ? { y: -4 } : undefined}
       className={clsx(
-        "relative p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] transition-all duration-300",
-        hover && "hover:border-white/[0.12]",
-        hover && glowColors[glow],
+        "relative p-6 rounded-xl bg-zinc-950 border border-zinc-800 transition-all duration-300",
+        hover && "hover:border-zinc-700",
         className
       )}
     >
@@ -38,16 +31,9 @@ interface CardIconProps {
   gradient?: boolean;
 }
 
-export function CardIcon({ children, gradient = false }: CardIconProps) {
+export function CardIcon({ children }: CardIconProps) {
   return (
-    <div
-      className={clsx(
-        "w-14 h-14 rounded-xl flex items-center justify-center mb-4",
-        gradient
-          ? "bg-gradient-to-br from-cyan-500 to-purple-500"
-          : "bg-cyan-500/10 text-cyan-400"
-      )}
-    >
+    <div className="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-4 text-zinc-400">
       {children}
     </div>
   );

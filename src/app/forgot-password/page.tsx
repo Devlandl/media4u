@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center"
+              className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-brand-light to-brand-dark flex items-center justify-center"
             >
               <svg
                 className="w-8 h-8 text-white"
@@ -129,7 +129,7 @@ export default function ForgotPasswordPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isLoading}
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 focus:bg-white/[0.08] transition-all disabled:opacity-50"
                 placeholder="your@email.com"
                 autoFocus
                 required
@@ -164,7 +164,7 @@ export default function ForgotPasswordPage() {
             className="mt-6 text-center text-gray-400 text-sm"
           >
             Remember your password?{" "}
-            <Link href="/login" className="text-cyan-400 hover:text-cyan-300 font-medium">
+            <Link href="/login" className="text-brand-light hover:text-brand-light font-medium">
               Login
             </Link>
           </motion.div>

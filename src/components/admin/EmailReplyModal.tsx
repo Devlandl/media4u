@@ -153,7 +153,7 @@ export function EmailReplyModal({
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Type your reply here..."
                 rows={8}
-                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 resize-none"
               />
             </div>
 
@@ -185,7 +185,7 @@ export function EmailReplyModal({
                       className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10"
                     >
                       <div className="flex items-center gap-2">
-                        <ImageIcon className="w-4 h-4 text-cyan-400" />
+                        <ImageIcon className="w-4 h-4 text-brand-light" />
                         <span className="text-sm text-white">{attachment.filename}</span>
                       </div>
                       <button
@@ -216,7 +216,7 @@ export function EmailReplyModal({
             <button
               onClick={handleSend}
               disabled={isSending || !message.trim()}
-              className="px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:opacity-90 transition-opacity flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-brand-light to-brand-dark text-white hover:opacity-90 transition-opacity flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-4 h-4" />
               {isSending ? "Sending..." : "Send Reply"}

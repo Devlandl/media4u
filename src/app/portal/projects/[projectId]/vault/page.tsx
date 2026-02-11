@@ -96,7 +96,7 @@ export default function ProjectVaultPage() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <div className="w-12 h-12 rounded-full border-4 border-white/20 border-t-cyan-500 animate-spin mx-auto mb-4" />
+          <div className="w-12 h-12 rounded-full border-4 border-zinc-800 border-t-white animate-spin mx-auto mb-4" />
           <p className="text-gray-400">Loading vault...</p>
         </div>
       </div>
@@ -111,12 +111,12 @@ export default function ProjectVaultPage() {
           type={showSecrets[field] ? "text" : "password"}
           value={value}
           onChange={(e) => setVault({ ...vault, [field]: e.target.value })}
-          className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+          className="flex-1 min-w-0 px-4 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-600"
           placeholder={`Enter ${label.toLowerCase()}`}
         />
         <button
           onClick={() => toggleSecret(field)}
-          className="p-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 transition-colors"
+          className="flex-shrink-0 p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 transition-colors"
           title={showSecrets[field] ? "Hide" : "Show"}
         >
           {showSecrets[field] ? <EyeOff className="w-5 h-5 text-gray-400" /> : <Eye className="w-5 h-5 text-gray-400" />}
@@ -124,7 +124,7 @@ export default function ProjectVaultPage() {
         {value && (
           <button
             onClick={() => copyToClipboard(field, value)}
-            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 transition-colors"
+            className="flex-shrink-0 p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 transition-colors"
             title="Copy to clipboard"
           >
             {copiedField === field ? (
@@ -145,7 +145,7 @@ export default function ProjectVaultPage() {
         type="text"
         value={value}
         onChange={(e) => setVault({ ...vault, [field]: e.target.value })}
-        className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50"
+        className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-600"
         placeholder={placeholder || `Enter ${label.toLowerCase()}`}
       />
     </div>
@@ -157,7 +157,7 @@ export default function ProjectVaultPage() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8 flex items-center justify-between"
+        className="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4"
       >
         <div>
           <button
@@ -167,8 +167,8 @@ export default function ProjectVaultPage() {
             <ArrowLeft className="w-4 h-4" />
             Back to Projects
           </button>
-          <h1 className="text-4xl font-display font-bold mb-2 flex items-center gap-3">
-            <Lock className="w-8 h-8 text-cyan-400" />
+          <h1 className="text-xl lg:text-2xl font-semibold mb-2 flex items-center gap-3">
+            <Lock className="w-6 h-6 lg:w-7 lg:h-7 text-zinc-400" />
             Integration Vault
           </h1>
           <p className="text-gray-400">
@@ -178,7 +178,7 @@ export default function ProjectVaultPage() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:opacity-90 transition-opacity flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+          className="w-full lg:w-auto px-6 py-3 bg-white text-zinc-950 hover:bg-zinc-200 font-medium rounded-lg transition-opacity flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Save className="w-5 h-5" />
           {isSaving ? "Saving..." : "Save Vault"}
@@ -186,9 +186,9 @@ export default function ProjectVaultPage() {
       </motion.div>
 
       {/* Warning */}
-      <div className="mb-6 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-sm">
-        <p className="font-medium mb-1">🔒 Security Notice</p>
-        <p className="text-yellow-400/80">
+      <div className="mb-6 p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm">
+        <p className="font-medium mb-1">Security Notice</p>
+        <p className="text-amber-400/80">
           All credentials are stored securely. Never share your secret keys publicly or with untrusted parties.
         </p>
       </div>
@@ -199,10 +199,10 @@ export default function ProjectVaultPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            📧 Email Provider
+          <h2 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
+            Email Provider
           </h2>
           <div className="grid gap-4">
             <TextField label="Provider" field="emailProvider" value={vault.emailProvider} placeholder="e.g., Resend, SendGrid, Mailgun" />
@@ -216,10 +216,10 @@ export default function ProjectVaultPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            📊 Analytics
+          <h2 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
+            Analytics
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
             <TextField label="Google Analytics ID" field="googleAnalyticsId" value={vault.googleAnalyticsId} placeholder="G-XXXXXXXXXX" />
@@ -233,10 +233,10 @@ export default function ProjectVaultPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            🔗 Webhooks
+          <h2 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
+            Webhooks
           </h2>
           <div className="grid gap-4">
             <TextField label="Webhook URL" field="webhookUrl" value={vault.webhookUrl} placeholder="https://your-site.com/api/webhook" />
@@ -249,10 +249,10 @@ export default function ProjectVaultPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            💳 Stripe
+          <h2 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
+            Stripe
           </h2>
           <div className="grid gap-4">
             <TextField label="Publishable Key" field="stripePublishableKey" value={vault.stripePublishableKey} placeholder="pk_test_..." />
@@ -265,10 +265,10 @@ export default function ProjectVaultPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            🔑 Custom API Keys
+          <h2 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
+            Custom API Keys
           </h2>
           <div className="space-y-6">
             <div className="grid md:grid-cols-2 gap-4">
@@ -291,27 +291,27 @@ export default function ProjectVaultPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="glass-elevated rounded-2xl p-6"
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            📝 Notes
+          <h2 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
+            Notes
           </h2>
           <textarea
             value={vault.notes}
             onChange={(e) => setVault({ ...vault, notes: e.target.value })}
             rows={4}
-            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 resize-none"
+            className="w-full px-4 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-600 resize-none"
             placeholder="Add any additional integration notes or documentation links..."
           />
         </motion.div>
       </div>
 
       {/* Save Button (Bottom) */}
-      <div className="mt-8 flex justify-end">
+      <div className="mt-8 flex lg:justify-end">
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="px-8 py-4 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:opacity-90 transition-opacity flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-medium text-lg"
+          className="w-full lg:w-auto px-8 py-4 bg-white text-zinc-950 hover:bg-zinc-200 font-medium rounded-lg transition-opacity flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-base lg:text-lg"
         >
           <Save className="w-5 h-5" />
           {isSaving ? "Saving..." : "Save Vault"}
