@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Void any existing open/draft invoices for this project to prevent duplicates
+    // Void any existing open invoices for this project to prevent duplicates
     const existingInvoices = await stripe.invoices.list({
       customer: customer.id,
       status: "open",
@@ -62,25 +62,15 @@ export async function POST(request: NextRequest) {
         await stripe.invoices.voidInvoice(inv.id);
       }
     }
-    // Also check draft invoices
+    // Delete any draft invoices to prevent orphaned items stealing our line item
     const draftInvoices = await stripe.invoices.list({
       customer: customer.id,
       status: "draft",
       limit: 10,
     });
     for (const inv of draftInvoices.data) {
-      if (inv.metadata?.projectId === projectId && inv.metadata?.type === "setup_fee") {
-        await stripe.invoices.del(inv.id);
-      }
+      await stripe.invoices.del(inv.id);
     }
-
-    // Create invoice item
-    await stripe.invoiceItems.create({
-      customer: customer.id,
-      amount: amountDollars * 100, // convert to cents
-      currency: "usd",
-      description,
-    });
 
     // Build a plain-English footer explaining the full payment plan
     const monthly = monthlyAmount ?? 149;
@@ -90,7 +80,8 @@ export async function POST(request: NextRequest) {
       `after which it automatically stops - no surprise charges. ` +
       `After those 3 months, you can start a new month whenever you need updates.`;
 
-    // Create invoice with metadata so webhook can identify it
+    // Create invoice FIRST as draft, then attach the line item to it explicitly.
+    // This prevents Stripe from auto-attaching items to stale draft invoices.
     const invoice = await stripe.invoices.create({
       customer: customer.id,
       collection_method: "send_invoice",
@@ -101,6 +92,15 @@ export async function POST(request: NextRequest) {
       },
       description: `Media4U - ${description}`,
       footer: footerText,
+    });
+
+    // Now create the invoice item attached to THIS specific invoice
+    await stripe.invoiceItems.create({
+      customer: customer.id,
+      invoice: invoice.id,
+      amount: amountDollars * 100, // convert to cents
+      currency: "usd",
+      description,
     });
 
     // Send the invoice (emails the client via Stripe)
