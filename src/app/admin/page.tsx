@@ -184,6 +184,32 @@ export default function AdminDashboard() {
         </motion.div>
       )}
 
+      {/* Client Projects Quick Access */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="mb-8"
+      >
+        <Link
+          href="/admin/projects"
+          className="flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-r from-orange-500/10 to-yellow-500/10 border border-orange-500/30 hover:border-orange-400/50 transition-all duration-200 group"
+        >
+          <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-yellow-500">
+            <Briefcase className="w-6 h-6 text-white" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-white mb-0.5">Client Projects</h3>
+            <p className="text-sm text-gray-400">
+              {clientProjects?.length || 0} active projects - View and manage all client work
+            </p>
+          </div>
+          <div className="text-orange-400 group-hover:translate-x-1 transition-transform">
+            →
+          </div>
+        </Link>
+      </motion.div>
+
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
