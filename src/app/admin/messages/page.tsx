@@ -16,7 +16,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function AdminMessagesPage(): ReactElement {
   const searchParams = useSearchParams();
-  const threadParam = searchParams.get("thread");
+  const threadParam = searchParams?.get("thread") ?? null;
   const [activeThread, setActiveThread] = useState<string | null>(
     threadParam
   );
