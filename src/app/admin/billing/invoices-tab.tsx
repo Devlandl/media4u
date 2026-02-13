@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { format } from "date-fns";
-import { ArrowLeft, ExternalLink, FileText, FolderOpen } from "lucide-react";
+import { ArrowLeft, CheckCircle, ExternalLink, FileText, FolderOpen } from "lucide-react";
 import Link from "next/link";
 
 type InvoiceStatus = "pending" | "sent" | "needs_verification" | "paid";
@@ -34,6 +34,7 @@ export function InvoicesTab() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const invoices = useQuery(api.projects.getProjectsWithInvoices);
+  const confirmPaid = useMutation(api.projects.confirmSetupInvoicePaid);
 
   const filtered = invoices?.filter((inv) => {
     if (filterStatus === "all") return true;
@@ -194,6 +195,17 @@ export function InvoicesTab() {
             </div>
 
             <div className="flex flex-wrap gap-3">
+              {selected.setupInvoiceStatus !== "paid" && (
+                <button
+                  onClick={async () => {
+                    await confirmPaid({ projectId: selected._id });
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-500/10 text-green-400 hover:bg-green-500/20 transition-all border border-green-500/30"
+                >
+                  <CheckCircle className="w-4 h-4" />
+                  Mark as Paid
+                </button>
+              )}
               <Link
                 href={`/admin/projects?id=${selected._id}`}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-light/10 text-brand-light hover:bg-brand-light/20 transition-all border border-brand-light/30"
