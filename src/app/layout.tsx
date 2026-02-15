@@ -103,7 +103,7 @@ export default function RootLayout({
                     '@type': 'Offer',
                     itemOffered: {
                       '@type': 'Service',
-                      name: 'Immersive VR Experiences',
+                      name: 'Immersive VR Community',
                       description: 'Custom virtual reality environments and experiences',
                     },
                   },

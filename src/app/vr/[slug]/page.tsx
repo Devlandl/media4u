@@ -87,7 +87,7 @@ export default async function VRDetailPage({
           <h1 className="text-4xl font-display font-bold mb-4">Experience Not Found</h1>
           <p className="text-gray-400 mb-8">We couldn&apos;t find the experience you&apos;re looking for.</p>
           <Link href="/vr">
-            <Button variant="primary">Back to VR Experiences</Button>
+            <Button variant="primary">Back to VR Community</Button>
           </Link>
         </Section>
       </div>
@@ -100,7 +100,7 @@ export default async function VRDetailPage({
       <Breadcrumbs
         items={[
           { name: 'Home', url: 'https://media4u.fun' },
-          { name: 'VR Experiences', url: 'https://media4u.fun/vr' },
+          { name: 'VR Community', url: 'https://media4u.fun/vr' },
           { name: experience.title, url: `https://media4u.fun/vr/${experience.slug}` },
         ]}
       />

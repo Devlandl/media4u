@@ -95,7 +95,7 @@ const FALLBACK_PROJECTS: Project[] = [
 const FILTER_TABS: { value: ProjectCategory; label: string }[] = [
   { value: "all", label: "All Projects" },
   { value: "web", label: "Websites" },
-  { value: "vr", label: "VR Experiences" },
+  { value: "vr", label: "VR Community" },
   { value: "integrated", label: "Web + VR" },
 ];
 

@@ -473,6 +473,17 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_status", ["status"]),
 
+  // Community Comments - public comments on creator posts (admin approval required)
+  communityComments: defineTable({
+    memberId: v.id("communityMembers"),
+    authorName: v.string(),
+    content: v.string(),
+    approved: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_memberId", ["memberId"])
+    .index("by_approved", ["approved"]),
+
   // Messages - support thread messaging between clients and admin
   messages: defineTable({
     threadId: v.string(), // Groups messages into threads (e.g., "general_<userId>" or "project_<projectId>_<userId>")

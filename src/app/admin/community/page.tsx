@@ -22,9 +22,10 @@ import {
   X,
   Newspaper,
   Pencil,
+  MessageCircle,
 } from "lucide-react";
 
-type TabType = "requests" | "invites" | "pending" | "members";
+type TabType = "requests" | "invites" | "pending" | "members" | "comments";
 
 const statusColors: Record<string, string> = {
   pending: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
@@ -41,6 +42,10 @@ export default function CommunityAdminPage() {
   // Get pending invite requests count for badge
   const inviteRequests = useQuery(api.community.getInviteRequests);
   const pendingRequestsCount = inviteRequests?.filter(r => r.status === "pending").length || 0;
+
+  // Get pending comments count for badge
+  const pendingComments = useQuery(api.communityComments.getPendingComments);
+  const pendingCommentsCount = pendingComments?.length || 0;
 
   return (
     <div>
@@ -104,6 +109,22 @@ export default function CommunityAdminPage() {
           <Users className="w-4 h-4" />
           Members
         </button>
+        <button
+          onClick={() => setActiveTab("comments")}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 whitespace-nowrap ${
+            activeTab === "comments"
+              ? "bg-brand-light/30 text-brand-light border border-brand-light/50"
+              : "bg-white/5 text-gray-400 hover:text-white border border-white/10"
+          }`}
+        >
+          <MessageCircle className="w-4 h-4" />
+          Comments
+          {pendingCommentsCount > 0 && (
+            <span className="ml-1 px-2 py-0.5 rounded-full bg-red-500 text-white text-xs">
+              {pendingCommentsCount}
+            </span>
+          )}
+        </button>
       </div>
 
       {/* Tab Content */}
@@ -111,6 +132,7 @@ export default function CommunityAdminPage() {
       {activeTab === "invites" && <InvitesTab onOpenInviteModal={() => setIsInviteModalOpen(true)} />}
       {activeTab === "pending" && <PendingTab />}
       {activeTab === "members" && <MembersTab />}
+      {activeTab === "comments" && <CommentsTab />}
 
       {/* Invite Modal */}
       <InviteModal isOpen={isInviteModalOpen} onClose={() => setIsInviteModalOpen(false)} />
@@ -613,6 +635,125 @@ function MembersTab() {
           member={editingMember}
           onClose={() => setEditingMember(null)}
         />
+      )}
+    </div>
+  );
+}
+
+// ============================================
+// COMMENTS TAB
+// ============================================
+
+function CommentsTab() {
+  const pendingComments = useQuery(api.communityComments.getPendingComments);
+  const approvedComments = useQuery(api.communityComments.getApprovedCommentsAdmin);
+  const approveComment = useMutation(api.communityComments.approveComment);
+  const deleteComment = useMutation(api.communityComments.deleteComment);
+
+  async function handleApprove(id: Id<"communityComments">) {
+    await approveComment({ id });
+  }
+
+  async function handleDelete(id: Id<"communityComments">) {
+    if (confirm("Delete this comment?")) {
+      await deleteComment({ id });
+    }
+  }
+
+  return (
+    <div className="space-y-8">
+      {/* Pending Comments */}
+      <div>
+        <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <Clock className="w-5 h-5 text-yellow-400" />
+          Pending Approval ({pendingComments?.length || 0})
+        </h3>
+
+        {!pendingComments || pendingComments.length === 0 ? (
+          <div className="glass rounded-xl p-8 text-center">
+            <p className="text-gray-400">No pending comments</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {pendingComments.map((comment) => (
+              <motion.div
+                key={comment._id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="glass rounded-xl p-4"
+              >
+                <div className="flex flex-col sm:flex-row items-start sm:justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-1">
+                      <h4 className="font-semibold text-white">{comment.authorName}</h4>
+                      <span className="text-xs text-gray-500">
+                        {new Date(comment.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <p className="text-xs text-brand-light mb-2">
+                      on &quot;{comment.worldName}&quot; by {comment.memberName}
+                    </p>
+                    <p className="text-sm text-gray-300 bg-white/5 rounded-lg p-3">
+                      {comment.content}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 w-full sm:w-auto">
+                    <button
+                      onClick={() => handleApprove(comment._id)}
+                      className="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30 transition-colors text-sm font-medium flex items-center justify-center gap-2"
+                    >
+                      <CheckCircle className="w-4 h-4" />
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleDelete(comment._id)}
+                      className="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors text-sm font-medium flex items-center justify-center gap-2"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Approved Comments */}
+      {approvedComments && approvedComments.length > 0 && (
+        <div>
+          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-green-400" />
+            Approved ({approvedComments.length})
+          </h3>
+          <div className="space-y-2">
+            {approvedComments.map((comment) => (
+              <div
+                key={comment._id}
+                className="glass rounded-lg p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+              >
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-sm font-medium text-white">{comment.authorName}</span>
+                    <span className="text-xs text-gray-500">on &quot;{comment.worldName}&quot;</span>
+                    <span className="text-xs text-gray-500">
+                      {new Date(comment.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-400">{comment.content}</p>
+                </div>
+                <button
+                  onClick={() => handleDelete(comment._id)}
+                  className="px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors text-xs font-medium flex items-center gap-1"
+                >
+                  <Trash2 className="w-3 h-3" />
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

@@ -111,7 +111,7 @@ export default function AdminDashboard() {
       trend: calculateTrend(communityMembers?.filter((m: any) => m.approved)),
     },
     {
-      label: "VR Experiences",
+      label: "VR Community",
       value: vrExperiences?.length || 0,
       href: "/admin/vr",
       icon: Globe,

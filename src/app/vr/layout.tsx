@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "VR Experiences",
-  description: "Explore immersive VR environments and virtual experiences. Custom virtual reality properties, destinations, event spaces, showrooms, and art galleries built by Media4U.",
+  title: "VR Community",
+  description: "Join the VR Community - a growing space for creators to share virtual worlds, sell properties, showcase artwork, and connect with fellow builders.",
   keywords: [
     "VR",
     "virtual reality",
@@ -18,8 +18,8 @@ export const metadata: Metadata = {
     "virtual reality development",
   ],
   openGraph: {
-    title: "VR Environments & Virtual Experiences | Media4U",
-    description: "Explore immersive VR environments and custom virtual experiences.",
+    title: "VR Community - Creators & Virtual Worlds | Media4U",
+    description: "Join a growing community of VR creators sharing virtual worlds, properties, and artwork.",
   },
 };
 

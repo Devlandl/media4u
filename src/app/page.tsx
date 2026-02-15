@@ -70,7 +70,7 @@ const offerings: { icon: LucideIcon; title: string; desc: string }[] = [
   { icon: Building2, title: "Business Websites", desc: "Professional multi-page sites that establish credibility and trust" },
   { icon: ShoppingCart, title: "E-Commerce", desc: "Online stores with seamless checkout and inventory management" },
   { icon: Cpu, title: "Web Applications", desc: "Custom apps with dashboards, accounts, and live features" },
-  { icon: Glasses, title: "VR Experiences", desc: "Immersive 360-degree environments and virtual storefronts" },
+  { icon: Glasses, title: "VR Community", desc: "Immersive 360-degree environments and virtual storefronts" },
   { icon: Rocket, title: "Complete Solutions", desc: "End-to-end systems with databases, APIs, and admin panels" },
 ];
 

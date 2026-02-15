@@ -146,7 +146,7 @@ const PROJECT_TYPES = [
     gradient: "from-brand-dark/20 to-brand-dark/5",
   },
   {
-    title: "VR Experiences",
+    title: "VR Community",
     description: "Immersive virtual environments, storefronts, and interactive 3D spaces.",
     icon: Glasses,
     gradient: "from-brand-dark/20 to-brand-dark/5",

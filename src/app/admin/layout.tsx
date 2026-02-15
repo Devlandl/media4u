@@ -36,7 +36,7 @@ const adminNavItems = [
   { href: "/admin/newsletter", label: "Newsletter", icon: Mail, countKey: null },
   { href: "/admin/blog", label: "Blog Posts", icon: FileText, countKey: null },
   { href: "/admin/portfolio", label: "Portfolio", icon: ImageIcon, countKey: null },
-  { href: "/admin/vr", label: "VR Experiences", icon: Glasses, countKey: null },
+  { href: "/admin/vr", label: "VR Community", icon: Glasses, countKey: null },
   { href: "/admin/appointments", label: "Appointments", icon: CalendarDays, countKey: null },
   { href: "/admin/community", label: "Community", icon: Globe, countKey: "community" },
   { href: "/admin/settings", label: "Settings", icon: Settings, countKey: null },

@@ -10,7 +10,8 @@ import { Section, SectionHeader } from "@/components/ui/section";
 import { Card, CardIcon } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useCallback } from "react";
-import { Home, Globe, Star, Coins, ExternalLink, Instagram, Youtube, Send, CheckCircle, Loader2, Sparkles, Users, MapPin, Play, X, ChevronLeft, ChevronRight, Heart } from "lucide-react";
+import { Home, Globe, Star, Coins, ExternalLink, Instagram, Youtube, Send, CheckCircle, Loader2, Sparkles, Users, MapPin, Play, X, ChevronLeft, ChevronRight, Heart, MessageCircle } from "lucide-react";
+import type { Id } from "@convex/_generated/dataModel";
 
 const FEATURES = [
   { label: "Interactive Elements", icon: "touch" },
@@ -320,6 +321,100 @@ function LikeButton({ memberId, likes }: { memberId: string; likes: number }) {
   );
 }
 
+// Comment section for community member modal
+function CommentSection({ memberId }: { memberId: Id<"communityMembers"> }) {
+  const comments = useQuery(api.communityComments.getApprovedComments, { memberId });
+  const submitComment = useMutation(api.communityComments.submitComment);
+  const [name, setName] = useState("");
+  const [content, setContent] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !content.trim()) return;
+    setSubmitting(true);
+    try {
+      await submitComment({ memberId, authorName: name, content });
+      setName("");
+      setContent("");
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 4000);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="mt-6 pt-6 border-t border-white/10">
+      <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+        <MessageCircle className="w-5 h-5 text-brand-light" />
+        Comments {comments && comments.length > 0 && <span className="text-sm text-gray-400">({comments.length})</span>}
+      </h3>
+
+      {/* Existing comments */}
+      {comments && comments.length > 0 && (
+        <div className="space-y-4 mb-6">
+          {comments.map((comment) => (
+            <div key={comment._id} className="p-4 rounded-xl bg-white/5 border border-white/10">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-brand-light">{comment.authorName}</span>
+                <span className="text-xs text-gray-500">
+                  {new Date(comment.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+              <p className="text-sm text-gray-300">{comment.content}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {comments && comments.length === 0 && (
+        <p className="text-sm text-gray-500 mb-6">No comments yet. Be the first!</p>
+      )}
+
+      {/* Submit form */}
+      {submitted ? (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-2 p-4 rounded-xl bg-green-500/10 border border-green-500/30"
+        >
+          <CheckCircle className="w-5 h-5 text-green-400" />
+          <p className="text-sm text-green-400">Thanks! Your comment is pending approval.</p>
+        </motion.div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <input
+            type="text"
+            placeholder="Your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            maxLength={50}
+            className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-brand-light/50 transition-colors"
+          />
+          <textarea
+            placeholder="Leave a comment..."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            maxLength={500}
+            rows={3}
+            className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-brand-light/50 transition-colors resize-none"
+          />
+          <button
+            type="submit"
+            disabled={submitting || !name.trim() || !content.trim()}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-light/20 text-brand-light text-sm font-medium hover:bg-brand-light/30 transition-colors border border-brand-light/30 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            {submitting ? "Posting..." : "Post Comment"}
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
+
 export default function VRPageClient() {
   const experiences = useQuery(api.vr.getAllExperiences);
   const communityMembers = useQuery(api.community.getApprovedMembers);
@@ -351,10 +446,10 @@ export default function VRPageClient() {
               Join the VR Community
             </h1>
             <p className="text-gray-400 text-lg mb-6">
-              Hey! I&apos;m MrHarmony, and I&apos;m building something special here - a curated community of creators who are shaping the future of virtual experiences.
+              Hey! I&apos;m MrHarmony, and welcome to the VR Community - a growing space where creators come together to share, inspire, and build the future of virtual worlds.
             </p>
             <p className="text-gray-400 mb-6">
-              This isn&apos;t just another directory. It&apos;s a hand-picked showcase of trusted builders, dreamers, and innovators. If you&apos;re creating meaningful virtual spaces, I&apos;d love to feature your work.
+              Right now, this is your home base - a place to get featured, connect with fellow creators, and show off what you&apos;ve built. But this is just the beginning. We&apos;re building toward a full platform where you&apos;ll be able to log in, create your own spaces, sell your properties, showcase your artwork, and more.
             </p>
             <div className="flex items-center gap-4 text-sm text-gray-500 mb-6">
               <div className="flex items-center gap-2">
@@ -432,9 +527,9 @@ export default function VRPageClient() {
         <Section>
           <SectionHeader
             tag="Our Community"
-            title="Trusted "
+            title="Meet Our "
             highlight="Creators"
-            description="Meet the builders shaping the future of virtual worlds. A curated community of creators, collaborators, and friends."
+            description="The people behind the worlds you love. Get to know the creators, explore their builds, and become part of something bigger."
           />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -708,12 +803,10 @@ export default function VRPageClient() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-6 text-white">
-              Crafting Immersive Experiences
+              Where Creators Come Together
             </h2>
             <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-              We design and develop cutting-edge VR environments that transport users to extraordinary digital realms.
-              From virtual showrooms to expansive VR hubs, our solutions combine stunning visuals with intuitive
-              interactions to create unforgettable experiences.
+              This community is for anyone building in virtual worlds - whether you&apos;re designing properties, creating art, hosting events, or just getting started. Right now you can get featured and connect with other creators. Soon, you&apos;ll have your own profile, a marketplace to sell your work, and tools to grow your audience.
             </p>
 
             {/* Feature Badges */}
@@ -800,11 +893,10 @@ export default function VRPageClient() {
 
           <div className="relative text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 text-white">
-              Ready to Enter the Virtual World?
+              Be Part of What&apos;s Next
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
-              Let us build your virtual world. From concept to deployment,
-              we handle every aspect of your VR journey.
+              This community is growing into a full platform where you can create, sell, and share your virtual creations. Get in early and help shape what it becomes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
@@ -1000,6 +1092,9 @@ export default function VRPageClient() {
                   )}
                 </div>
               )}
+
+              {/* Comments */}
+              <CommentSection memberId={selectedMember._id} />
             </div>
           </motion.div>
         </motion.div>

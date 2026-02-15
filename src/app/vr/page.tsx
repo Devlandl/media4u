@@ -2,19 +2,19 @@ import { Metadata } from "next";
 import VRPageClient from "./VRPageClient";
 
 export const metadata: Metadata = {
-  title: "VR Experiences - Virtual Reality Environments & Digital Worlds",
-  description: "Explore immersive VR experiences, virtual properties, and destinations created by Media4U. Step into stunning virtual environments and digital worlds.",
-  keywords: ["VR experiences", "virtual reality", "virtual worlds", "virtual properties", "VR destinations", "immersive environments", "3D virtual worlds", "VR real estate"],
+  title: "VR Community - Creators, Virtual Worlds & Digital Art",
+  description: "Join the VR Community - a space for creators to share virtual worlds, sell properties, showcase artwork, and connect. Get featured and be part of what's next.",
+  keywords: ["VR community", "virtual reality creators", "virtual worlds", "VR marketplace", "sell VR properties", "virtual art", "3D virtual worlds", "VR creators"],
   openGraph: {
-    title: "Media4U VR Experiences - Virtual Reality & Digital Worlds",
-    description: "Explore immersive VR experiences, virtual properties, and stunning destinations.",
+    title: "Media4U VR Community - Creators & Virtual Worlds",
+    description: "A growing community where VR creators share worlds, sell properties, and showcase their art.",
     type: "website",
     url: "https://media4u.fun/vr",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Media4U VR Experiences",
-    description: "Step into stunning virtual environments and digital worlds.",
+    title: "Media4U VR Community",
+    description: "A growing community for VR creators to share, sell, and connect.",
   },
   alternates: {
     canonical: "https://media4u.fun/vr",

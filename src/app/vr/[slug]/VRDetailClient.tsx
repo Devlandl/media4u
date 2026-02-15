@@ -278,7 +278,7 @@ export function VRDetailClient({ experience }: { experience: VRExperience }) {
       <div className="border-t border-white/[0.06] py-8">
         <div className="max-w-7xl mx-auto px-6 flex justify-between">
           <Link href="/vr" className="text-brand-light hover:text-brand-light transition-colors">
-            ← Back to VR Experiences
+            ← Back to VR Community
           </Link>
           <div className="text-gray-500 text-sm">
             {experience.type.charAt(0).toUpperCase() + experience.type.slice(1)}

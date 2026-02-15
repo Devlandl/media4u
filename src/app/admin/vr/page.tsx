@@ -313,7 +313,7 @@ export default function VRAdminPage() {
         className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
       >
         <div>
-          <h1 className="text-2xl sm:text-4xl font-display font-bold mb-2">VR Experiences</h1>
+          <h1 className="text-2xl sm:text-4xl font-display font-bold mb-2">VR Community</h1>
           <p className="text-gray-400">Create and manage VR properties and destinations</p>
         </div>
         <button
