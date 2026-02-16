@@ -644,6 +644,7 @@ export const updateCustomDealAmounts = mutation({
     projectId: v.id("projects"),
     setupFeeAmount: v.optional(v.number()),
     monthlyAmount: v.optional(v.number()),
+    planTier: v.optional(v.union(v.literal("basic"), v.literal("growth"))),
   },
   handler: async (ctx, args) => {
     await requireAdmin(ctx);

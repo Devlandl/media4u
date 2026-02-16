@@ -76,19 +76,25 @@ export async function POST(request: NextRequest) {
     const trialEnd = getFirstDayOfNextMonth();
     const cancelAt = addThreeMonths(trialEnd);
 
-    // Get the webcare price ID (reuse the existing monthly price)
-    const priceId = process.env.STRIPE_PRICE_WEBCARE;
-    if (!priceId) {
-      return NextResponse.json({ error: "STRIPE_PRICE_WEBCARE not configured" }, { status: 500 });
-    }
-
     // Create checkout session with delayed start.
+    // Uses dynamic pricing based on the monthly amount set in admin.
     // cancel_at is NOT supported in subscription_data here, so we pass it
     // via metadata and the webhook applies it after the subscription is created.
     const session = await stripe.checkout.sessions.create({
       customer: customer.id,
       payment_method_types: ["card"],
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [{
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: monthlyAmountDollars <= 79 ? "Basic Web Care" : "Growth Web Care",
+            description: `Monthly website maintenance - $${monthlyAmountDollars}/month`,
+          },
+          unit_amount: monthlyAmountDollars * 100, // Stripe uses cents
+          recurring: { interval: "month" },
+        },
+        quantity: 1,
+      }],
       mode: "subscription",
       subscription_data: {
         trial_end: trialEnd,

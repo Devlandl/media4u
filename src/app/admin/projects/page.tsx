@@ -873,6 +873,37 @@ export default function ProjectsAdminPage() {
                   {selected.isCustomDeal && (
                     <div className="pt-3 border-t border-white/10 space-y-4">
 
+                      {/* Plan Tier Selector */}
+                      <div>
+                        <label className="block text-xs text-gray-400 mb-1.5">Plan Tier</label>
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            onClick={async () => {
+                              await updateCustomDealAmounts({ projectId: selected._id, monthlyAmount: 79, planTier: "basic" });
+                            }}
+                            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                              (selected.planTier === "basic" || (!selected.planTier && (selected.monthlyAmount ?? 149) <= 79))
+                                ? "bg-brand-light/20 text-brand-light border border-brand-light/40"
+                                : "bg-white/5 text-gray-400 border border-white/10 hover:border-white/20"
+                            }`}
+                          >
+                            Basic - $79/mo
+                          </button>
+                          <button
+                            onClick={async () => {
+                              await updateCustomDealAmounts({ projectId: selected._id, monthlyAmount: 149, planTier: "growth" });
+                            }}
+                            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                              (selected.planTier === "growth" || (!selected.planTier && (selected.monthlyAmount ?? 149) >= 149))
+                                ? "bg-brand-light/20 text-brand-light border border-brand-light/40"
+                                : "bg-white/5 text-gray-400 border border-white/10 hover:border-white/20"
+                            }`}
+                          >
+                            Growth - $149/mo
+                          </button>
+                        </div>
+                      </div>
+
                       {/* Amount fields */}
                       <div className="grid grid-cols-2 gap-3">
                         <div>
@@ -893,6 +924,7 @@ export default function ProjectsAdminPage() {
                           <label className="block text-xs text-gray-400 mb-1.5">Monthly ($)</label>
                           <input
                             type="number"
+                            key={`monthly-${selected.monthlyAmount ?? 149}`}
                             defaultValue={selected.monthlyAmount ?? 149}
                             onBlur={async (e) => {
                               const val = parseFloat(e.target.value);

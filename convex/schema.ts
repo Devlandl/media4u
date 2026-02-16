@@ -175,6 +175,7 @@ export default defineSchema({
     isCustomDeal: v.optional(v.boolean()), // Admin-marked custom deal (intake + invoice + subscription flow)
     setupFeeAmount: v.optional(v.number()), // Custom setup fee in dollars (default 500)
     monthlyAmount: v.optional(v.number()),  // Custom monthly amount in dollars (default 149)
+    planTier: v.optional(v.union(v.literal("basic"), v.literal("growth"))), // Basic ($79/mo) or Growth ($149/mo)
     setupInvoiceStatus: v.optional(v.union(
       v.literal("pending"),           // Invoice not yet sent
       v.literal("sent"),              // Stripe invoice sent to client
