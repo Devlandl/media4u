@@ -913,7 +913,7 @@ export default function ProjectsAdminPage() {
                             defaultValue={selected.setupFeeAmount ?? 500}
                             onBlur={async (e) => {
                               const val = parseFloat(e.target.value);
-                              if (!isNaN(val) && val > 0) {
+                              if (!isNaN(val) && val >= 0) {
                                 await updateCustomDealAmounts({ projectId: selected._id, setupFeeAmount: val });
                               }
                             }}
@@ -943,7 +943,9 @@ export default function ProjectsAdminPage() {
                         <div className="flex items-center justify-between flex-wrap gap-2">
                           <div className="flex items-center gap-2">
                             {selected.setupInvoiceStatus === "paid" && (
-                              <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30">Paid</span>
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
+                                {(selected.setupFeeAmount ?? 500) === 0 ? "Waived" : "Paid"}
+                              </span>
                             )}
                             {selected.setupInvoiceStatus === "sent" && (
                               <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">Invoice Sent</span>
@@ -962,8 +964,8 @@ export default function ProjectsAdminPage() {
                             )}
                           </div>
 
-                          {/* Send invoice button - show if not yet paid */}
-                          {selected.setupInvoiceStatus !== "paid" && (
+                          {/* Send invoice button - show if not yet paid and fee > $0 */}
+                          {selected.setupInvoiceStatus !== "paid" && (selected.setupFeeAmount ?? 500) > 0 && (
                             <button
                               onClick={async () => {
                                 const amount = selected.setupFeeAmount ?? 500;

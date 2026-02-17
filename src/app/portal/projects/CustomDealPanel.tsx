@@ -102,10 +102,12 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
           </div>
           <div className="flex-1">
             <h3 className="font-semibold text-white mb-0.5">
-              Setup Fee - ${project.setupFeeAmount ?? 500}
+              {(project.setupFeeAmount ?? 500) === 0 ? "Setup Fee - Waived" : `Setup Fee - $${project.setupFeeAmount ?? 500}`}
             </h3>
             <p className="text-sm text-gray-400 mb-4">
-              One-time setup fee. You will receive a Stripe invoice by email - pay directly from that email.
+              {(project.setupFeeAmount ?? 500) === 0
+                ? "Your setup fee has been waived - no payment needed!"
+                : "One-time setup fee. You will receive a Stripe invoice by email - pay directly from that email."}
             </p>
 
             {invoiceStatus === "pending" && (
@@ -153,7 +155,7 @@ export function CustomDealPanel({ project }: CustomDealPanelProps) {
             {invoiceStatus === "paid" && (
               <div className="flex items-center gap-2 text-sm text-green-400">
                 <CheckCircle className="w-4 h-4" />
-                Setup fee confirmed - paid
+                {(project.setupFeeAmount ?? 500) === 0 ? "Setup fee waived - you're all set!" : "Setup fee confirmed - paid"}
               </div>
             )}
 

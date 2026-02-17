@@ -649,7 +649,15 @@ export const updateCustomDealAmounts = mutation({
   handler: async (ctx, args) => {
     await requireAdmin(ctx);
     const { projectId, ...fields } = args;
-    await ctx.db.patch(projectId, { ...fields, updatedAt: Date.now() });
+    const updates: Record<string, unknown> = { ...fields, updatedAt: Date.now() };
+
+    // If setup fee is $0, auto-mark as paid so client can skip to subscription
+    if (args.setupFeeAmount === 0) {
+      updates.setupInvoiceStatus = "paid";
+      updates.setupInvoicePaid = true;
+    }
+
+    await ctx.db.patch(projectId, updates);
     return { success: true };
   },
 });
