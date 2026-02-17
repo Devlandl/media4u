@@ -2059,6 +2059,81 @@ function ClientPortalPreview({ project }: { project: any }) {
           </div>
         )}
       </div>
+
+      {/* Integration Vault Preview */}
+      <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+        <div className="flex items-center gap-3 mb-3">
+          <Lock className="w-5 h-5 text-zinc-400" />
+          <div>
+            <p className="text-sm font-semibold text-white">Integration Vault</p>
+            <p className="text-xs text-gray-400">What the client has filled in so far</p>
+          </div>
+        </div>
+        {project.integrationVault ? (
+          <div className="space-y-3">
+            {/* Email */}
+            {(project.integrationVault.emailProvider || project.integrationVault.emailApiKey) && (
+              <div className="p-3 rounded-lg bg-white/5 border border-white/5">
+                <p className="text-xs font-medium text-gray-400 mb-1">Email Provider</p>
+                <p className="text-sm text-white">{project.integrationVault.emailProvider || "Not set"}</p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  API Key: {project.integrationVault.emailApiKey ? "Provided" : "Not set"}
+                  {project.integrationVault.emailFromAddress && ` | From: ${project.integrationVault.emailFromAddress}`}
+                </p>
+              </div>
+            )}
+            {/* Analytics */}
+            {(project.integrationVault.googleAnalyticsId || project.integrationVault.googleTagManagerId) && (
+              <div className="p-3 rounded-lg bg-white/5 border border-white/5">
+                <p className="text-xs font-medium text-gray-400 mb-1">Analytics</p>
+                {project.integrationVault.googleAnalyticsId && <p className="text-xs text-white font-mono">GA: {project.integrationVault.googleAnalyticsId}</p>}
+                {project.integrationVault.googleTagManagerId && <p className="text-xs text-white font-mono">GTM: {project.integrationVault.googleTagManagerId}</p>}
+              </div>
+            )}
+            {/* Billing Portal */}
+            {(project.integrationVault.billingPortalName || project.integrationVault.billingPortalUrl) && (
+              <div className="p-3 rounded-lg bg-white/5 border border-white/5">
+                <p className="text-xs font-medium text-gray-400 mb-1">Billing Portal</p>
+                {project.integrationVault.billingPortalName && <p className="text-sm text-white">{project.integrationVault.billingPortalName}</p>}
+                {project.integrationVault.billingPortalUrl && <p className="text-xs text-brand-light break-all">{project.integrationVault.billingPortalUrl}</p>}
+                {project.integrationVault.customerPortalUrl && <p className="text-xs text-brand-light break-all mt-0.5">{project.integrationVault.customerPortalUrl}</p>}
+              </div>
+            )}
+            {/* Stripe */}
+            {(project.integrationVault.stripePublishableKey || project.integrationVault.stripeSecretKey) && (
+              <div className="p-3 rounded-lg bg-white/5 border border-white/5">
+                <p className="text-xs font-medium text-gray-400 mb-1">Stripe</p>
+                <p className="text-xs text-white">
+                  Publishable Key: {project.integrationVault.stripePublishableKey ? "Provided" : "Not set"}
+                  {" | "}Secret Key: {project.integrationVault.stripeSecretKey ? "Provided" : "Not set"}
+                </p>
+              </div>
+            )}
+            {/* Custom Keys */}
+            {(project.integrationVault.customApiKey1Label || project.integrationVault.customApiKey2Label || project.integrationVault.customApiKey3Label) && (
+              <div className="p-3 rounded-lg bg-white/5 border border-white/5">
+                <p className="text-xs font-medium text-gray-400 mb-1">Custom API Keys</p>
+                {project.integrationVault.customApiKey1Label && <p className="text-xs text-white">{project.integrationVault.customApiKey1Label}: {project.integrationVault.customApiKey1Value ? "Provided" : "Not set"}</p>}
+                {project.integrationVault.customApiKey2Label && <p className="text-xs text-white">{project.integrationVault.customApiKey2Label}: {project.integrationVault.customApiKey2Value ? "Provided" : "Not set"}</p>}
+                {project.integrationVault.customApiKey3Label && <p className="text-xs text-white">{project.integrationVault.customApiKey3Label}: {project.integrationVault.customApiKey3Value ? "Provided" : "Not set"}</p>}
+              </div>
+            )}
+            {/* Notes */}
+            {project.integrationVault.notes && (
+              <div className="p-3 rounded-lg bg-white/5 border border-white/5">
+                <p className="text-xs font-medium text-gray-400 mb-1">Notes</p>
+                <p className="text-xs text-gray-300 whitespace-pre-wrap">{project.integrationVault.notes}</p>
+              </div>
+            )}
+            {/* Nothing filled */}
+            {!project.integrationVault.emailProvider && !project.integrationVault.emailApiKey && !project.integrationVault.googleAnalyticsId && !project.integrationVault.googleTagManagerId && !project.integrationVault.billingPortalName && !project.integrationVault.billingPortalUrl && !project.integrationVault.stripePublishableKey && !project.integrationVault.stripeSecretKey && !project.integrationVault.customApiKey1Label && !project.integrationVault.customApiKey2Label && !project.integrationVault.customApiKey3Label && !project.integrationVault.notes && (
+              <p className="text-xs text-gray-500 italic">Client hasn&apos;t filled in any vault information yet.</p>
+            )}
+          </div>
+        ) : (
+          <p className="text-xs text-gray-500 italic">Client hasn&apos;t opened the vault yet.</p>
+        )}
+      </div>
     </div>
   );
 }

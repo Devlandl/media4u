@@ -209,6 +209,74 @@ export default function ProjectVaultPage() {
         </p>
       </div>
 
+      {/* Domain Transfer Guide */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-6 bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
+      >
+        <h2 className="text-lg font-medium text-white mb-2 flex items-center gap-2">
+          Transferring from Wix, GoDaddy, Squarespace, or another platform?
+        </h2>
+        <p className="text-sm text-gray-400 mb-4">
+          If you have an existing website and want to move your domain to your new site, here&apos;s what we need from you:
+        </p>
+
+        <div className="space-y-4">
+          {/* Step 1 */}
+          <div className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700">
+            <p className="text-sm font-medium text-white mb-1">1. Your domain name</p>
+            <p className="text-xs text-gray-400">
+              The web address you want to keep (e.g., yourbusiness.com). Type it in the Notes section at the bottom of this page.
+            </p>
+          </div>
+
+          {/* Step 2 */}
+          <div className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700">
+            <p className="text-sm font-medium text-white mb-1">2. Where your domain is registered</p>
+            <p className="text-xs text-gray-400 mb-2">
+              This is where you bought/pay for your domain name. Common ones:
+            </p>
+            <div className="grid grid-cols-2 gap-1 text-xs text-gray-500">
+              <span>- GoDaddy</span>
+              <span>- Namecheap</span>
+              <span>- Google Domains</span>
+              <span>- Hostinger</span>
+              <span>- Wix (if bought through Wix)</span>
+              <span>- Squarespace</span>
+            </div>
+            <p className="text-xs text-gray-500 mt-2 italic">
+              Not sure? Check your email for a yearly &quot;domain renewal&quot; receipt - that tells you who your registrar is.
+            </p>
+          </div>
+
+          {/* Step 3 */}
+          <div className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700">
+            <p className="text-sm font-medium text-white mb-1">3. Domain login access</p>
+            <p className="text-xs text-gray-400 mb-2">
+              We&apos;ll need to update your DNS settings (this points your domain to the new site). You have two options:
+            </p>
+            <ul className="list-disc list-inside text-xs text-gray-400 space-y-1">
+              <li><strong>Option A:</strong> Share your domain registrar login with us temporarily (we&apos;ll only touch DNS settings)</li>
+              <li><strong>Option B:</strong> We&apos;ll send you step-by-step instructions to update it yourself (takes about 5 minutes)</li>
+            </ul>
+          </div>
+
+          {/* Wix specific */}
+          <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/20">
+            <p className="text-sm font-medium text-amber-400 mb-1">Wix users - important note</p>
+            <p className="text-xs text-amber-400/70">
+              If your domain was purchased through Wix, you&apos;ll need to either transfer the domain out of Wix first, or point it using DNS settings.
+              We&apos;ll walk you through this - just let us know in the Notes below that you&apos;re on Wix and we&apos;ll handle the rest.
+            </p>
+          </div>
+
+          <p className="text-xs text-gray-500">
+            Don&apos;t worry if this feels confusing - just tell us your domain name and where it&apos;s registered in the Notes section below, and we&apos;ll guide you through everything.
+          </p>
+        </div>
+      </motion.div>
+
       {/* Vault Sections */}
       <div className="space-y-6">
         {/* Email Provider */}
