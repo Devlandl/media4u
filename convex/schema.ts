@@ -226,9 +226,13 @@ export default defineSchema({
       customApiKey2Value: v.optional(v.string()),
       customApiKey3Label: v.optional(v.string()),
       customApiKey3Value: v.optional(v.string()),
-      // Other
+      // Payments
       stripePublishableKey: v.optional(v.string()),
       stripeSecretKey: v.optional(v.string()),
+      // Billing Portal (PestPac, etc.)
+      billingPortalUrl: v.optional(v.string()),
+      billingPortalName: v.optional(v.string()),
+      customerPortalUrl: v.optional(v.string()),
       notes: v.optional(v.string()), // General integration notes
     })),
     status: v.union(

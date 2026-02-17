@@ -24,6 +24,7 @@ import {
   Mail,
   MessageCircle,
   CalendarDays,
+  ExternalLink,
 } from "lucide-react";
 
 const adminNavItems = [
@@ -147,6 +148,28 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           );
         })}
       </nav>
+
+      {/* Client Sites */}
+      <div className="mb-8 lg:mb-12">
+        <p className="text-xs text-gray-500 uppercase tracking-wider mb-3 px-3">Client Sites</p>
+        <nav className="space-y-1">
+          {[
+            { label: "At Ease Pest", url: "https://ateasepestsolution.com/admin", color: "bg-purple-500" },
+          ].map((site) => (
+            <a
+              key={site.label}
+              href={site.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+            >
+              <span className={`w-2 h-2 rounded-full ${site.color} flex-shrink-0`} />
+              <span className="font-medium flex-1 text-sm">{site.label}</span>
+              <ExternalLink className="w-3.5 h-3.5 opacity-50" />
+            </a>
+          ))}
+        </nav>
+      </div>
 
       <button
         onClick={() => signOut()}

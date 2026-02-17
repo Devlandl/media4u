@@ -38,6 +38,9 @@ export default function ProjectVaultPage() {
     customApiKey3Value: "",
     stripePublishableKey: "",
     stripeSecretKey: "",
+    billingPortalUrl: "",
+    billingPortalName: "",
+    customerPortalUrl: "",
     notes: "",
   });
 
@@ -61,6 +64,9 @@ export default function ProjectVaultPage() {
         customApiKey3Value: project.integrationVault.customApiKey3Value || "",
         stripePublishableKey: project.integrationVault.stripePublishableKey || "",
         stripeSecretKey: project.integrationVault.stripeSecretKey || "",
+        billingPortalUrl: project.integrationVault.billingPortalUrl || "",
+        billingPortalName: project.integrationVault.billingPortalName || "",
+        customerPortalUrl: project.integrationVault.customerPortalUrl || "",
         notes: project.integrationVault.notes || "",
       });
     }
@@ -186,10 +192,20 @@ export default function ProjectVaultPage() {
       </motion.div>
 
       {/* Warning */}
-      <div className="mb-6 p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm">
+      <div className="mb-4 p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm">
         <p className="font-medium mb-1">Security Notice</p>
         <p className="text-amber-400/80">
           All credentials are stored securely. Never share your secret keys publicly or with untrusted parties.
+        </p>
+      </div>
+
+      {/* Help Notice */}
+      <div className="mb-6 p-4 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm">
+        <p className="font-medium mb-1">What goes here?</p>
+        <p className="text-blue-400/80">
+          This page is for <strong>developer API keys</strong> - not your personal login passwords.
+          If you don&apos;t have these yet, don&apos;t worry! We&apos;ll help you set them up.
+          Leave any section blank if you&apos;re unsure.
         </p>
       </div>
 
@@ -204,6 +220,10 @@ export default function ProjectVaultPage() {
           <h2 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
             Email Provider
           </h2>
+          <p className="text-sm text-gray-500 mb-4">
+            This is for email sending services (like Resend or SendGrid) - NOT your personal email login.
+            If you don&apos;t have an email service set up yet, leave this blank.
+          </p>
           <div className="grid gap-4">
             <TextField label="Provider" field="emailProvider" value={vault.emailProvider} placeholder="e.g., Resend, SendGrid, Mailgun" />
             <SecretField label="API Key" field="emailApiKey" value={vault.emailApiKey} />
@@ -236,11 +256,44 @@ export default function ProjectVaultPage() {
           className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
           <h2 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
-            Webhooks
+            Webhooks (Advanced)
           </h2>
+          <p className="text-sm text-gray-500 mb-4">
+            For connecting external services. Most clients can skip this - we&apos;ll set it up for you if needed.
+          </p>
           <div className="grid gap-4">
             <TextField label="Webhook URL" field="webhookUrl" value={vault.webhookUrl} placeholder="https://your-site.com/api/webhook" />
             <SecretField label="Webhook Secret" field="webhookSecret" value={vault.webhookSecret} />
+          </div>
+        </motion.div>
+
+        {/* Billing Portal */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
+        >
+          <h2 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
+            Billing / Customer Portal
+          </h2>
+          <p className="text-sm text-gray-500 mb-2">
+            If you use a billing service like <strong>PestPac, WorkWave, ServiceTitan, Jobber</strong>, etc. - paste the links below so we can add &quot;Pay My Bill&quot; and &quot;Customer Portal&quot; buttons to your website.
+          </p>
+          <div className="mb-4 p-3 rounded-lg bg-zinc-800/50 border border-zinc-700 text-sm text-gray-400 space-y-2">
+            <p className="font-medium text-gray-300">How to find your portal links:</p>
+            <ul className="list-disc list-inside space-y-1">
+              <li><strong>PestPac/WorkWave:</strong> Log in to your PestPac account &gt; Go to Settings &gt; Customer Portal &gt; Copy the &quot;Portal URL&quot; (looks like: https://app.pestpac.com/portal/yourcompany)</li>
+              <li><strong>ServiceTitan:</strong> Settings &gt; Online Booking &gt; Copy the booking/payment page URL</li>
+              <li><strong>Jobber:</strong> Settings &gt; Client Hub &gt; Copy your Client Hub URL</li>
+              <li><strong>Other:</strong> Look for &quot;Customer Portal&quot; or &quot;Online Payments&quot; in your software settings, or ask your software provider for the link</li>
+            </ul>
+            <p className="text-gray-500 italic">Not sure? Just type the name of your billing software in the notes and we&apos;ll help you find it.</p>
+          </div>
+          <div className="grid gap-4">
+            <TextField label="Billing Software Name" field="billingPortalName" value={vault.billingPortalName} placeholder="e.g., PestPac, WorkWave, ServiceTitan, Jobber" />
+            <TextField label="Pay My Bill URL" field="billingPortalUrl" value={vault.billingPortalUrl} placeholder="https://app.pestpac.com/portal/yourcompany" />
+            <TextField label="Customer Portal URL" field="customerPortalUrl" value={vault.customerPortalUrl} placeholder="https://app.pestpac.com/portal/yourcompany/login" />
           </div>
         </motion.div>
 
@@ -252,8 +305,13 @@ export default function ProjectVaultPage() {
           className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 lg:p-6"
         >
           <h2 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
-            Stripe
+            Stripe (Online Payments)
           </h2>
+          <p className="text-sm text-gray-500 mb-4">
+            For accepting payments on your website. If you don&apos;t have a Stripe account yet, visit{" "}
+            <a href="https://stripe.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">stripe.com</a>{" "}
+            to create one, or leave this blank and we&apos;ll help you set it up.
+          </p>
           <div className="grid gap-4">
             <TextField label="Publishable Key" field="stripePublishableKey" value={vault.stripePublishableKey} placeholder="pk_test_..." />
             <SecretField label="Secret Key" field="stripeSecretKey" value={vault.stripeSecretKey} />

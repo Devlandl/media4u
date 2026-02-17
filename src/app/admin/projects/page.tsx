@@ -456,6 +456,15 @@ export default function ProjectsAdminPage() {
       exportText += `\n`;
     }
 
+    // Billing Portal Section
+    if (vault.billingPortalName || vault.billingPortalUrl || vault.customerPortalUrl) {
+      exportText += `💰 BILLING / CUSTOMER PORTAL\n`;
+      if (vault.billingPortalName) exportText += `Software: ${vault.billingPortalName}\n`;
+      if (vault.billingPortalUrl) exportText += `Pay My Bill URL: ${vault.billingPortalUrl}\n`;
+      if (vault.customerPortalUrl) exportText += `Customer Portal URL: ${vault.customerPortalUrl}\n`;
+      exportText += `\n`;
+    }
+
     // Custom API Keys Section
     if (vault.customApiKey1Label || vault.customApiKey2Label || vault.customApiKey3Label) {
       exportText += `🔑 CUSTOM API KEYS\n`;
@@ -1336,6 +1345,35 @@ export default function ProjectsAdminPage() {
                             <div>
                               <span className="text-gray-500">Secret Key:</span>{" "}
                               <span className="text-white font-mono">sk_••••••••••••</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Billing Portal */}
+                    {(selected.integrationVault.billingPortalName || selected.integrationVault.billingPortalUrl || selected.integrationVault.customerPortalUrl) && (
+                      <div className="p-4 rounded-lg bg-white/5 border border-white/10">
+                        <p className="text-xs uppercase tracking-wider text-gray-400 mb-3 flex items-center gap-2">
+                          💰 Billing / Customer Portal
+                        </p>
+                        <div className="grid gap-2 text-sm">
+                          {selected.integrationVault.billingPortalName && (
+                            <div>
+                              <span className="text-gray-500">Software:</span>{" "}
+                              <span className="text-white">{selected.integrationVault.billingPortalName}</span>
+                            </div>
+                          )}
+                          {selected.integrationVault.billingPortalUrl && (
+                            <div>
+                              <span className="text-gray-500">Pay My Bill URL:</span>{" "}
+                              <span className="text-brand-light break-all">{selected.integrationVault.billingPortalUrl}</span>
+                            </div>
+                          )}
+                          {selected.integrationVault.customerPortalUrl && (
+                            <div>
+                              <span className="text-gray-500">Customer Portal URL:</span>{" "}
+                              <span className="text-brand-light break-all">{selected.integrationVault.customerPortalUrl}</span>
                             </div>
                           )}
                         </div>
