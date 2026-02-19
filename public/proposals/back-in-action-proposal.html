@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Proposal - Back In Action Chiropractic</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: #e4e4e7;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 60px 0 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 48px;
+    }
+
+    .header .logo-text {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #a78bfa;
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      font-size: 36px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .header .subtitle {
+      font-size: 18px;
+      color: #a1a1aa;
+      font-weight: 400;
+    }
+
+    .header .prepared-for {
+      margin-top: 32px;
+      padding: 16px 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      display: inline-block;
+    }
+
+    .header .prepared-for span {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #71717a;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .header .prepared-for strong {
+      font-size: 16px;
+      color: #fff;
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #a78bfa;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    /* Current Site Issues */
+    .issue-card {
+      background: rgba(239, 68, 68, 0.05);
+      border: 1px solid rgba(239, 68, 68, 0.15);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .issue-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(239, 68, 68, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+      margin-top: 2px;
+    }
+
+    .issue-card h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fca5a5;
+      margin-bottom: 4px;
+    }
+
+    .issue-card p {
+      font-size: 13px;
+      color: #a1a1aa;
+      line-height: 1.5;
+    }
+
+    /* What You Get */
+    .feature-card {
+      background: rgba(167, 139, 250, 0.04);
+      border: 1px solid rgba(167, 139, 250, 0.12);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .feature-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(167, 139, 250, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+      margin-top: 2px;
+    }
+
+    .feature-card h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #c4b5fd;
+      margin-bottom: 4px;
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      color: #a1a1aa;
+      line-height: 1.5;
+    }
+
+    /* Comparison Table */
+    .comparison {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .comparison-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .comparison-header div {
+      padding: 16px 20px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      color: #71717a;
+    }
+
+    .comparison-header div:nth-child(2) {
+      text-align: center;
+      color: #ef4444;
+      border-left: 1px solid rgba(255,255,255,0.05);
+      border-right: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .comparison-header div:nth-child(3) {
+      text-align: center;
+      color: #a78bfa;
+    }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .comparison-row:last-child {
+      border-bottom: none;
+    }
+
+    .comparison-row div {
+      padding: 14px 20px;
+      font-size: 14px;
+    }
+
+    .comparison-row div:first-child {
+      color: #d4d4d8;
+      font-weight: 500;
+    }
+
+    .comparison-row div:nth-child(2) {
+      text-align: center;
+      color: #71717a;
+      border-left: 1px solid rgba(255,255,255,0.04);
+      border-right: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .comparison-row div:nth-child(3) {
+      text-align: center;
+      color: #c4b5fd;
+    }
+
+    .check { color: #4ade80 !important; }
+    .cross { color: #ef4444 !important; }
+
+    /* Pricing */
+    .pricing-section {
+      text-align: center;
+      padding: 48px 0;
+    }
+
+    .market-rates {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .market-rates h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #a1a1aa;
+      margin-bottom: 20px;
+    }
+
+    .market-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .market-item:last-child {
+      border-bottom: none;
+    }
+
+    .market-item .label {
+      font-size: 14px;
+      color: #a1a1aa;
+    }
+
+    .market-item .price {
+      font-size: 14px;
+      color: #71717a;
+      font-weight: 500;
+    }
+
+    .market-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0 0;
+      margin-top: 8px;
+      border-top: 2px solid rgba(255,255,255,0.08);
+    }
+
+    .market-total .label {
+      font-size: 16px;
+      color: #d4d4d8;
+      font-weight: 600;
+    }
+
+    .market-total .price {
+      font-size: 20px;
+      color: #ef4444;
+      font-weight: 700;
+      text-decoration: line-through;
+    }
+
+    /* Deal Box */
+    .deal-box {
+      background: linear-gradient(135deg, rgba(167, 139, 250, 0.08), rgba(96, 165, 250, 0.06));
+      border: 2px solid rgba(167, 139, 250, 0.25);
+      border-radius: 20px;
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .deal-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #a78bfa, #60a5fa);
+      color: #0a0a0a;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .deal-box h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .deal-price {
+      font-size: 56px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      margin: 16px 0 4px;
+    }
+
+    .deal-price span {
+      font-size: 18px;
+      font-weight: 400;
+      color: #a1a1aa;
+    }
+
+    .deal-monthly {
+      font-size: 18px;
+      color: #a78bfa;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    .deal-savings {
+      display: inline-block;
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      color: #4ade80;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 20px;
+      border-radius: 100px;
+      margin-top: 8px;
+    }
+
+    .deal-includes {
+      text-align: left;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .deal-includes h4 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #71717a;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .deal-includes ul {
+      list-style: none;
+      columns: 2;
+      gap: 24px;
+    }
+
+    .deal-includes li {
+      font-size: 13px;
+      color: #d4d4d8;
+      padding: 6px 0;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .deal-includes li::before {
+      content: "~";
+      position: absolute;
+      left: 0;
+      color: #a78bfa;
+      font-weight: 700;
+    }
+
+    /* Footer */
+    .proposal-footer {
+      text-align: center;
+      padding: 48px 0 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 48px;
+    }
+
+    .proposal-footer p {
+      font-size: 13px;
+      color: #52525b;
+    }
+
+    .proposal-footer a {
+      color: #a78bfa;
+      text-decoration: none;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #a78bfa, #818cf8);
+      color: #0a0a0a;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 16px 40px;
+      border-radius: 12px;
+      text-decoration: none;
+      margin-top: 32px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(167, 139, 250, 0.3);
+    }
+
+    .timeline-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 32px;
+      margin-top: 32px;
+    }
+
+    .timeline-box h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .timeline-step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    .timeline-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(167, 139, 250, 0.1);
+      color: #a78bfa;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .timeline-step .step-content h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e4e4e7;
+      margin-bottom: 2px;
+    }
+
+    .timeline-step .step-content p {
+      font-size: 13px;
+      color: #71717a;
+    }
+
+    @media (max-width: 640px) {
+      .header h1 { font-size: 28px; }
+      .deal-price { font-size: 44px; }
+      .deal-includes ul { columns: 1; }
+      .comparison { font-size: 12px; }
+      .comparison-row div, .comparison-header div { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="logo-text">Media4U</div>
+      <h1>Website Transformation Proposal</h1>
+      <p class="subtitle">Professional Website & SEO Strategy</p>
+      <div class="prepared-for">
+        <span>Prepared for</span>
+        <strong>Back In Action Chiropractic - Dr. Michelle Binkowski</strong>
+      </div>
+    </div>
+
+    <!-- Current Problems -->
+    <div class="section">
+      <div class="section-label">The Problem</div>
+      <h2>What's Holding Your Current Site Back</h2>
+
+      <div class="issue-card">
+        <div class="issue-icon">1</div>
+        <div>
+          <h4>Invisible on Google & Google Maps</h4>
+          <p>Your Wix site isn't ranking in the top results for Las Vegas chiropractic searches. Patients searching for chiropractors in your area are finding your competitors instead.</p>
+        </div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-icon">2</div>
+        <div>
+          <h4>Wix Limits Your Growth</h4>
+          <p>Wix uses heavy JavaScript rendering that search engines struggle to crawl. Your content, services, and expertise aren't being properly indexed - meaning Google doesn't fully "see" your site.</p>
+        </div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-icon">3</div>
+        <div>
+          <h4>No Online Booking Integration</h4>
+          <p>Patients expect to book appointments online. Without a booking system connected to your GoHighLevel CRM, you're losing potential patients to practices that offer easier scheduling.</p>
+        </div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-icon">4</div>
+        <div>
+          <h4>GoHighLevel Isn't Connected</h4>
+          <p>You're paying for GoHighLevel but it's not integrated with your website. That means leads from your site aren't automatically flowing into your CRM for follow-up.</p>
+        </div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-icon">5</div>
+        <div>
+          <h4>Slow Load Times</h4>
+          <p>Wix sites are known for slower performance. Google uses page speed as a ranking factor - a slow site means lower search rankings and patients leaving before the page loads.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison -->
+    <div class="section">
+      <div class="section-label">Side by Side</div>
+      <h2>Current Site vs. Your New Site</h2>
+
+      <div class="comparison">
+        <div class="comparison-header">
+          <div>Feature</div>
+          <div>Wix (Now)</div>
+          <div>Media4U</div>
+        </div>
+        <div class="comparison-row">
+          <div>Google SEO Optimized</div>
+          <div class="cross">Limited</div>
+          <div class="check">Full SEO</div>
+        </div>
+        <div class="comparison-row">
+          <div>Google Maps Ranking</div>
+          <div class="cross">Not ranking</div>
+          <div class="check">Optimized</div>
+        </div>
+        <div class="comparison-row">
+          <div>Page Speed</div>
+          <div class="cross">Slow</div>
+          <div class="check">Lightning fast</div>
+        </div>
+        <div class="comparison-row">
+          <div>Mobile Experience</div>
+          <div>Basic</div>
+          <div class="check">Premium</div>
+        </div>
+        <div class="comparison-row">
+          <div>Online Booking</div>
+          <div class="cross">None</div>
+          <div class="check">Integrated</div>
+        </div>
+        <div class="comparison-row">
+          <div>GoHighLevel CRM</div>
+          <div class="cross">Not connected</div>
+          <div class="check">Fully integrated</div>
+        </div>
+        <div class="comparison-row">
+          <div>Lead Capture Forms</div>
+          <div>Basic</div>
+          <div class="check">CRM-connected</div>
+        </div>
+        <div class="comparison-row">
+          <div>Patient Intake Forms</div>
+          <div class="cross">None</div>
+          <div class="check">Digital intake</div>
+        </div>
+        <div class="comparison-row">
+          <div>Custom Design</div>
+          <div>Template</div>
+          <div class="check">Custom built</div>
+        </div>
+        <div class="comparison-row">
+          <div>Full Ownership</div>
+          <div class="cross">Locked to Wix</div>
+          <div class="check">You own it all</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What You Get -->
+    <div class="section">
+      <div class="section-label">What's Included</div>
+      <h2>Everything in Your New Site</h2>
+
+      <div class="feature-card">
+        <div class="feature-icon">1</div>
+        <div>
+          <h4>Custom Professional Website</h4>
+          <p>A modern, fast, custom-designed website built specifically for your chiropractic practice. Not a template - a site designed to convert visitors into patients.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">2</div>
+        <div>
+          <h4>Full SEO Setup & Optimization</h4>
+          <p>Local SEO strategy targeting Las Vegas chiropractic searches. Schema markup for healthcare, Google Maps optimization, meta tags, and fast-loading pages that Google loves to rank.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">3</div>
+        <div>
+          <h4>GoHighLevel Integration</h4>
+          <p>Your booking calendar, intake forms, and lead capture forms all connected directly to your GoHighLevel CRM. Every new patient inquiry goes straight into your pipeline automatically.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">4</div>
+        <div>
+          <h4>Online Appointment Booking</h4>
+          <p>Patients can book directly from your website 24/7. The calendar syncs with GoHighLevel so appointments, reminders, and follow-ups are all handled automatically.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">5</div>
+        <div>
+          <h4>Service Pages That Rank</h4>
+          <p>Dedicated pages for each service - pain relief, auto injury, chiropractic care, sports medicine, prenatal care - each optimized to rank on Google for those specific searches.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">6</div>
+        <div>
+          <h4>Mobile-First Design</h4>
+          <p>Over 70% of patients search for healthcare on their phones. Your new site will look and perform perfectly on every device.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">7</div>
+        <div>
+          <h4>Veteran-Proud Branding</h4>
+          <p>Highlighting your veteran-operated status and commitment to serving fellow veterans. This builds trust and sets you apart from competitors.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="section pricing-section">
+      <div class="section-label">Investment</div>
+      <h2>What This Would Normally Cost</h2>
+
+      <div class="market-rates">
+        <h3>Industry Standard Pricing</h3>
+        <div class="market-item">
+          <span class="label">Custom Healthcare Website Design & Build</span>
+          <span class="price">$5,000 - $8,000</span>
+        </div>
+        <div class="market-item">
+          <span class="label">Local SEO Setup & Optimization</span>
+          <span class="price">$1,500 - $2,500</span>
+        </div>
+        <div class="market-item">
+          <span class="label">GoHighLevel CRM Integration</span>
+          <span class="price">$800 - $1,500</span>
+        </div>
+        <div class="market-item">
+          <span class="label">Online Booking System Setup</span>
+          <span class="price">$500 - $1,000</span>
+        </div>
+        <div class="market-item">
+          <span class="label">Content Migration from Wix</span>
+          <span class="price">$500 - $800</span>
+        </div>
+        <div class="market-item">
+          <span class="label">Mobile Optimization</span>
+          <span class="price">$400 - $600</span>
+        </div>
+        <div class="market-total">
+          <span class="label">Typical Market Total</span>
+          <span class="price">$8,700 - $14,400</span>
+        </div>
+      </div>
+
+      <!-- The Deal -->
+      <div class="deal-box">
+        <div class="deal-badge">Family & Friends Rate</div>
+        <h3>Your Price - Everything Included</h3>
+        <div class="deal-price">$2,000 <span>one-time</span></div>
+        <div class="deal-monthly">+ $149/month maintenance, hosting & SEO</div>
+        <div class="deal-savings">You're saving over $6,000+</div>
+
+        <div class="deal-includes">
+          <h4>Everything included in your deal</h4>
+          <ul>
+            <li>Custom designed website</li>
+            <li>Full SEO optimization</li>
+            <li>GoHighLevel integration</li>
+            <li>Online booking setup</li>
+            <li>Content migration from Wix</li>
+            <li>Mobile-first responsive design</li>
+            <li>Service-specific landing pages</li>
+            <li>Patient intake forms</li>
+            <li>Google Maps optimization</li>
+            <li>Monthly updates & support</li>
+            <li>Hosting included</li>
+            <li>Ongoing SEO monitoring</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="section">
+      <div class="timeline-box">
+        <h3>Project Timeline</h3>
+        <div class="timeline-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Week 1 - Design & Strategy</h4>
+            <p>Site design, SEO strategy, content planning, GoHighLevel setup review</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Week 2 - Build & Integrate</h4>
+            <p>Website development, GHL calendar & forms integration, content migration</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Week 3 - SEO & Testing</h4>
+            <p>SEO optimization, Google Maps setup, mobile testing, speed optimization</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Week 4 - Launch</h4>
+            <p>Final review, domain transfer, go live, post-launch monitoring</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="section" style="text-align: center; padding: 24px 0;">
+      <p style="font-size: 18px; color: #a1a1aa; margin-bottom: 8px;">Ready to get your practice ranking where it belongs?</p>
+      <p style="font-size: 14px; color: #52525b;">This rate is exclusively for family & friends and won't be available at this price publicly.</p>
+      <a href="mailto:dev@media4u.fun" class="cta-button">Let's Get Started</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="proposal-footer">
+      <p>Prepared by <a href="https://media4u.fun">Media4U</a> - Professional Websites & Immersive VR Experiences</p>
+      <p style="margin-top: 8px;">media4u.fun | February 2026</p>
+    </div>
+
+  </div>
+</body>
+</html>
