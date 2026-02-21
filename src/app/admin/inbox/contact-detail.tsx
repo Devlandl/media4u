@@ -6,6 +6,7 @@ import { api } from "@convex/_generated/api";
 import { Doc, Id } from "@convex/_generated/dataModel";
 import { Mail, Briefcase, Calendar, Trash2, FolderPlus, ArrowLeft } from "lucide-react";
 import { EmailReplyModal } from "@/components/admin/EmailReplyModal";
+import { EmailListManager } from "@/components/admin/EmailListManager";
 
 type ContactStatus = "new" | "read" | "replied";
 
@@ -44,10 +45,15 @@ export function ContactDetail({ data, onClose }: ContactDetailProps) {
     }
   }
 
-  async function handleSendReply(message: string, attachments?: Array<{ filename: string; content: string }>) {
+  async function handleSendReply(
+    toEmail: string,
+    emailSubject: string,
+    message: string,
+    attachments?: Array<{ filename: string; content: string }>
+  ) {
     await sendEmailReply({
-      to: data.email,
-      subject: `Re: ${data.service} Inquiry`,
+      to: toEmail,
+      subject: emailSubject,
       message,
       recipientName: data.name,
       attachments,
@@ -78,23 +84,22 @@ export function ContactDetail({ data, onClose }: ContactDetailProps) {
         <p className="text-xl font-semibold text-white">{data.name}</p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <div>
-          <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
-          <a href={`mailto:${data.email}`} className="text-brand-light hover:text-brand-light flex items-center gap-2">
-            <Mail className="w-4 h-4" />
-            {data.email}
-          </a>
-        </div>
-        <div className="flex items-end gap-2">
-          <button
-            onClick={() => setIsReplyModalOpen(true)}
-            className="px-4 py-2 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-colors border border-brand-light/50 text-sm font-medium flex items-center gap-2"
-          >
-            <Mail className="w-4 h-4" />
-            Reply via Email
-          </button>
-        </div>
+      {/* Email Management */}
+      <EmailListManager
+        emails={data.emails || []}
+        legacyEmail={data.email}
+        recordId={data._id}
+        tableName="contactSubmissions"
+      />
+
+      <div className="flex gap-2">
+        <button
+          onClick={() => setIsReplyModalOpen(true)}
+          className="px-4 py-2 rounded-lg bg-brand-light/20 text-brand-light hover:bg-brand-light/30 transition-colors border border-brand-light/50 text-sm font-medium flex items-center gap-2"
+        >
+          <Mail className="w-4 h-4" />
+          Reply via Email
+        </button>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
@@ -158,6 +163,7 @@ export function ContactDetail({ data, onClose }: ContactDetailProps) {
         isOpen={isReplyModalOpen}
         onClose={() => setIsReplyModalOpen(false)}
         recipientEmail={data.email}
+        availableEmails={data.emails}
         recipientName={data.name}
         subject={`Re: ${data.service} Inquiry`}
         onSend={handleSendReply}

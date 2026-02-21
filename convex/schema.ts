@@ -88,7 +88,12 @@ export default defineSchema({
   // Contact form submissions
   contactSubmissions: defineTable({
     name: v.string(),
-    email: v.string(),
+    email: v.string(), // Legacy single email (kept for backwards compatibility)
+    emails: v.optional(v.array(v.object({
+      address: v.string(),
+      label: v.string(), // e.g., "Personal", "Business", "Work"
+      isPrimary: v.boolean(),
+    }))),
     service: v.string(),
     message: v.string(),
     status: v.union(v.literal("new"), v.literal("read"), v.literal("replied")),
@@ -101,7 +106,12 @@ export default defineSchema({
   // Project request submissions
   projectRequests: defineTable({
     name: v.string(),
-    email: v.string(),
+    email: v.string(), // Legacy single email (kept for backwards compatibility)
+    emails: v.optional(v.array(v.object({
+      address: v.string(),
+      label: v.string(), // e.g., "Personal", "Business", "Work"
+      isPrimary: v.boolean(),
+    }))),
     businessName: v.optional(v.string()),
     projectTypes: v.array(v.string()),
     description: v.string(),
@@ -127,7 +137,12 @@ export default defineSchema({
   // Leads - potential customers for outbound sales
   leads: defineTable({
     name: v.string(),
-    email: v.string(),
+    email: v.string(), // Legacy single email (kept for backwards compatibility)
+    emails: v.optional(v.array(v.object({
+      address: v.string(),
+      label: v.string(), // e.g., "Personal", "Business", "Work"
+      isPrimary: v.boolean(),
+    }))),
     company: v.optional(v.string()),
     phone: v.optional(v.string()),
     source: v.string(), // e.g., "referral", "website", "trade show", "cold outreach"
@@ -161,7 +176,12 @@ export default defineSchema({
   // Client Projects - converted leads that become actual projects
   projects: defineTable({
     name: v.string(),
-    email: v.string(),
+    email: v.string(), // Legacy single email (kept for backwards compatibility)
+    emails: v.optional(v.array(v.object({
+      address: v.string(),
+      label: v.string(), // e.g., "Personal", "Business", "Work"
+      isPrimary: v.boolean(),
+    }))),
     company: v.optional(v.string()),
     phone: v.optional(v.string()),
     projectType: v.string(), // e.g., "VR Website", "Standard Website", "E-commerce", etc.

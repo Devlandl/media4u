@@ -10,6 +10,7 @@ import {
   Clock, Calendar, Trash2, ArrowLeft,
 } from "lucide-react";
 import { EmailReplyModal } from "@/components/admin/EmailReplyModal";
+import { EmailListManager } from "@/components/admin/EmailListManager";
 
 type ProjectStatus = "new" | "contacted" | "quoted" | "accepted" | "declined";
 
@@ -72,10 +73,15 @@ export function RequestDetail({ data, onClose }: RequestDetailProps) {
     }
   }
 
-  async function handleSendReply(message: string, attachments?: Array<{ filename: string; content: string }>) {
+  async function handleSendReply(
+    toEmail: string,
+    emailSubject: string,
+    message: string,
+    attachments?: Array<{ filename: string; content: string }>
+  ) {
     await sendEmailReply({
-      to: data.email,
-      subject: `Re: Your Project Request - ${data.projectTypes.join(", ")}`,
+      to: toEmail,
+      subject: emailSubject,
       message,
       recipientName: data.name,
       attachments,
@@ -104,24 +110,23 @@ export function RequestDetail({ data, onClose }: RequestDetailProps) {
         <p className="text-xl font-semibold text-white">{data.name}</p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      {/* Email Management */}
+      <EmailListManager
+        emails={data.emails || []}
+        legacyEmail={data.email}
+        recordId={data._id}
+        tableName="projectRequests"
+      />
+
+      {data.businessName && (
         <div>
-          <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
-          <a href={`mailto:${data.email}`} className="text-brand-light hover:text-brand-light flex items-center gap-2">
-            <Mail className="w-4 h-4" />
-            {data.email}
-          </a>
+          <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Business Name</p>
+          <p className="text-white flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-blue-400" />
+            {data.businessName}
+          </p>
         </div>
-        {data.businessName && (
-          <div>
-            <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Business Name</p>
-            <p className="text-white flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-blue-400" />
-              {data.businessName}
-            </p>
-          </div>
-        )}
-      </div>
+      )}
 
       {/* Quick Actions */}
       <div className="flex items-center gap-2 flex-wrap">
@@ -229,6 +234,7 @@ export function RequestDetail({ data, onClose }: RequestDetailProps) {
         isOpen={isReplyModalOpen}
         onClose={() => setIsReplyModalOpen(false)}
         recipientEmail={data.email}
+        availableEmails={data.emails}
         recipientName={data.name}
         subject={`Re: Your Project Request - ${data.projectTypes.join(", ")}`}
         onSend={handleSendReply}

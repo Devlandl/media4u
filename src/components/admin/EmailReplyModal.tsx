@@ -4,24 +4,44 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Send, Paperclip, Image as ImageIcon } from "lucide-react";
 
+type EmailOption = {
+  address: string;
+  label: string;
+  isPrimary: boolean;
+};
+
 // Reusable modal for sending email replies from admin panel
 interface EmailReplyModalProps {
   isOpen: boolean;
   onClose: () => void;
-  recipientEmail: string;
+  recipientEmail: string; // Legacy fallback
+  availableEmails?: EmailOption[]; // New multi-email support
   recipientName: string;
   subject: string;
-  onSend: (message: string, attachments?: Array<{ filename: string; content: string }>) => Promise<void>;
+  onSend: (
+    toEmail: string,
+    subject: string,
+    message: string,
+    attachments?: Array<{ filename: string; content: string }>
+  ) => Promise<void>;
 }
 
 export function EmailReplyModal({
   isOpen,
   onClose,
   recipientEmail,
+  availableEmails,
   recipientName,
   subject,
   onSend,
 }: EmailReplyModalProps) {
+  // Determine initial email - use primary from availableEmails or fallback to recipientEmail
+  const primaryEmail = availableEmails?.find((e) => e.isPrimary)?.address ||
+    availableEmails?.[0]?.address ||
+    recipientEmail;
+
+  const [toEmail, setToEmail] = useState(primaryEmail);
+  const [emailSubject, setEmailSubject] = useState(subject);
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [attachments, setAttachments] = useState<Array<{ filename: string; content: string }>>([]);
@@ -72,6 +92,16 @@ export function EmailReplyModal({
   }
 
   async function handleSend() {
+    if (!toEmail.trim()) {
+      alert("Please enter a recipient email");
+      return;
+    }
+
+    if (!emailSubject.trim()) {
+      alert("Please enter a subject");
+      return;
+    }
+
     if (!message.trim()) {
       alert("Please enter a message");
       return;
@@ -79,7 +109,7 @@ export function EmailReplyModal({
 
     setIsSending(true);
     try {
-      await onSend(message, attachments.length > 0 ? attachments : undefined);
+      await onSend(toEmail, emailSubject, message, attachments.length > 0 ? attachments : undefined);
       alert("Email sent successfully!");
       setMessage("");
       setAttachments([]);
@@ -123,24 +153,46 @@ export function EmailReplyModal({
 
           {/* Body */}
           <div className="p-6 space-y-4">
-            {/* To Field */}
+            {/* To Field - Dropdown if multiple emails, editable input otherwise */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 To:
               </label>
-              <div className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white">
-                {recipientEmail}
-              </div>
+              {availableEmails && availableEmails.length > 1 ? (
+                <select
+                  value={toEmail}
+                  onChange={(e) => setToEmail(e.target.value)}
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-brand-light/50 [&>option]:bg-gray-800 [&>option]:text-white"
+                >
+                  {availableEmails.map((email, index) => (
+                    <option key={index} value={email.address}>
+                      {email.address} ({email.label}){email.isPrimary ? " - Primary" : ""}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="email"
+                  value={toEmail}
+                  onChange={(e) => setToEmail(e.target.value)}
+                  placeholder="recipient@email.com"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
+                />
+              )}
             </div>
 
-            {/* Subject Field */}
+            {/* Subject Field - Now Editable */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 Subject:
               </label>
-              <div className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white">
-                {subject}
-              </div>
+              <input
+                type="text"
+                value={emailSubject}
+                onChange={(e) => setEmailSubject(e.target.value)}
+                placeholder="Email subject"
+                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50"
+              />
             </div>
 
             {/* Message Field */}

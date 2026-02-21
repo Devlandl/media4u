@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { Id } from "@convex/_generated/dataModel";
 import { Search, Plus, X, ExternalLink, FileDown, MessageSquarePlus, Trash2, Palette, Share2, Lock, Copy, Check, Upload, Image as ImageIcon, File, Mail, Receipt, ToggleLeft, ToggleRight, CheckCircle, Clock, CreditCard, AlertCircle, RotateCcw, Monitor } from "lucide-react";
 import { EmailReplyModal } from "@/components/admin/EmailReplyModal";
+import { EmailListManager } from "@/components/admin/EmailListManager";
 
 type ProjectStatus = "new" | "planning" | "design" | "development" | "review" | "completed" | "launched";
 
@@ -279,14 +280,19 @@ export default function ProjectsAdminPage() {
     }
   }
 
-  async function handleSendEmail(message: string, attachments?: Array<{ filename: string; content: string }>) {
+  async function handleSendEmail(
+    toEmail: string,
+    emailSubject: string,
+    message: string,
+    attachments?: Array<{ filename: string; content: string }>
+  ) {
     if (!selected) return;
 
     await sendClientEmail({
-      to: selected.email,
+      to: toEmail,
       toName: selected.name,
       projectName: `${selected.projectType} - ${selected.name}`,
-      subject: `Update on Your ${selected.projectType} Project`,
+      subject: emailSubject,
       message,
       attachments,
     });
@@ -705,23 +711,22 @@ export default function ProjectsAdminPage() {
               </div>
 
               {detailTab === "details" && (<div className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
+              {/* Email Management */}
+              <EmailListManager
+                emails={selected.emails || []}
+                legacyEmail={selected.email}
+                recordId={selected._id}
+                tableName="projects"
+              />
+
+              {selected.phone && (
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Email</p>
-                  <a href={`mailto:${selected.email}`} className="text-brand-light hover:text-brand-light">
-                    {selected.email}
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Phone</p>
+                  <a href={`tel:${selected.phone}`} className="text-brand-light hover:text-brand-light">
+                    {selected.phone}
                   </a>
                 </div>
-
-                {selected.phone && (
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Phone</p>
-                    <a href={`tel:${selected.phone}`} className="text-brand-light hover:text-brand-light">
-                      {selected.phone}
-                    </a>
-                  </div>
-                )}
-              </div>
+              )}
 
               {selected.company && (
                 <div>
@@ -1892,6 +1897,7 @@ export default function ProjectsAdminPage() {
           isOpen={isEmailModalOpen}
           onClose={() => setIsEmailModalOpen(false)}
           recipientEmail={selected.email}
+          availableEmails={selected.emails}
           recipientName={selected.name}
           subject={`Update on Your ${selected.projectType} Project`}
           onSend={handleSendEmail}
