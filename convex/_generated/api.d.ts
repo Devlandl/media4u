@@ -15,6 +15,7 @@ import type * as auth from "../auth.js";
 import type * as blog from "../blog.js";
 import type * as cli from "../cli.js";
 import type * as clientActivity from "../clientActivity.js";
+import type * as clientManagement from "../clientManagement.js";
 import type * as clients from "../clients.js";
 import type * as community from "../community.js";
 import type * as communityComments from "../communityComments.js";
@@ -60,6 +61,7 @@ declare const fullApi: ApiFromModules<{
   blog: typeof blog;
   cli: typeof cli;
   clientActivity: typeof clientActivity;
+  clientManagement: typeof clientManagement;
   clients: typeof clients;
   community: typeof community;
   communityComments: typeof communityComments;
