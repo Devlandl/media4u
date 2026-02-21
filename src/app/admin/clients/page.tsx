@@ -41,7 +41,7 @@ export default function ClientsPage() {
           <p className="text-gray-400">Consolidated view of all your clients</p>
         </div>
 
-        {/* Stats */}
+        {/* Client Statistics Dashboard */}
         <div className="grid md:grid-cols-4 gap-4 mb-6">
           <div className="glass-elevated rounded-xl p-4">
             <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Total Clients</p>
