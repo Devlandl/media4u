@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 // Client Directory - Consolidated view of all clients across projects, leads, requests, and contacts
+// Production deployment: Convex functions deployed to next-kiwi-992
 export default function ClientsPage() {
   const clients = useQuery(api.clients.getAllClients);
   const [selectedEmail, setSelectedEmail] = useState<string | null>(null);
