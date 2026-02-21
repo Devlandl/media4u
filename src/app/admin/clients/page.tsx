@@ -6,8 +6,9 @@ import { api } from "@convex/_generated/api";
 import { motion } from "motion/react";
 import {
   Search, Users, Mail, Phone, Building2, Calendar,
-  Briefcase, MessageSquare, FileText, TrendingUp,
+  Briefcase, MessageSquare, FileText, TrendingUp, Edit,
 } from "lucide-react";
+import EditClientModal from "@/components/admin/EditClientModal";
 
 // Client Directory - Consolidated view of all clients across projects, leads, requests, and contacts
 // Production deployment: Convex functions deployed to next-kiwi-992
@@ -15,6 +16,7 @@ export default function ClientsPage() {
   const clients = useQuery(api.clients.getAllClients);
   const [selectedEmail, setSelectedEmail] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const selectedClientDetails = useQuery(
     api.clients.getClientDetails,
@@ -142,7 +144,16 @@ export default function ClientsPage() {
               <div className="glass-elevated rounded-2xl p-6 space-y-6">
                 {/* Client Header */}
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-2">{selectedClient.name}</h2>
+                  <div className="flex items-start justify-between mb-2">
+                    <h2 className="text-2xl font-bold text-white">{selectedClient.name}</h2>
+                    <button
+                      onClick={() => setIsEditModalOpen(true)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-light/20 hover:bg-brand-light/30 text-brand-light border border-brand-light/30 transition-all"
+                    >
+                      <Edit className="w-4 h-4" />
+                      Edit Client
+                    </button>
+                  </div>
                   <div className="space-y-2">
                     {selectedClient.emails.map((email, index) => (
                       <div key={index} className="flex items-center gap-2">
@@ -351,6 +362,30 @@ export default function ClientsPage() {
             )}
           </div>
         </div>
+
+        {/* Edit Client Modal */}
+        {isEditModalOpen && selectedClient && (
+          <EditClientModal
+            client={{
+              primaryEmail: selectedClient.primaryEmail,
+              name: selectedClient.name,
+              company: selectedClient.company,
+              website: selectedClient.website,
+              emails: selectedClient.emails,
+              phones: selectedClient.phones,
+              address: selectedClient.address,
+              tags: selectedClient.tags,
+              preferredContact: selectedClient.preferredContact,
+              timezone: selectedClient.timezone,
+              referralSource: selectedClient.referralSource,
+              notes: selectedClient.notes,
+            }}
+            onClose={() => setIsEditModalOpen(false)}
+            onSuccess={() => {
+              // Refresh will happen automatically via Convex reactivity
+            }}
+          />
+        )}
       </div>
     </div>
   );

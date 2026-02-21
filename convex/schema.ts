@@ -94,6 +94,28 @@ export default defineSchema({
       label: v.string(), // e.g., "Personal", "Business", "Work"
       isPrimary: v.boolean(),
     }))),
+    // Multiple phone numbers
+    phones: v.optional(v.array(v.object({
+      number: v.string(),
+      label: v.string(), // e.g., "Mobile", "Business", "Home"
+      isPrimary: v.boolean(),
+    }))),
+    // Address fields
+    address: v.optional(v.object({
+      street: v.optional(v.string()),
+      city: v.optional(v.string()),
+      state: v.optional(v.string()),
+      zip: v.optional(v.string()),
+      country: v.optional(v.string()),
+    })),
+    // Company/business info
+    company: v.optional(v.string()),
+    website: v.optional(v.string()),
+    // Client categorization
+    tags: v.optional(v.array(v.string())), // e.g., ["VR", "Website", "Referral"]
+    preferredContact: v.optional(v.union(v.literal("email"), v.literal("phone"), v.literal("text"))),
+    timezone: v.optional(v.string()), // e.g., "America/Los_Angeles"
+    referralSource: v.optional(v.string()), // How they found you
     service: v.string(),
     message: v.string(),
     status: v.union(v.literal("new"), v.literal("read"), v.literal("replied")),
@@ -112,7 +134,27 @@ export default defineSchema({
       label: v.string(), // e.g., "Personal", "Business", "Work"
       isPrimary: v.boolean(),
     }))),
+    // Multiple phone numbers
+    phones: v.optional(v.array(v.object({
+      number: v.string(),
+      label: v.string(), // e.g., "Mobile", "Business", "Home"
+      isPrimary: v.boolean(),
+    }))),
+    // Address fields
+    address: v.optional(v.object({
+      street: v.optional(v.string()),
+      city: v.optional(v.string()),
+      state: v.optional(v.string()),
+      zip: v.optional(v.string()),
+      country: v.optional(v.string()),
+    })),
     businessName: v.optional(v.string()),
+    website: v.optional(v.string()),
+    // Client categorization
+    tags: v.optional(v.array(v.string())), // e.g., ["VR", "Website", "Referral"]
+    preferredContact: v.optional(v.union(v.literal("email"), v.literal("phone"), v.literal("text"))),
+    timezone: v.optional(v.string()),
+    referralSource: v.optional(v.string()),
     projectTypes: v.array(v.string()),
     description: v.string(),
     timeline: v.string(),
@@ -143,8 +185,27 @@ export default defineSchema({
       label: v.string(), // e.g., "Personal", "Business", "Work"
       isPrimary: v.boolean(),
     }))),
+    // Multiple phone numbers
+    phone: v.optional(v.string()), // Legacy single phone (kept for backwards compatibility)
+    phones: v.optional(v.array(v.object({
+      number: v.string(),
+      label: v.string(), // e.g., "Mobile", "Business", "Home"
+      isPrimary: v.boolean(),
+    }))),
+    // Address fields
+    address: v.optional(v.object({
+      street: v.optional(v.string()),
+      city: v.optional(v.string()),
+      state: v.optional(v.string()),
+      zip: v.optional(v.string()),
+      country: v.optional(v.string()),
+    })),
     company: v.optional(v.string()),
-    phone: v.optional(v.string()),
+    website: v.optional(v.string()),
+    // Client categorization
+    tags: v.optional(v.array(v.string())),
+    preferredContact: v.optional(v.union(v.literal("email"), v.literal("phone"), v.literal("text"))),
+    timezone: v.optional(v.string()),
     source: v.string(), // e.g., "referral", "website", "trade show", "cold outreach"
     status: v.union(
       v.literal("new"),
@@ -182,8 +243,27 @@ export default defineSchema({
       label: v.string(), // e.g., "Personal", "Business", "Work"
       isPrimary: v.boolean(),
     }))),
+    // Multiple phone numbers
+    phone: v.optional(v.string()), // Legacy single phone (kept for backwards compatibility)
+    phones: v.optional(v.array(v.object({
+      number: v.string(),
+      label: v.string(), // e.g., "Mobile", "Business", "Home"
+      isPrimary: v.boolean(),
+    }))),
+    // Address fields
+    address: v.optional(v.object({
+      street: v.optional(v.string()),
+      city: v.optional(v.string()),
+      state: v.optional(v.string()),
+      zip: v.optional(v.string()),
+      country: v.optional(v.string()),
+    })),
     company: v.optional(v.string()),
-    phone: v.optional(v.string()),
+    // Client categorization
+    tags: v.optional(v.array(v.string())),
+    preferredContact: v.optional(v.union(v.literal("email"), v.literal("phone"), v.literal("text"))),
+    timezone: v.optional(v.string()),
+    referralSource: v.optional(v.string()),
     projectType: v.string(), // e.g., "VR Website", "Standard Website", "E-commerce", etc.
     description: v.string(),
     requirements: v.optional(v.string()),

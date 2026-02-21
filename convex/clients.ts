@@ -15,8 +15,22 @@ export const getAllClients = query({
       primaryEmail: string;
       name: string;
       emails: Array<{ address: string; label: string; isPrimary: boolean }>;
-      phone?: string;
+      phone?: string; // Legacy
+      phones?: Array<{ number: string; label: string; isPrimary: boolean }>;
       company?: string;
+      website?: string;
+      address?: {
+        street?: string;
+        city?: string;
+        state?: string;
+        zip?: string;
+        country?: string;
+      };
+      tags?: string[];
+      preferredContact?: "email" | "phone" | "text";
+      timezone?: string;
+      referralSource?: string;
+      notes?: string;
       // Related records
       projectIds: string[];
       leadIds: string[];
@@ -34,7 +48,15 @@ export const getAllClients = query({
       name: string,
       emails: Array<{ address: string; label: string; isPrimary: boolean }> | undefined,
       phone: string | undefined,
+      phones: Array<{ number: string; label: string; isPrimary: boolean }> | undefined,
       company: string | undefined,
+      website: string | undefined,
+      address: { street?: string; city?: string; state?: string; zip?: string; country?: string } | undefined,
+      tags: string[] | undefined,
+      preferredContact: "email" | "phone" | "text" | undefined,
+      timezone: string | undefined,
+      referralSource: string | undefined,
+      notes: string | undefined,
       createdAt: number,
       recordId: string,
       type: "project" | "lead" | "request" | "contact"
@@ -48,7 +70,15 @@ export const getAllClients = query({
           name,
           emails: emails || [{ address: email, label: "Primary", isPrimary: true }],
           phone,
+          phones,
           company,
+          website,
+          address,
+          tags,
+          preferredContact,
+          timezone,
+          referralSource,
+          notes,
           projectIds: [],
           leadIds: [],
           requestIds: [],
@@ -61,9 +91,16 @@ export const getAllClients = query({
 
       const client = clientsMap.get(primaryEmail)!;
 
-      // Update fields if they're empty
+      // Update fields if they're empty (prefer filled data)
       if (!client.phone && phone) client.phone = phone;
       if (!client.company && company) client.company = company;
+      if (!client.website && website) client.website = website;
+      if (!client.address && address) client.address = address;
+      if (!client.tags && tags) client.tags = tags;
+      if (!client.preferredContact && preferredContact) client.preferredContact = preferredContact;
+      if (!client.timezone && timezone) client.timezone = timezone;
+      if (!client.referralSource && referralSource) client.referralSource = referralSource;
+      if (!client.notes && notes) client.notes = notes;
 
       // Merge emails if new ones exist
       if (emails && emails.length > 0) {
@@ -71,6 +108,17 @@ export const getAllClients = query({
         for (const newEmail of emails) {
           if (!existingAddresses.has(newEmail.address)) {
             client.emails.push(newEmail);
+          }
+        }
+      }
+
+      // Merge phones if new ones exist
+      if (phones && phones.length > 0) {
+        if (!client.phones) client.phones = [];
+        const existingNumbers = new Set(client.phones.map(p => p.number));
+        for (const newPhone of phones) {
+          if (!existingNumbers.has(newPhone.number)) {
+            client.phones.push(newPhone);
           }
         }
       }
@@ -94,7 +142,15 @@ export const getAllClients = query({
         project.name,
         project.emails,
         project.phone,
+        project.phones,
         project.company,
+        project.socialLinks?.website,
+        project.address,
+        project.tags,
+        project.preferredContact,
+        project.timezone,
+        project.referralSource,
+        project.notes,
         project.createdAt,
         project._id,
         "project"
@@ -108,7 +164,15 @@ export const getAllClients = query({
         lead.name,
         lead.emails,
         lead.phone,
+        lead.phones,
         lead.company,
+        lead.website,
+        lead.address,
+        lead.tags,
+        lead.preferredContact,
+        lead.timezone,
+        lead.source, // Use source as referralSource
+        lead.notes,
         lead.createdAt,
         lead._id,
         "lead"
@@ -121,8 +185,16 @@ export const getAllClients = query({
         request.email,
         request.name,
         request.emails,
-        undefined, // requests don't have phone field
+        undefined, // legacy phone
+        request.phones,
         request.businessName,
+        request.website,
+        request.address,
+        request.tags,
+        request.preferredContact,
+        request.timezone,
+        request.referralSource,
+        request.notes,
         request.createdAt,
         request._id,
         "request"
@@ -135,8 +207,16 @@ export const getAllClients = query({
         contact.email,
         contact.name,
         contact.emails,
-        undefined,
-        undefined,
+        undefined, // legacy phone
+        contact.phones,
+        contact.company,
+        contact.website,
+        contact.address,
+        contact.tags,
+        contact.preferredContact,
+        contact.timezone,
+        contact.referralSource,
+        contact.notes,
         contact.createdAt,
         contact._id,
         "contact"
