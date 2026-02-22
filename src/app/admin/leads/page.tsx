@@ -6,7 +6,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState, useRef } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Search, Plus, X, Upload, Trash2, Image as ImageIcon, Building2, MapPin, Globe, Phone, Mail, Camera } from "lucide-react";
+import { Search, Plus, X, Upload, Trash2, Image as ImageIcon, Building2, MapPin, Globe, Phone, Mail, Camera, Download } from "lucide-react";
 
 type LeadStatus = "new" | "researching" | "building" | "presented" | "contacted" | "qualified" | "converted" | "won" | "lost";
 
@@ -157,6 +157,64 @@ export default function LeadsAdminPage() {
     setUploadedPhotos((prev) => prev.filter((_, i) => i !== index));
   }
 
+  function exportToCSV() {
+    if (!leads || leads.length === 0) {
+      alert("No leads to export!");
+      return;
+    }
+
+    // CSV headers
+    const headers = [
+      "Business Name",
+      "Industry",
+      "Location",
+      "Owner Name",
+      "Phone",
+      "Email",
+      "Website",
+      "Status",
+      "Photos Count",
+      "Source",
+      "Notes",
+      "Created Date",
+    ];
+
+    // Convert leads to CSV rows
+    const rows = leads.map((lead: any) => [
+      lead.businessName || lead.name || "",
+      lead.industry || "",
+      lead.location || "",
+      lead.name || "",
+      lead.phone || "",
+      lead.email || "",
+      lead.website || "",
+      lead.status || "",
+      lead.photos?.length || 0,
+      lead.source || "",
+      (lead.notes || "").replace(/\n/g, " ").replace(/"/g, '""'), // Escape quotes and newlines
+      new Date(lead.createdAt).toLocaleDateString(),
+    ]);
+
+    // Build CSV content
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((row) =>
+        row.map((cell) => `"${cell}"`).join(",")
+      ),
+    ].join("\n");
+
+    // Create download link
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `leads_export_${new Date().toISOString().split("T")[0]}.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   return (
     <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)] bg-neutral-950">
       {/* Master List */}
@@ -165,13 +223,22 @@ export default function LeadsAdminPage() {
         <div className="p-4 lg:p-6 border-b border-neutral-800">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-xl lg:text-2xl font-bold">Leads</h1>
-            <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="px-3 py-2 lg:px-4 lg:py-2 bg-brand-dark hover:bg-brand-dark/80 text-white rounded-lg flex items-center gap-2 transition-all text-sm lg:text-base"
-            >
-              <Plus className="w-4 h-4" />
-              <span className="hidden sm:inline">Add Lead</span>
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={exportToCSV}
+                className="px-3 py-2 lg:px-4 lg:py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg flex items-center gap-2 transition-all text-sm lg:text-base"
+              >
+                <Download className="w-4 h-4" />
+                <span className="hidden sm:inline">Export</span>
+              </button>
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className="px-3 py-2 lg:px-4 lg:py-2 bg-brand-dark hover:bg-brand-dark/80 text-white rounded-lg flex items-center gap-2 transition-all text-sm lg:text-base"
+              >
+                <Plus className="w-4 h-4" />
+                <span className="hidden sm:inline">Add Lead</span>
+              </button>
+            </div>
           </div>
 
           {/* Search */}
