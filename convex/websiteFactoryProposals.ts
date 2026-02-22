@@ -81,6 +81,15 @@ export const sendProposalEmail = action({
     // Update last contacted
     await ctx.runMutation(api.leads.updateLastContacted, { id: args.leadId });
 
+    // Get the primary email (prefer emails array over legacy email field)
+    const primaryEmail = lead.emails?.find((e: { isPrimary: boolean }) => e.isPrimary)?.address
+      || lead.emails?.[0]?.address
+      || lead.email;
+
+    if (!primaryEmail || primaryEmail.includes('@example.com')) {
+      throw new Error("Lead does not have a valid email address. Please update the lead with a real email.");
+    }
+
     const businessName = lead.businessName || lead.name;
     const signupLink = `https://media4u.fun/portal/signup?proposal=${proposalToken}`;
 
@@ -252,7 +261,7 @@ export const sendProposalEmail = action({
       },
       body: JSON.stringify({
         from: "Media4U <hello@media4u.fun>",
-        to: [lead.email],
+        to: [primaryEmail],
         subject: `${businessName} - Your Custom Website is Ready!`,
         html: emailHtml,
       }),
