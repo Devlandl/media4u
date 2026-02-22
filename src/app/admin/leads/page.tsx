@@ -638,6 +638,33 @@ export default function LeadsAdminPage() {
               </div>
             )}
 
+            {/* Website Box - Special highlight for built website */}
+            {selected.website && (
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-cyan-500/10 to-orange-500/10 border-2 border-cyan-500/30 rounded-xl p-5 lg:p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                      <Globe className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-lg font-bold text-white mb-1">Live Website</h3>
+                      <p className="text-sm text-neutral-400 mb-3">Their built website is live and ready</p>
+                      <a
+                        href={selected.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-orange-500 hover:from-cyan-600 hover:to-orange-600 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        View Website
+                      </a>
+                      <p className="text-xs text-neutral-500 mt-3 break-all">{selected.website}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Contact Info */}
             <div className="bg-neutral-900 rounded-lg p-4 lg:p-6 mb-6">
               <h3 className="text-lg font-semibold text-white mb-4">Contact Information</h3>
@@ -655,14 +682,6 @@ export default function LeadsAdminPage() {
                     <Phone className="w-4 h-4 text-neutral-500" />
                     <a href={`tel:${selected.phone}`} className="hover:text-brand-light">
                       {selected.phone}
-                    </a>
-                  </div>
-                )}
-                {selected.website && (
-                  <div className="flex items-center gap-3 text-neutral-300">
-                    <Globe className="w-4 h-4 text-neutral-500" />
-                    <a href={selected.website} target="_blank" rel="noopener noreferrer" className="hover:text-brand-light break-all">
-                      {selected.website}
                     </a>
                   </div>
                 )}
