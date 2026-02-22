@@ -227,11 +227,18 @@ export default defineSchema({
     notes: v.string(),
     createdAt: v.number(),
     lastContactedAt: v.optional(v.number()),
+    // Website Factory - Proposal & Spec Site
+    proposalToken: v.optional(v.string()), // Unique token for signup link (e.g., "just-doors-abc123")
+    specSiteUrl: v.optional(v.string()),   // Preview URL (e.g., "https://just-doors-inc.vercel.app")
+    specProjectId: v.optional(v.id("projects")), // Pre-created project they'll see when they sign up
+    proposalSentAt: v.optional(v.number()), // When proposal email was sent
+    proposalPrice: v.optional(v.number()),  // Offer price (e.g., 1500 for one-time site)
   })
     .index("by_status", ["status"])
     .index("by_email", ["email"])
     .index("by_industry", ["industry"])
-    .index("by_created", ["createdAt"]),
+    .index("by_created", ["createdAt"])
+    .index("by_proposalToken", ["proposalToken"]),
 
   // Project Notes - timestamped notes for projects
   projectNotes: defineTable({

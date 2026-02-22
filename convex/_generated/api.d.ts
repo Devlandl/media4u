@@ -46,6 +46,7 @@ import type * as stripe from "../stripe.js";
 import type * as support from "../support.js";
 import type * as users from "../users.js";
 import type * as vr from "../vr.js";
+import type * as websiteFactoryProposals from "../websiteFactoryProposals.js";
 
 import type {
   ApiFromModules,
@@ -92,6 +93,7 @@ declare const fullApi: ApiFromModules<{
   support: typeof support;
   users: typeof users;
   vr: typeof vr;
+  websiteFactoryProposals: typeof websiteFactoryProposals;
 }>;
 
 /**
