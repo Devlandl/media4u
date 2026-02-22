@@ -6,7 +6,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useState, useRef } from "react";
 import { Id } from "@convex/_generated/dataModel";
-import { Search, Plus, X, Upload, Trash2, Image as ImageIcon, Building2, MapPin, Globe, Phone, Mail, Camera, Download, Send, ExternalLink } from "lucide-react";
+import { Search, Plus, X, Upload, Trash2, Image as ImageIcon, Building2, MapPin, Globe, Phone, Mail, Camera, Download, Send, ExternalLink, Copy } from "lucide-react";
 import { useAction } from "convex/react";
 
 type LeadStatus = "new" | "researching" | "building" | "presented" | "contacted" | "qualified" | "converted" | "won" | "lost";
@@ -205,10 +205,9 @@ export default function LeadsAdminPage() {
     setUploadedPhotos((prev) => prev.filter((_, i) => i !== index));
   }
 
-  function exportToCSV() {
+  function buildCSVContent() {
     if (!leads || leads.length === 0) {
-      alert("No leads to export!");
-      return;
+      return null;
     }
 
     // CSV headers
@@ -244,12 +243,37 @@ export default function LeadsAdminPage() {
     ]);
 
     // Build CSV content
-    const csvContent = [
+    return [
       headers.join(","),
       ...rows.map((row) =>
         row.map((cell) => `"${cell}"`).join(",")
       ),
     ].join("\n");
+  }
+
+  function copyToClipboard() {
+    const csvContent = buildCSVContent();
+    if (!csvContent) {
+      alert("No leads to copy!");
+      return;
+    }
+
+    navigator.clipboard.writeText(csvContent)
+      .then(() => {
+        alert("✅ Leads copied to clipboard! You can now paste them anywhere.");
+      })
+      .catch((err) => {
+        console.error("Failed to copy:", err);
+        alert("Failed to copy. Please try again.");
+      });
+  }
+
+  function exportToCSV() {
+    const csvContent = buildCSVContent();
+    if (!csvContent) {
+      alert("No leads to export!");
+      return;
+    }
 
     // Create download link
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -273,8 +297,17 @@ export default function LeadsAdminPage() {
             <h1 className="text-xl lg:text-2xl font-bold">Leads</h1>
             <div className="flex gap-2">
               <button
+                onClick={copyToClipboard}
+                className="px-3 py-2 lg:px-4 lg:py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg flex items-center gap-2 transition-all text-sm lg:text-base"
+                title="Copy leads to clipboard"
+              >
+                <Copy className="w-4 h-4" />
+                <span className="hidden sm:inline">Copy</span>
+              </button>
+              <button
                 onClick={exportToCSV}
                 className="px-3 py-2 lg:px-4 lg:py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg flex items-center gap-2 transition-all text-sm lg:text-base"
+                title="Download leads as CSV"
               >
                 <Download className="w-4 h-4" />
                 <span className="hidden sm:inline">Export</span>

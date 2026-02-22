@@ -8,7 +8,8 @@
       "WebSearch",
       "Bash(gh repo create:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npx convex deploy:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
