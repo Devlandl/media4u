@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { mutation, query, internalMutation } from "./_generated/server";
 
 // Get all leads (sorted by creation date, newest first)
 export const getAllLeads = query({
@@ -126,5 +126,43 @@ export const getPhotoUrl = query({
   args: { storageId: v.id("_storage") },
   handler: async (ctx, args) => {
     return await ctx.storage.getUrl(args.storageId);
+  },
+});
+
+// Create lead from Website Factory deposit payment (called by webhook)
+export const createLeadFromDeposit = internalMutation({
+  args: {
+    name: v.string(),
+    businessName: v.string(),
+    email: v.string(),
+    phone: v.optional(v.string()),
+    location: v.optional(v.string()),
+    industry: v.string(),
+    website: v.optional(v.string()),
+    notes: v.string(),
+    stripeSessionId: v.string(),
+    stripePaymentIntentId: v.string(),
+    depositAmount: v.number(), // Amount in cents
+  },
+  handler: async (ctx, args) => {
+    const leadId = await ctx.db.insert("leads", {
+      name: args.name,
+      businessName: args.businessName,
+      email: args.email,
+      phone: args.phone,
+      location: args.location,
+      industry: args.industry,
+      website: args.website,
+      source: "website-factory-promo",
+      status: "new",
+      notes: args.notes,
+      createdAt: Date.now(),
+      depositPaid: true,
+      depositAmount: args.depositAmount,
+      stripeDepositSessionId: args.stripeSessionId,
+      stripeDepositPaymentIntentId: args.stripePaymentIntentId,
+      depositPaidAt: Date.now(),
+    });
+    return leadId;
   },
 });

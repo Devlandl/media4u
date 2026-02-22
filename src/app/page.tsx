@@ -29,36 +29,85 @@ function Hero() {
   return (
     <section className="min-h-[90vh] flex items-center">
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 pt-32 pb-24 w-full">
-        <div className="max-w-4xl">
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="text-sm tracking-[0.2em] uppercase text-zinc-500 mb-8">
-            Web Design & VR Studio
-          </motion.p>
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display tracking-tight mb-8">
-            Websites that perform.<br /><em>VR that immerses.</em>
-          </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-zinc-400 max-w-2xl mb-12 leading-relaxed">
-            We craft high-converting websites and immersive virtual experiences
-            for businesses that refuse to blend in.
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap items-center gap-4">
-            <Link href="/start-project"
-              className="group inline-flex items-center gap-2 px-7 py-3.5 bg-white text-zinc-950 rounded-full text-sm font-semibold hover:bg-zinc-200 transition-colors">
-              Start a project
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </Link>
-            <Link href="/portfolio"
-              className="inline-flex items-center gap-2 px-7 py-3.5 border border-brand/40 text-zinc-300 rounded-full text-sm font-medium hover:border-brand-light hover:text-white transition-colors">
-              See our work
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left side - Try Before You Buy Promo */}
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}>
+            <Link href="/apply" className="block group">
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-500/30 hover:border-purple-400/50 transition-all duration-300">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative p-6">
+                  <img
+                    src="/ChatGPT Image Feb 21, 2026, 10_32_48 PM.png"
+                    alt="Try Before You Buy - Free Website Build"
+                    className="w-full h-auto rounded-lg shadow-2xl group-hover:scale-105 transition-transform duration-300 mb-6"
+                  />
+                  <div className="text-center">
+                    <p className="text-xs tracking-[0.2em] uppercase text-purple-400 mb-2">
+                      🎯 Limited Offer
+                    </p>
+                    <h3 className="text-2xl font-display font-bold text-white mb-3">
+                      Try Before You Buy
+                    </h3>
+                    <p className="text-sm text-zinc-300 mb-4">
+                      See your website live in 48 hours. Pay only if you love it.
+                    </p>
+                    <div className="flex items-center justify-center gap-3 mb-4">
+                      <div className="text-center">
+                        <p className="text-3xl font-bold text-purple-400">$50</p>
+                        <p className="text-xs text-zinc-400">Reserve</p>
+                      </div>
+                      <div className="text-zinc-500">→</div>
+                      <div className="text-center">
+                        <p className="text-3xl font-bold text-white">$699</p>
+                        <p className="text-xs text-zinc-400">If you love it</p>
+                      </div>
+                    </div>
+                    <div className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-full text-sm font-semibold group-hover:bg-purple-500 transition-colors">
+                      Apply Now
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                    <p className="text-xs text-zinc-500 mt-3">
+                      ✓ 100% Refundable • 10 spots left
+                    </p>
+                  </div>
+                </div>
+              </div>
             </Link>
           </motion.div>
+
+          {/* Right side - Main Hero Content */}
+          <div>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-sm tracking-[0.2em] uppercase text-zinc-500 mb-8">
+              Web Design & VR Studio
+            </motion.p>
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display tracking-tight mb-8">
+              Websites that perform.<br /><em>VR that immerses.</em>
+            </motion.h1>
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-lg md:text-xl text-zinc-400 max-w-2xl mb-12 leading-relaxed">
+              We craft high-converting websites and immersive virtual experiences
+              for businesses that refuse to blend in.
+            </motion.p>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex flex-wrap items-center gap-4">
+              <Link href="/start-project"
+                className="group inline-flex items-center gap-2 px-7 py-3.5 bg-white text-zinc-950 rounded-full text-sm font-semibold hover:bg-zinc-200 transition-colors">
+                Start a project
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <Link href="/portfolio"
+                className="inline-flex items-center gap-2 px-7 py-3.5 border border-brand/40 text-zinc-300 rounded-full text-sm font-medium hover:border-brand-light hover:text-white transition-colors">
+                See our work
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

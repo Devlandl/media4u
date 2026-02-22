@@ -233,6 +233,12 @@ export default defineSchema({
     specProjectId: v.optional(v.id("projects")), // Pre-created project they'll see when they sign up
     proposalSentAt: v.optional(v.number()), // When proposal email was sent
     proposalPrice: v.optional(v.number()),  // Offer price (e.g., 1500 for one-time site)
+    // Website Factory - Deposit Payment
+    depositPaid: v.optional(v.boolean()),   // Whether they paid the $50 deposit
+    depositAmount: v.optional(v.number()),  // Deposit amount in cents (e.g., 5000 for $50)
+    stripeDepositSessionId: v.optional(v.string()),  // Stripe checkout session ID for deposit
+    stripeDepositPaymentIntentId: v.optional(v.string()), // Stripe payment intent ID for deposit
+    depositPaidAt: v.optional(v.number()),  // When deposit was paid
   })
     .index("by_status", ["status"])
     .index("by_email", ["email"])

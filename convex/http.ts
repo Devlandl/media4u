@@ -52,7 +52,26 @@ http.route({
           const session = event.data.object as Stripe.Checkout.Session;
 
           if (session.mode === "payment") {
-            // One-time payment completed
+            // Check if this is a Website Factory deposit
+            if (session.metadata?.type === "website-factory-deposit") {
+              // Create lead from deposit payment
+              await ctx.runMutation(internal.leads.createLeadFromDeposit, {
+                name: session.metadata.name,
+                businessName: session.metadata.businessName,
+                email: session.metadata.email,
+                phone: session.metadata.phone || undefined,
+                location: session.metadata.location || undefined,
+                industry: session.metadata.industry,
+                website: session.metadata.website || undefined,
+                notes: session.metadata.message || "Applied via /apply landing page with $50 deposit",
+                stripeSessionId: session.id,
+                stripePaymentIntentId: session.payment_intent as string,
+                depositAmount: 5000, // $50 in cents
+              });
+              break;
+            }
+
+            // One-time payment completed (regular orders)
             const orderId = await ctx.runMutation(internal.stripe.updateOrderStatus, {
               stripeSessionId: session.id,
               status: "paid",
