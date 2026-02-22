@@ -1,9 +1,9 @@
 import { v } from "convex/values";
-import { action, mutation, query } from "./_generated/server";
-import { api, internal } from "./_generated/api";
+import { action, internalMutation, mutation, query } from "./_generated/server";
+import { api } from "./_generated/api";
 
 // Generate a unique proposal token for a lead
-export const generateProposalToken = mutation({
+export const generateProposalToken = internalMutation({
   args: {
     leadId: v.id("leads"),
     specSiteUrl: v.string(),
@@ -56,16 +56,30 @@ export const sendProposalEmail = action({
     proposalPrice: v.number(),
   },
   handler: async (ctx, args): Promise<{ success: boolean; proposalToken: string; signupLink: string; emailId: string }> => {
-    // Generate proposal token
-    const proposalToken: string = await ctx.runMutation(internal.websiteFactoryProposals.generateProposalToken, {
-      leadId: args.leadId,
-      specSiteUrl: args.specSiteUrl,
-      proposalPrice: args.proposalPrice,
-    });
-
-    // Get lead details
+    // Generate proposal token (call it directly since it's in the same file)
     const lead = await ctx.runQuery(api.leads.getLeadById, { id: args.leadId });
     if (!lead) throw new Error("Lead not found");
+
+    // Generate unique token (e.g., "just-doors-abc123")
+    const businessSlug = (lead.businessName || lead.name)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .substring(0, 30);
+    const randomToken = Math.random().toString(36).substring(2, 10);
+    const proposalToken = `${businessSlug}-${randomToken}`;
+
+    // Update lead with proposal info
+    await ctx.runMutation(api.leads.updateLead, {
+      id: args.leadId,
+      proposalToken,
+      specSiteUrl: args.specSiteUrl,
+      proposalPrice: args.proposalPrice,
+      status: "presented",
+    });
+
+    // Update last contacted
+    await ctx.runMutation(api.leads.updateLastContacted, { id: args.leadId });
 
     const businessName = lead.businessName || lead.name;
     const signupLink = `https://media4u.fun/portal/signup?proposal=${proposalToken}`;

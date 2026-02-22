@@ -85,6 +85,11 @@ export const updateLead = mutation({
     ),
     notes: v.optional(v.string()),
     photos: v.optional(v.array(v.id("_storage"))),
+    proposalToken: v.optional(v.string()),
+    specSiteUrl: v.optional(v.string()),
+    specProjectId: v.optional(v.id("projects")),
+    proposalSentAt: v.optional(v.number()),
+    proposalPrice: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const { id, ...updates } = args;

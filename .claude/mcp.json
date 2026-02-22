@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "convex": {
+      "type": "stdio",
+      "command": "npx.cmd",
+      "args": [
+        "-y",
+        "convex@latest",
+        "mcp",
+        "start",
+        "--project-dir",
+        "C:/Users/devla/OneDrive/Desktop/claud/media4u",
+        "--dangerously-enable-production-deployments"
+      ]
+    }
+  }
+}
